@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Scale, ChevronDown, ChevronUp } from 'lucide-react'
+import { Scale, ChevronDown, ChevronUp, MapPinned } from 'lucide-react'
 import { supabase, isConfigured } from '../../lib/supabaseClient'
 
 // Field kelompok_terdampak & rekomendasi_intervensi mengikuti nama kolom
@@ -219,7 +219,96 @@ export default function EquityIndexView() {
             </div>
           )
         })}
+
+        <UsulanModelSection />
       </div>
+    </div>
+  )
+}
+
+// Section "Usulan Halte dari Model Spasial" (tabel usulan_halte_model,
+// migration 028). SENGAJA dipisah tegas dari ranking Equity di atas dan dari
+// titik survei lapangan di peta — ini usulan yang DITEMUKAN MODEL (sel transit
+// desert TDI > 0,6, ≥400 m dari halte, de-klaster 800 m), BELUM disurvei.
+// Angka penduduk terlayani = keluaran RPC simulate_new_stop, bukan hitungan
+// frontend. Titik model sengaja tidak punya skor CAI (lihat CLAUDE.md).
+function UsulanModelSection() {
+  const [usulan, setUsulan] = useState([])
+  const [gagal, setGagal] = useState(false)
+
+  useEffect(() => {
+    if (!isConfigured) {
+      setGagal(true)
+      return
+    }
+    supabase
+      .from('usulan_halte_model')
+      .select('kode, ranking, kelurahan, kecamatan, skor_tdi_sel, penduduk_terlayani_400m, penduduk_terlayani_800m')
+      .order('ranking', { ascending: true })
+      .limit(10)
+      .then(({ data, error }) => {
+        if (error || !data?.length) {
+          setGagal(true)
+          return
+        }
+        setUsulan(data)
+      })
+  }, [])
+
+  const fmt = (n) => (n == null ? '—' : Number(n).toLocaleString('id-ID'))
+
+  return (
+    <div className="pt-4 mt-4 border-t border-slate-200">
+      <div className="flex items-center gap-2 mb-1">
+        <MapPinned size={16} className="text-pink-600 shrink-0" />
+        <h3 className="font-semibold text-slate-800 text-sm">Usulan Halte dari Model Spasial</h3>
+      </div>
+      <p className="text-xs text-slate-500 mb-3">
+        Lokasi yang <strong>ditemukan model</strong> — sel transit desert (TDI &gt; 0,6) yang
+        berjarak ≥ 400 m dari halte eksisting, disaring jarak minimum 800 m antar-usulan.
+        Diurutkan menurut proyeksi penduduk tambahan terlayani (RPC{' '}
+        <code>simulate_new_stop</code>). Berbeda dari titik survei lapangan di peta:{' '}
+        <strong>usulan ini belum disurvei</strong>.
+      </p>
+
+      {gagal ? (
+        <p className="text-xs text-slate-400">
+          Belum ada data <code>usulan_halte_model</code>. Jalankan{' '}
+          <code>etl/generate_usulan_halte_model.py --upload</code>.
+        </p>
+      ) : (
+        <ol className="space-y-1.5">
+          {usulan.map((u) => (
+            <li
+              key={u.kode}
+              className="flex items-start gap-2.5 rounded-md border border-pink-100 bg-pink-50/40 px-2.5 py-2"
+            >
+              <span className="mt-0.5 shrink-0 w-6 h-6 rounded-full bg-pink-600 text-white text-[11px] font-semibold flex items-center justify-center">
+                {u.ranking}
+              </span>
+              <div className="min-w-0 text-xs">
+                <p className="font-medium text-slate-700 truncate">
+                  {u.kode}
+                  {(u.kelurahan || u.kecamatan) && (
+                    <span className="font-normal text-slate-500">
+                      {' — '}
+                      {[u.kelurahan, u.kecamatan].filter(Boolean).join(', ')}
+                    </span>
+                  )}
+                </p>
+                <p className="text-slate-500">
+                  Proyeksi terlayani <strong>{fmt(u.penduduk_terlayani_800m)}</strong> jiwa (800 m)
+                  {' · '}
+                  {fmt(u.penduduk_terlayani_400m)} jiwa (400 m)
+                  {u.skor_tdi_sel != null && (
+                    <span className="text-slate-400"> · TDI {Number(u.skor_tdi_sel).toFixed(3)}</span>
+                  )}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
     </div>
   )
 }

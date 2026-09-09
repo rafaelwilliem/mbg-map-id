@@ -77,7 +77,49 @@ PREFIX_ID_TITIK_SURVEI_DEMO = "KND-DEMO-"
 # lokasi itu) — supaya baris itu tidak error, tapi dicetak sebagai peringatan
 # eksplisit (bukan diam-diam).
 KEPADATAN_NEUTRAL_PLACEHOLDER = 11650  # PLACEHOLDER: rata-rata kepadatan_penduduk 4 titik demo load_demo_data(), BUKAN data BPS per titik asli
-SKOR_SURVEI_TITIK_BARU = 0.0  # PLACEHOLDER: titik kandidat baru, belum ada infrastruktur eksisting untuk disurvei Form Kondisi Halte
+
+# Sejak 2026-09-07 (keputusan Sam, lihat docs/VALIDASI_BOBOT_AHP.md): untuk
+# titik_kandidat REAL (usulan halte baru) kriteria "skor survei lapangan" =
+# Form Kondisi Halte atas halte EKSISTING -> TIDAK BERLAKU, bukan "bernilai 0".
+# recompute_all_cai_scores(..., exclude_criteria=['survei']) menulis
+# skor_cai.n_survei = NULL & bobot_survei = NULL, lalu menormalisasi ulang 3
+# bobot AHP sisanya (kepadatan/jarak/volume) supaya berjumlah 1. Konstanta
+# lama SKOR_SURVEI_TITIK_BARU = 0.0 sudah TIDAK dipakai untuk titik_kandidat;
+# dipertahankan hanya sebagai jejak (jalur 4-kriteria default masih dipakai
+# load_demo_data()/sensitivity_check yang memang punya skor survei riil).
+SKOR_SURVEI_TITIK_BARU = 0.0  # DEPRECATED untuk titik_kandidat — lihat catatan di atas
+
+
+def _num_or_none(x, ndigits: int = 4):
+    """Bulatkan ke ndigits desimal, atau kembalikan None kalau NaN/None —
+    supaya kolom N/A (mis. n_survei / bobot_survei untuk titik_kandidat)
+    ditulis sebagai NULL SQL, bukan 0.0 atau 'NaN'."""
+    if x is None or pd.isna(x):
+        return None
+    return round(float(x), ndigits)
+
+
+# Kolom bobot efektif yang (kalau ada di scored_df hasil compute_cai) ikut
+# di-persist ke skor_cai — perlu supaya breakdown CaiScorePanel rekonsiliasi
+# dengan skor_final saat bobot dinormalisasi ulang (mode exclude_criteria).
+_BOBOT_COLS = ("bobot_kepadatan", "bobot_jarak", "bobot_volume", "bobot_survei")
+
+
+def _cai_record(row, scored_df) -> dict:
+    """Bangun satu record skor_cai dari baris hasil compute_cai().
+    NULL-safe untuk kriteria N/A; menyertakan bobot_* hanya kalau
+    compute_cai() memang menuliskannya (kompat mundur untuk pemanggil lama)."""
+    record = {
+        "n_kepadatan": _num_or_none(row["n_kepadatan"]),
+        "n_jarak_inv": _num_or_none(row["n_jarak_inv"]),
+        "n_volume": _num_or_none(row["n_volume"]),
+        "n_survei": _num_or_none(row["n_survei"]),
+        "skor_final": _num_or_none(row["skor_cai"]),
+    }
+    for col in _BOBOT_COLS:
+        if col in scored_df.columns:
+            record[col] = _num_or_none(row[col])
+    return record
 
 
 def get_client():
@@ -131,13 +173,7 @@ def upload_cai_scores(client, scored_df, titik_kandidat_id_col: str = None):
     """
     records = []
     for _, row in scored_df.iterrows():
-        record = {
-            "n_kepadatan": round(row["n_kepadatan"], 4),
-            "n_jarak_inv": round(row["n_jarak_inv"], 4),
-            "n_volume": round(row["n_volume"], 4),
-            "n_survei": round(row["n_survei"], 4),
-            "skor_final": round(row["skor_cai"], 4),
-        }
+        record = _cai_record(row, scored_df)
         if titik_kandidat_id_col is not None:
             record["titik_kandidat_id"] = int(row[titik_kandidat_id_col])
         records.append(record)
@@ -173,13 +209,7 @@ def update_cai_scores_by_titik_kandidat_id(client, scored_df, titik_kandidat_id_
     tidak_ditemukan = []
     for _, row in scored_df.iterrows():
         tk_id = int(row[titik_kandidat_id_col])
-        record = {
-            "n_kepadatan": round(row["n_kepadatan"], 4),
-            "n_jarak_inv": round(row["n_jarak_inv"], 4),
-            "n_volume": round(row["n_volume"], 4),
-            "n_survei": round(row["n_survei"], 4),
-            "skor_final": round(row["skor_cai"], 4),
-        }
+        record = _cai_record(row, scored_df)
         result = (
             client.table("skor_cai")
             .update(record)
@@ -205,6 +235,8 @@ def recompute_all_cai_scores(
     client,
     weights: dict = None,
     kepadatan_by_titik_id: dict = None,
+    jarak_fasilitas_by_titik_id: dict = None,
+    exclude_criteria: list = None,
     upload: bool = True,
 ) -> pd.DataFrame:
     """
@@ -222,6 +254,34 @@ def recompute_all_cai_scores(
     Default None -> perilaku lama tidak berubah (semua baris pakai placeholder).
     Lihat etl/attach_kepadatan_titik_kandidat.py untuk cara menyusun dict ini
     dari spatial join ke grid_analisis (dasymetric real).
+
+    exclude_criteria (BARU, 2026-09-07): diteruskan apa adanya ke
+    compute_cai(). Untuk titik_kandidat REAL dipanggil dengan
+    ['survei'] -> kriteria "skor survei lapangan" (Form Kondisi Halte
+    halte EKSISTING) diperlakukan N/A: skor_cai.n_survei & bobot_survei
+    ditulis NULL, 3 bobot AHP sisanya (kepadatan/jarak/volume)
+    dinormalisasi ulang ke jumlah 1, skor_cai jadi WLC 3 kriteria.
+    Alasan: lokasi usulan halte baru belum punya halte untuk dinilai —
+    memberi 0 membuat term berbobot 0,1418 jadi beban mati seragam yang
+    menekan skor absolut semua kandidat. Keputusan Sam 2026-09-07
+    (docs/VALIDASI_BOBOT_AHP.md), bukan perubahan bobot AHP kanonik.
+    Default None -> perilaku lama 4 kriteria tidak berubah.
+
+    jarak_fasilitas_by_titik_id (BARU, 7 Sep 2026): dict opsional
+    {titik_kandidat_id: jarak_ke_POI_fasilitas_umum_terdekat_m} — kalau diisi,
+    MENGGANTIKAN proxy lama `jarak_fasilitas_m <- jarak_transit_terdekat_m` per
+    baris yang id-nya ada di dict. Proxy lama itu memakai kolom Excel
+    hand-typed `jarak_transit_terdekat_m` yang semantiknya TIDAK KONSISTEN
+    antar batch survei (KND-002..009 mencatat "jarak ke transit apa saja"
+    20–350 m; KND-010..023 mencatat angka bulat 3000–8000 m) sehingga
+    n_jarak_inv terbelah ekstrem antar batch. PRD Bab 7.3 mendefinisikan
+    kriteria ini sebagai "Jarak ke fasilitas umum (inverse) — POI
+    OpenStreetMap / Menu Go, ST_Distance", jadi menghitungnya dari geom
+    membawa pipeline SESUAI spec (bukan perubahan metodologi). Titik yang
+    id-nya TIDAK ada di dict jatuh kembali ke `jarak_transit_terdekat_m`
+    (dicetak sebagai peringatan). Default None -> perilaku lama tidak berubah.
+    Lihat etl/attach_cai_features_titik_kandidat.py untuk cara menyusun dict
+    ini dari sjoin_nearest titik_kandidat -> poi (EPSG:32748).
 
     upload (BARU, 28 Agu 2026): kalau False, fungsi ini HANYA menghitung
     (compute_cai()) dan mengembalikan DataFrame, TIDAK menulis apa pun ke
@@ -313,7 +373,24 @@ def recompute_all_cai_scores(
     df = pd.DataFrame(rows).rename(columns={"id": "titik_kandidat_id"})
     # Proxy kolom mentah compute_cai() — lihat penjelasan lengkap di docstring atas.
     df["volume_penumpang"] = df["total_aktivitas"]
-    df["jarak_fasilitas_m"] = df["jarak_transit_terdekat_m"]
+
+    if jarak_fasilitas_by_titik_id is not None:
+        df["jarak_fasilitas_m"] = df["titik_kandidat_id"].map(jarak_fasilitas_by_titik_id)
+        n_missing_jarak = df["jarak_fasilitas_m"].isna().sum()
+        if n_missing_jarak:
+            missing_ids = df.loc[df["jarak_fasilitas_m"].isna(), "titik_kandidat_id"].tolist()
+            print(
+                f"[PERINGATAN] {n_missing_jarak} titik_kandidat_id tidak ada di "
+                f"jarak_fasilitas_by_titik_id -> fallback ke jarak_transit_terdekat_m "
+                f"(kolom Excel hand-typed, semantik tidak konsisten) untuk baris itu saja: {missing_ids}"
+            )
+        df["jarak_fasilitas_m"] = df["jarak_fasilitas_m"].fillna(df["jarak_transit_terdekat_m"])
+    else:
+        # PROXY LAMA: kolom Excel hand-typed jarak_transit_terdekat_m (semantik
+        # tidak konsisten antar batch survei) — dipertahankan sebagai fallback
+        # kalau pemanggil tidak mengoper jarak_fasilitas_by_titik_id.
+        df["jarak_fasilitas_m"] = df["jarak_transit_terdekat_m"]
+
     if kepadatan_by_titik_id is not None:
         df["kepadatan_penduduk"] = df["titik_kandidat_id"].map(kepadatan_by_titik_id)
         n_missing = df["kepadatan_penduduk"].isna().sum()
@@ -327,13 +404,20 @@ def recompute_all_cai_scores(
         df["kepadatan_penduduk"] = df["kepadatan_penduduk"].fillna(KEPADATAN_NEUTRAL_PLACEHOLDER)
     else:
         df["kepadatan_penduduk"] = KEPADATAN_NEUTRAL_PLACEHOLDER  # PLACEHOLDER, lihat docstring
-    df["skor_survei"] = SKOR_SURVEI_TITIK_BARU  # PLACEHOLDER, lihat docstring
+
+    if exclude_criteria and "survei" in exclude_criteria:
+        # 'survei' N/A untuk titik_kandidat -> compute_cai() akan menulis
+        # n_survei = NaN sendiri; kolom skor_survei tidak dipakai, tapi
+        # tetap disiapkan (NaN) supaya df punya bentuk kolom konsisten.
+        df["skor_survei"] = float("nan")
+    else:
+        df["skor_survei"] = SKOR_SURVEI_TITIK_BARU  # PLACEHOLDER, lihat docstring
     df["nama_lokasi"] = df["deskripsi_lokasi"]  # keterbacaan print/debug saja
 
     # SATU pemanggilan compute_cai() untuk seluruh baris real sekaligus —
     # inilah yang membuat skala normalisasi konsisten lintas-batch (lihat
     # docstring "MASALAH YANG DIPERBAIKI" di atas), bukan per-sesi-upload.
-    scored = compute_cai(df, weights)
+    scored = compute_cai(df, weights, exclude_criteria=exclude_criteria)
 
     if not upload:
         print(

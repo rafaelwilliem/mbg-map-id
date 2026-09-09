@@ -1,5 +1,4 @@
 import { X, Target } from 'lucide-react'
-import { isSurveyPlaceholderPoint } from '../../lib/titikKandidat'
 
 /**
  * CaiScorePanel — overlay di atas peta yang muncul saat user klik lokasi
@@ -77,18 +76,22 @@ export default function CaiScorePanel({ loading, result, usingDemo, onClose }) {
                 bobot={result.skor.bobot_volume}
               />
               <CriteriaRow
-                label="Skor survei lapangan"
+                label="Skor survei lapangan (kondisi halte)"
                 nilai={result.skor.n_survei}
                 bobot={result.skor.bobot_survei}
+                na={result.skor.n_survei == null}
+                naText="tidak berlaku — belum ada halte"
               />
             </div>
           </div>
 
-          {isSurveyPlaceholderPoint(result.titik?.id_titik_survei) && (
+          {result.skor.n_survei == null && (
             <div className="text-xs bg-amber-50 text-amber-800 border border-amber-200 rounded-md px-3 py-2">
-              *Kepadatan &amp; survei: data sementara (nilai netral/placeholder), menunggu data
-              kepadatan penduduk per titik (BPS) dan survei lapangan lengkap. Kriteria jarak &amp;
-              volume pada titik ini sudah dari hasil traffic counting lapangan.
+              *Kriteria <strong>skor survei lapangan</strong> tidak berlaku di sini: ini
+              <strong> lokasi usulan halte baru</strong>, belum ada halte eksisting untuk dinilai
+              lewat Form Kondisi Halte. Kriteria itu dikeluarkan dari perhitungan dan 3 bobot AHP
+              sisanya (kepadatan, jarak, volume) dinormalisasi ulang menjadi 100%. Ketiganya dari
+              data riil (grid dasymetric DKB Semester I 2026 + traffic counting lapangan + jarak POI).
             </div>
           )}
 
@@ -116,18 +119,20 @@ export default function CaiScorePanel({ loading, result, usingDemo, onClose }) {
   )
 }
 
-function CriteriaRow({ label, nilai, bobot }) {
+function CriteriaRow({ label, nilai, bobot, na = false, naText = 'tidak berlaku' }) {
   const pct = Math.max(0, Math.min(1, nilai ?? 0)) * 100
   return (
-    <div>
+    <div className={na ? 'opacity-60' : undefined}>
       <div className="flex items-center justify-between text-xs text-slate-600 mb-1">
         <span>{label}</span>
         <span className="font-mono text-slate-500">
-          nilai {nilai != null ? nilai.toFixed(2) : '-'} · bobot {bobot != null ? `${Math.round(bobot * 100)}%` : '-'}
+          {na
+            ? naText
+            : `nilai ${nilai != null ? nilai.toFixed(2) : '-'} · bobot ${bobot != null ? `${Math.round(bobot * 100)}%` : '-'}`}
         </span>
       </div>
       <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-        <div className="h-full bg-brand-orange rounded-full" style={{ width: `${pct}%` }} />
+        {!na && <div className="h-full bg-brand-orange rounded-full" style={{ width: `${pct}%` }} />}
       </div>
     </div>
   )

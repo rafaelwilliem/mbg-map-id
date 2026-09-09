@@ -1,0 +1,17 @@
+{
+  "type": "FeatureCollection",
+  "properties": {
+    "name": "Stasiun kereta di Kota Bekasi (KRL + LRT)",
+    "sumber": "OpenStreetMap (railway=station), diambil 2026-09-08 — koordinat peron publik, bukan GPS survei tim",
+    "catatan": "Layer referensi/konteks peta. Infrastruktur eksisting BELUM disurvei lapangan oleh tim (beda dari halte BisKita). Tidak dipakai untuk skoring CAI/TDI/Equity. Stasiun Cakung & LRT Jatimulya sengaja tidak dimasukkan (di luar batas 56 kelurahan Kota Bekasi)."
+  },
+  "features": [
+    { "type": "Feature", "geometry": { "type": "Point", "coordinates": [106.9798267, -6.2245133] }, "properties": { "nama": "Stasiun Kranji", "moda": "KRL", "keterangan": "KRL Commuter Line — Lin Cikarang" } },
+    { "type": "Feature", "geometry": { "type": "Point", "coordinates": [106.9987436, -6.2362143] }, "properties": { "nama": "Stasiun Bekasi", "moda": "KRL", "keterangan": "KRL Commuter Line — Lin Cikarang (simpul integrasi utama)" } },
+    { "type": "Feature", "geometry": { "type": "Point", "coordinates": [107.0181046, -6.2467953] }, "properties": { "nama": "Stasiun Bekasi Timur", "moda": "KRL", "keterangan": "KRL Commuter Line — Lin Cikarang" } },
+    { "type": "Feature", "geometry": { "type": "Point", "coordinates": [106.9279199, -6.2577476] }, "properties": { "nama": "Stasiun LRT Jatibening Baru", "moda": "LRT", "keterangan": "LRT Jabodebek — lintas Cikarang/Jatimulya" } },
+    { "type": "Feature", "geometry": { "type": "Point", "coordinates": [106.9518734, -6.2566001] }, "properties": { "nama": "Stasiun LRT Cikunir 1", "moda": "LRT", "keterangan": "LRT Jabodebek — lintas Cikarang/Jatimulya" } },
+    { "type": "Feature", "geometry": { "type": "Point", "coordinates": [106.9632112, -6.2546502] }, "properties": { "nama": "Stasiun LRT Cikunir 2", "moda": "LRT", "keterangan": "LRT Jabodebek — lintas Cikarang/Jatimulya" } },
+    { "type": "Feature", "geometry": { "type": "Point", "coordinates": [106.9904237, -6.2529489] }, "properties": { "nama": "Stasiun LRT Bekasi Barat", "moda": "LRT", "keterangan": "LRT Jabodebek — lintas Cikarang/Jatimulya" } }
+  ]
+}

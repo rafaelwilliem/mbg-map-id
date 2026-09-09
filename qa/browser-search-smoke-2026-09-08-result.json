@@ -1,0 +1,143 @@
+{
+  "out": {
+    "narrowInputVisible": false,
+    "bekasi": {
+      "open": true,
+      "headers": [
+        "Wilayah",
+        "Halte",
+        "Titik Survei",
+        "Usulan Model",
+        "Stasiun"
+      ],
+      "items": [
+        "Bekasi Barat | Kecamatan",
+        "Bekasi Selatan | Kecamatan",
+        "Bekasi Timur | Kecamatan",
+        "Bekasi Utara | Kecamatan",
+        "Bekasijaya | Kelurahan, Kec. Bekasi Timur",
+        "Halte Pesona Metropolitan Bekasi 1 | Bojong Rawalumbu, Rawa Lumbu",
+        "Halte Pesona Metropolitan Bekasi 2 | Bojong Rawalumbu, Rawa Lumbu",
+        "Halte STISIP Bekasi 1 | Bantar Gebang, Bantar Gebang",
+        "Halte STISIP Bekasi 2 | Bantar Gebang, Bantar Gebang",
+        "Area Parkir Stasiun Bekasi Timur | KND-002, Duren Jaya, Bekasi Timur",
+        "Akses Masuk Stasiun Bekasi | KND-003, Marga Mulya, Bekasi Utara",
+        "Area Luar Transpark Mall Juanda Bekasi / Transmart Juanda Bekasi | KND-004, Margahayu, Bekasi Timur",
+        "Sekitar Honda Merdeka Motor Bekasi (Jl. Ir. H. Juanda) | KND-005, Duren Jaya, Bekasi Timur",
+        "Pasar Baru Bekasi (Jl. Ir. H. Juanda) | KND-006, Margahayu, Bekasi Timur",
+        "Terminal Bekasi | KND-007, Margahayu, Bekasi Timur",
+        "MDL-001 — Usulan #1 | Kranji, Bekasi Barat",
+        "MDL-002 — Usulan #2 | Kayuringinjaya, Bekasi Selatan",
+        "MDL-006 — Usulan #6 | Margajaya, Bekasi Selatan",
+        "MDL-008 — Usulan #8 | Jakamulya, Bekasi Selatan",
+        "MDL-010 — Usulan #10 | Jakasetia, Bekasi Selatan",
+        "MDL-011 — Usulan #11 | Jakasampurna, Bekasi Barat",
+        "Stasiun Bekasi | KRL",
+        "Stasiun Bekasi Timur | KRL",
+        "Stasiun LRT Bekasi Barat | LRT"
+      ],
+      "empty": false
+    },
+    "bekasiNewErrors": 0,
+    "wilayahSelect": {
+      "selected": "Bekasi Barat | Kecamatan",
+      "headerBefore": "Dashboard",
+      "headerAfter": "Peta Interaktif",
+      "camBefore": {
+        "lng": 107.0074,
+        "lat": -6.2185,
+        "zoom": 12
+      },
+      "camAfter": {
+        "lng": 107.0074,
+        "lat": -6.2185,
+        "zoom": 12
+      },
+      "moved": false
+    },
+    "stasiun": {
+      "open": true,
+      "headers": [
+        "Titik Survei",
+        "Stasiun"
+      ],
+      "items": [
+        "Area Parkir Stasiun Bekasi Timur | KND-002, Duren Jaya, Bekasi Timur",
+        "Stasiun Bekasi Timur | KRL"
+      ],
+      "empty": false
+    },
+    "stasiunSelect": {
+      "picked2": "Stasiun Bekasi Timur | KRL",
+      "camB2": {
+        "lng": 107.0074,
+        "lat": -6.2185,
+        "zoom": 12
+      },
+      "camA2": {
+        "lng": 107.0074,
+        "lat": -6.2185,
+        "zoom": 12
+      },
+      "moved": false,
+      "zoomNear16": false
+    },
+    "oneChar": {
+      "open": false
+    },
+    "gibberish": {
+      "open": true,
+      "headers": [],
+      "items": [],
+      "empty": true
+    },
+    "escClears": true,
+    "xClears": true,
+    "caiRegression": {
+      "caiBefore": null,
+      "fired": "fired at 107.0074,-6.2185",
+      "caiAfter": [
+        "Composite Accessibility Index",
+        "Skor CAI",
+        "Rincian kontribusi",
+        "Kepadatan penduduk"
+      ],
+      "panelAppeared": true
+    },
+    "legendPresent": true,
+    "tabWalk": [
+      {
+        "label": "Dashboard",
+        "header": "Dashboard",
+        "newErr": 0
+      },
+      {
+        "label": "Analisis Spasial",
+        "header": "Analisis Spasial",
+        "newErr": 0
+      },
+      {
+        "label": "AI Spatial Consultant",
+        "header": "AI Spatial Consultant",
+        "newErr": 0
+      },
+      {
+        "label": "Rekomendasi",
+        "header": "Rekomendasi",
+        "newErr": 0
+      },
+      {
+        "label": "Simulasi Skenario",
+        "header": "Simulasi Skenario",
+        "newErr": 0
+      },
+      {
+        "label": "Peta Interaktif",
+        "header": "Peta Interaktif",
+        "newErr": 0
+      }
+    ]
+  },
+  "consoleErrors": [],
+  "pageExceptions": []
+}

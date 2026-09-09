@@ -228,8 +228,13 @@ if __name__ == "__main__":
 
     mode = "UPLOAD (menulis ke skor_cai)" if args.upload else "DRY-RUN (tidak menulis apa pun)"
     print(f"\n=== 5. Recompute skor_cai — 8 titik REAL, n_kepadatan sekarang dari grid_analisis real [{mode}] ===\n")
+    # NOTE 2026-09-07: jalur kanonik penuh sekarang
+    # attach_cai_features_titik_kandidat.py (kepadatan + jarak dari geom).
+    # Script ini hanya menyusun kepadatan; tetap oper exclude_criteria=['survei']
+    # supaya --upload di sini tidak me-reintroduksi n_survei=0 di skor_cai.
     scored = recompute_all_cai_scores(
-        client, weights=weights, kepadatan_by_titik_id=kepadatan_by_titik_id, upload=args.upload
+        client, weights=weights, kepadatan_by_titik_id=kepadatan_by_titik_id,
+        exclude_criteria=["survei"], upload=args.upload,
     )
 
     if not scored.empty:

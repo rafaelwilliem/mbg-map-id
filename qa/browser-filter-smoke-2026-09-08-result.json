@@ -1,0 +1,80 @@
+{
+  "shellErrCount": 0,
+  "perTab": {
+    "Dashboard": {
+      "clicked": "ok",
+      "newErrors": 0,
+      "asideChars": 2490
+    },
+    "Peta Interaktif": {
+      "clicked": "ok",
+      "newErrors": 0,
+      "asideChars": 0
+    },
+    "Analisis Spasial": {
+      "clicked": "ok",
+      "newErrors": 0,
+      "asideChars": 879
+    },
+    "AI Spatial Consultant": {
+      "clicked": "ok",
+      "newErrors": 0,
+      "asideChars": 317
+    },
+    "Simulasi Skenario": {
+      "clicked": "ok",
+      "newErrors": 0,
+      "asideChars": 327
+    },
+    "Rekomendasi": {
+      "clicked": "ok",
+      "newErrors": 0,
+      "asideChars": 6777
+    },
+    "Data & Laporan": {
+      "clicked": "ok",
+      "newErrors": 0,
+      "asideChars": 718
+    },
+    "Pengaturan": {
+      "clicked": "ok",
+      "newErrors": 0,
+      "asideChars": 357
+    }
+  },
+  "runs": [
+    {
+      "kec": "Mustika Jaya",
+      "appReportedMs": 157,
+      "wallClockToReportMs": 229,
+      "selBadge": null
+    },
+    {
+      "kec": "Bekasi Timur",
+      "appReportedMs": 2,
+      "wallClockToReportMs": 112,
+      "selBadge": null
+    },
+    {
+      "kec": "Rawa Lumbu",
+      "appReportedMs": 3,
+      "wallClockToReportMs": 111,
+      "selBadge": null
+    },
+    {
+      "kec": "Bantargebang",
+      "appReportedMs": 2,
+      "wallClockToReportMs": 111,
+      "selBadge": null
+    },
+    {
+      "kec": "",
+      "appReportedMs": 2,
+      "wallClockToReportMs": 113,
+      "selBadge": null
+    }
+  ],
+  "consoleErrors": [],
+  "pageExceptions": [],
+  "failedRequests": []
+}

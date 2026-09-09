@@ -1,0 +1,1974 @@
+{
+  "started": "2026-09-06T13:28:52.419Z",
+  "cold": [
+    {
+      "ttfd": 1849,
+      "total": 6687,
+      "status": 200,
+      "deltaCount": 16,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "words": 176,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true
+    },
+    {
+      "ttfd": 2363,
+      "total": 5991,
+      "status": 200,
+      "deltaCount": 14,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "words": 146,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true
+    },
+    {
+      "ttfd": 1371,
+      "total": 5628,
+      "status": 200,
+      "deltaCount": 15,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "words": 167,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true
+    }
+  ],
+  "warm": [
+    {
+      "ttfd": 1932,
+      "total": 6792,
+      "status": 200,
+      "deltaCount": 17,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 187,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1634,
+      "total": 6491,
+      "status": 200,
+      "deltaCount": 17,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 185,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1817,
+      "total": 6480,
+      "status": 200,
+      "deltaCount": 16,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 182,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1621,
+      "total": 7978,
+      "status": 200,
+      "deltaCount": 230,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 235,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1754,
+      "total": 6011,
+      "status": 200,
+      "deltaCount": 163,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 167,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1760,
+      "total": 6930,
+      "status": 200,
+      "deltaCount": 18,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 211,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1312,
+      "total": 5760,
+      "status": 200,
+      "deltaCount": 15,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 164,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1166,
+      "total": 5525,
+      "status": 200,
+      "deltaCount": 15,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 170,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1227,
+      "total": 5294,
+      "status": 200,
+      "deltaCount": 156,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 163,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1174,
+      "total": 6915,
+      "status": 200,
+      "deltaCount": 19,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 214,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1699,
+      "total": 6646,
+      "status": 200,
+      "deltaCount": 17,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 186,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ttfd": 1199,
+      "total": 5654,
+      "status": 200,
+      "deltaCount": 15,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 167,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "concatOk": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    }
+  ],
+  "content": [
+    {
+      "tag": "cold#1",
+      "narasi": "Cimuning dengan skor ketimpangan 0,5383 (ranking 2) adalah prioritas utama halte baru di Kecamatan Mustika Jaya, disusul Mustikajaya (0,4052; ranking 22), Padurenan (0,3737; ranking 35), dan Mustikasari (0,3422; ranking 47). Cimuning mengalami kondisi akses transit terburuk karena belum terjangkau koridor BisKita Trans Patriot dan memiliki aksesibilitas transit terendah di antara 56 kelurahan kota Bekasi. Ketimpangan ini bersumber dari Composite Accessibility Index yang sangat rendah, dipadukan dengan kerentanan sosial dominan di dimensi pendidikan—pelajar dan keluarga tidak memiliki sekolah dalam jangkauan jalan kaki—dengan bobot hasil analisis AHP yang kredibel (CR < 0,1). Tanpa intervensi, kelompok pelajar dan keluarga di Cimuning akan semakin terisolasi; mobilitas menuju fasilitas pendidikan terus terbatas, memperdalam kesenjangan akses pendidikan dan peluang kerja. Pembukaan trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar menjadi rekomendasi utama, dengan penempatan halte berjarak kurang dari 400 meter di seluruh permukiman dan satu halte khusus di depan klaster sekolah. Operasionalisasi disesuaikan jadwal: trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Cimuning dengan skor ketimpangan 0,5383 (ranking 2) adalah prioritas utama halte baru di Kecamatan Mustika Jaya, disusul Mustikajaya (0,4052; ranking 22), Padurenan (0,3737; ranking 35), dan Mustikasari (0,3422; ranking 47). Cimuning mengalami kondisi akses transit terburuk karena belum terjangkau koridor BisKita Trans Patriot dan memiliki aksesibilitas transit terendah di antara 56 kelurahan kota Bekasi. Ketimpangan ini bersumber dari Composite Accessibility Index yang sangat rendah, dipadukan dengan kerentanan sosial dominan di dimensi pendidikan—pelajar dan keluarga tidak memiliki sekolah dalam jangkauan jalan kaki—dengan bobot hasil analisis AHP yang kredibel (CR < 0,1). Tanpa intervensi, kelompok pelajar dan keluarga di Cimuning akan semakin terisolasi; mobilitas menuju fasilitas pendidikan terus terbatas, memperdalam kesenjangan akses pendidikan dan peluang kerja. Pembukaan trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar menjadi rekomendasi utama, dengan penempatan halte berjarak kurang dari 400 meter di seluruh permukiman dan satu halte khusus di depan klaster sekolah. Operasionalisasi disesuaikan jadwal: trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1849,
+      "total": 6687
+    },
+    {
+      "tag": "cold#2",
+      "narasi": "Kelurahan Cimuning di Kecamatan Mustikajaya menunjukkan ketimpangan akses transit tertinggi dengan skor 0,54, jauh di atas kelurahan lain dalam cakupan: Mustikajaya (0,41), Padurenan (0,37), dan Mustikasari (0,34). Kondisi Cimuning ditandai aksesibilitas transit terendah dari seluruh 56 kelurahan dan belum terjangkau oleh koridor BisKita Trans Patriot mana pun, sehingga kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi yang paling terpengaruh. Tanpa intervensi, keterbatasan mobilitas ini akan memperdalam kesenjangan akses pendidikan dan pekerjaan, karena akses pendidikan merupakan dimensi kerentanan terlemah di wilayah ini. Rekomendasi prioritas adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah. Operasionalisasi meliputi trip sekolah pada jam 06.00–07.30 dan 12.00–15.00 serta penguatan jam puncak komuter pada 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning di Kecamatan Mustikajaya menunjukkan ketimpangan akses transit tertinggi dengan skor 0,54, jauh di atas kelurahan lain dalam cakupan: Mustikajaya (0,41), Padurenan (0,37), dan Mustikasari (0,34). Kondisi Cimuning ditandai aksesibilitas transit terendah dari seluruh 56 kelurahan dan belum terjangkau oleh koridor BisKita Trans Patriot mana pun, sehingga kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi yang paling terpengaruh. Tanpa intervensi, keterbatasan mobilitas ini akan memperdalam kesenjangan akses pendidikan dan pekerjaan, karena akses pendidikan merupakan dimensi kerentanan terlemah di wilayah ini. Rekomendasi prioritas adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah. Operasionalisasi meliputi trip sekolah pada jam 06.00–07.30 dan 12.00–15.00 serta penguatan jam puncak komuter pada 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 2363,
+      "total": 5991
+    },
+    {
+      "tag": "cold#3",
+      "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 dengan ranking 2 secara keseluruhan, diikuti Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Aksesibilitas transit Cimuning paling terbatas karena Composite Accessibility Index terendah dan belum tercakup oleh koridor BisKita Trans Patriot maupun jaringan transit massal lainnya. Kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi yang paling rentan, sementara akses pendidikan merupakan dimensi kerentanan paling kritis dengan skor 0,63.\n\nTanpa intervensi, keterbatasan mobilitas pelajar akan memperdalam kesenjangan pendidikan dan memperluas kesimpulan geografis di permukiman Cimuning, terutama bagi anak-anak dari keluarga tanpa kendaraan pribadi. Prioritas halte baru harus ditempatkan di koridor Jalan Raya Cimuning–Jalan Padurenan dengan spasi halte kurang dari 400 meter di seluruh permukiman dan satu halte khusus di depan klaster sekolah untuk memaksimalkan jangkauan pendidikan. Trayek pengumpan ini menghubungkan Cimuning ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar dengan jadwal operasi trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 dengan ranking 2 secara keseluruhan, diikuti Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Aksesibilitas transit Cimuning paling terbatas karena Composite Accessibility Index terendah dan belum tercakup oleh koridor BisKita Trans Patriot maupun jaringan transit massal lainnya. Kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi yang paling rentan, sementara akses pendidikan merupakan dimensi kerentanan paling kritis dengan skor 0,63.\n\nTanpa intervensi, keterbatasan mobilitas pelajar akan memperdalam kesenjangan pendidikan dan memperluas kesimpulan geografis di permukiman Cimuning, terutama bagi anak-anak dari keluarga tanpa kendaraan pribadi. Prioritas halte baru harus ditempatkan di koridor Jalan Raya Cimuning–Jalan Padurenan dengan spasi halte kurang dari 400 meter di seluruh permukiman dan satu halte khusus di depan klaster sekolah untuk memaksimalkan jangkauan pendidikan. Trayek pengumpan ini menghubungkan Cimuning ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar dengan jadwal operasi trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1371,
+      "total": 5628
+    },
+    {
+      "tag": "warm#1",
+      "narasi": "Kelurahan Cimuning mencatat skor ketimpangan 0,5383 (ranking 2) sebagai prioritas utama halte baru di Kecamatan Mustika Jaya, disusul Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Cimuning menghadapi keterbatasan akses transit paling parah karena nilai Composite Accessibility Index terendah di seluruh 56 kelurahan analisis dan belum terjangkau koridor BisKita Trans Patriot, sementara kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi yang paling rentan. Kesenjangan ini berakar pada kombinasi indeks aksesibilitas terinversi setingkat 1,00 dan dimensi kerentanan sosial bidang pendidikan (0,63), hasil penggabungan dengan bobot AHP yang valid (CR < 0,1). Tanpa intervensi, mobilitas pelajar dan angkatan kerja Cimuning akan tetap terbatas, memperdalam kesenjangan akses pendidikan dan peluang kerja terhadap pusat kota dan stasiun transit. Prioritaskan pembukaan trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah mengingat pendidikan adalah dimensi kerentanan paling kritis. Operasikan jam trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta perkuat jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning mencatat skor ketimpangan 0,5383 (ranking 2) sebagai prioritas utama halte baru di Kecamatan Mustika Jaya, disusul Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Cimuning menghadapi keterbatasan akses transit paling parah karena nilai Composite Accessibility Index terendah di seluruh 56 kelurahan analisis dan belum terjangkau koridor BisKita Trans Patriot, sementara kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi yang paling rentan. Kesenjangan ini berakar pada kombinasi indeks aksesibilitas terinversi setingkat 1,00 dan dimensi kerentanan sosial bidang pendidikan (0,63), hasil penggabungan dengan bobot AHP yang valid (CR < 0,1). Tanpa intervensi, mobilitas pelajar dan angkatan kerja Cimuning akan tetap terbatas, memperdalam kesenjangan akses pendidikan dan peluang kerja terhadap pusat kota dan stasiun transit. Prioritaskan pembukaan trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah mengingat pendidikan adalah dimensi kerentanan paling kritis. Operasikan jam trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta perkuat jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1932,
+      "total": 6792
+    },
+    {
+      "tag": "warm#2",
+      "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 (ranking 2 nasional), diikuti Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Cimuning menghadapi keterbatasan akses transit paling kritis karena Composite Accessibility Index terendah dan belum terjangkau koridor BisKita Trans Patriot, sementara pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi kelompok terdampak utama di semua kelurahan.\n\nKetimpangan akses ini berasal dari indeks aksesibilitas transit yang sangat rendah di Cimuning, dikombinasikan dengan kerentanan sosial khususnya dimensi pendidikan yang lemah (skor 0,63). Tanpa intervensi, pelajar dan keluarga di Cimuning akan terus mengalami mobilitas terbatas menuju sekolah dan tempat kerja, memperdalam kesenjangan pendidikan dan ekonomi.\n\nPrioritas halte baru difokuskan pada koridor Jl. Raya Cimuning—Jl. Padurenan untuk membuka trayek pengumpan harian yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) melalui Jl. Chairil Anwar. Penempatan halte dirancang dengan spasi lebih kecil dari 400 meter di sepanjang area permukiman dan satu halte khusus di depan klaster sekolah mengingat aksesibilitas pendidikan adalah dimensi kerentanan terlemah. Operasionalisasi mencakup trip sekolah pada jam 06.00–07.30 dan 12.00–15.00 serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 (ranking 2 nasional), diikuti Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Cimuning menghadapi keterbatasan akses transit paling kritis karena Composite Accessibility Index terendah dan belum terjangkau koridor BisKita Trans Patriot, sementara pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi kelompok terdampak utama di semua kelurahan.\n\nKetimpangan akses ini berasal dari indeks aksesibilitas transit yang sangat rendah di Cimuning, dikombinasikan dengan kerentanan sosial khususnya dimensi pendidikan yang lemah (skor 0,63). Tanpa intervensi, pelajar dan keluarga di Cimuning akan terus mengalami mobilitas terbatas menuju sekolah dan tempat kerja, memperdalam kesenjangan pendidikan dan ekonomi.\n\nPrioritas halte baru difokuskan pada koridor Jl. Raya Cimuning—Jl. Padurenan untuk membuka trayek pengumpan harian yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) melalui Jl. Chairil Anwar. Penempatan halte dirancang dengan spasi lebih kecil dari 400 meter di sepanjang area permukiman dan satu halte khusus di depan klaster sekolah mengingat aksesibilitas pendidikan adalah dimensi kerentanan terlemah. Operasionalisasi mencakup trip sekolah pada jam 06.00–07.30 dan 12.00–15.00 serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1634,
+      "total": 6491
+    },
+    {
+      "tag": "warm#3",
+      "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 (ranking 2), jauh lebih kritis dibanding Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Kondisi akses transit Cimuning terukur dari Composite Accessibility Index terendah di antara 56 kelurahan seluruh Kota Bekasi dan belum terjangkau oleh koridor BisKita Trans Patriot manapun.\n\nKetimpangan ini berakar pada Composite Accessibility Index yang di-inverse digabung dengan dimensi kerentanan sosial, khususnya akses pendidikan yang paling lemah (skor 0,63), dipadukan melalui bobot hasil analisis AHP pairwise dengan konsistensi rasio di bawah 0,1. Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki di Cimuning akan terus mengalami mobilitas terbatas dan kesenjangan akses pendidikan yang melebar terhadap kelurahan lain.\n\nRekomendasi prioritas adalah membuka trayek pengumpan harian di koridor Jl. Raya Cimuning–Jl. Padurenan menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di seluruh area permukiman dan satu halte khusus di depan klaster sekolah. Jam operasi disesuaikan trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 (ranking 2), jauh lebih kritis dibanding Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Kondisi akses transit Cimuning terukur dari Composite Accessibility Index terendah di antara 56 kelurahan seluruh Kota Bekasi dan belum terjangkau oleh koridor BisKita Trans Patriot manapun.\n\nKetimpangan ini berakar pada Composite Accessibility Index yang di-inverse digabung dengan dimensi kerentanan sosial, khususnya akses pendidikan yang paling lemah (skor 0,63), dipadukan melalui bobot hasil analisis AHP pairwise dengan konsistensi rasio di bawah 0,1. Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki di Cimuning akan terus mengalami mobilitas terbatas dan kesenjangan akses pendidikan yang melebar terhadap kelurahan lain.\n\nRekomendasi prioritas adalah membuka trayek pengumpan harian di koridor Jl. Raya Cimuning–Jl. Padurenan menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di seluruh area permukiman dan satu halte khusus di depan klaster sekolah. Jam operasi disesuaikan trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1817,
+      "total": 6480
+    },
+    {
+      "tag": "warm#4",
+      "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya dengan nilai 0,5383, jauh melampaui ketiga kelurahan lain: Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Cimuning memiliki aksesibilitas transit terendah dan belum terlayani koridor BisKita Trans Patriot, sedangkan kelompok pelajar dan keluarga tanpa akses sekolah dalam jangkauan jalan kaki menjadi profil terdampak utama di semua empat kelurahan.\n\nKetimpangan akses Cimuning berasal dari Composite Accessibility Index terendah dalam 56 kelurahan kota, yang dikombinasikan dengan dimensi kerentanan sosial berupa akses pendidikan lemah (skor 0,63). Skor ini dihasilkan dari pembobotan AHP terhadap aksesibilitas transit dan indikator sosial kerentanan dengan konsistensi rasio < 0,1.\n\nTanpa intervensi, keterbatasan mobilitas pelajar dan keluarga Cimuning akan memperdalam kesenjangan akses pendidikan dan pekerjaan, khususnya bagi anak usia sekolah yang bergantung pada jangkauan berjalan kaki dari rumah. Kelurahan Mustikajaya, Padurenan, dan Mustikasari menghadapi tantangan serupa meski dengan tingkat ketimpangan lebih rendah.\n\nPrioritas halte baru adalah pembukaan trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan spasi halte kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah mengingat akses pendidikan adalah kerentanan terdepan. Operasi diarahkan pada trip sekolah pukul 06.00–07.30 dan 12.00–15.00 serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00. Pengumpan Jalan Raya Mustika Jaya dan Jalan Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur mengikuti prioritas yang sama untuk kelurahan Mustikajaya, Padurenan, dan Mustikasari.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya dengan nilai 0,5383, jauh melampaui ketiga kelurahan lain: Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Cimuning memiliki aksesibilitas transit terendah dan belum terlayani koridor BisKita Trans Patriot, sedangkan kelompok pelajar dan keluarga tanpa akses sekolah dalam jangkauan jalan kaki menjadi profil terdampak utama di semua empat kelurahan.\n\nKetimpangan akses Cimuning berasal dari Composite Accessibility Index terendah dalam 56 kelurahan kota, yang dikombinasikan dengan dimensi kerentanan sosial berupa akses pendidikan lemah (skor 0,63). Skor ini dihasilkan dari pembobotan AHP terhadap aksesibilitas transit dan indikator sosial kerentanan dengan konsistensi rasio < 0,1.\n\nTanpa intervensi, keterbatasan mobilitas pelajar dan keluarga Cimuning akan memperdalam kesenjangan akses pendidikan dan pekerjaan, khususnya bagi anak usia sekolah yang bergantung pada jangkauan berjalan kaki dari rumah. Kelurahan Mustikajaya, Padurenan, dan Mustikasari menghadapi tantangan serupa meski dengan tingkat ketimpangan lebih rendah.\n\nPrioritas halte baru adalah pembukaan trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan spasi halte kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah mengingat akses pendidikan adalah kerentanan terdepan. Operasi diarahkan pada trip sekolah pukul 06.00–07.30 dan 12.00–15.00 serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00. Pengumpan Jalan Raya Mustika Jaya dan Jalan Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur mengikuti prioritas yang sama untuk kelurahan Mustikajaya, Padurenan, dan Mustikasari.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1621,
+      "total": 7978
+    },
+    {
+      "tag": "warm#5",
+      "narasi": "Kelurahan Cimuning memiliki skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 (ranking 2), jauh di atas kelurahan lain seperti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Kondisi ini mencerminkan keterbatasan akses transit massal yang terukur melalui Composite Accessibility Index terendah dan absensi koridor BisKita Trans Patriot. Ketimpangan akses terjadi karena skor aksesibilitas transit Cimuning mencapai 1,00 (terburuk), dipadukan dengan dimensi kerentanan sosial terutama pada akses pendidikan dan mobilitas kelompok tanpa kendaraan pribadi.\n\nDampak berkelanjutan bagi pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki adalah mobilitas makin terbatas dan kesenjangan pendidikan makin lebar, karena kelompok ini sulit menjangkau fasilitas pendidikan dan angkutan massal terdekat. Buka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan spasi halte kurang dari 400 meter di seluruh permukiman dan satu halte khusus di depan klaster sekolah mengingat akses pendidikan adalah kerentanan terlemah. Operasionalkan trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta perkuat jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning memiliki skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 (ranking 2), jauh di atas kelurahan lain seperti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Kondisi ini mencerminkan keterbatasan akses transit massal yang terukur melalui Composite Accessibility Index terendah dan absensi koridor BisKita Trans Patriot. Ketimpangan akses terjadi karena skor aksesibilitas transit Cimuning mencapai 1,00 (terburuk), dipadukan dengan dimensi kerentanan sosial terutama pada akses pendidikan dan mobilitas kelompok tanpa kendaraan pribadi.\n\nDampak berkelanjutan bagi pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki adalah mobilitas makin terbatas dan kesenjangan pendidikan makin lebar, karena kelompok ini sulit menjangkau fasilitas pendidikan dan angkutan massal terdekat. Buka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan spasi halte kurang dari 400 meter di seluruh permukiman dan satu halte khusus di depan klaster sekolah mengingat akses pendidikan adalah kerentanan terlemah. Operasionalkan trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta perkuat jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1754,
+      "total": 6011
+    },
+    {
+      "tag": "warm#6",
+      "narasi": "Kelurahan Cimuning mencatat skor ketimpangan 0,5383 (ranking 2) tertinggi di Kecamatan Mustika Jaya, sementara Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47) menunjukkan ketimpangan akses transit yang lebih rendah. Cimuning belum terjangkau oleh koridor BisKita Trans Patriot dan memiliki Composite Accessibility Index terendah di seluruh 56 kelurahan, mencerminkan aksesibilitas transit yang paling kritis di kecamatan ini.\n\nKetimpangan Cimuning berasal dari Composite Accessibility Index yang sangat rendah (n_aksesibilitas_inv = 1,00), dipadukan dengan kerentanan sosial dimensi pendidikan yang lemah (n = 0,63), karena pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi kelompok terdampak utama. Gabungan skor ditimbang menggunakan AHP pairwise dengan rasio konsistensi di bawah 0,1, menciptakan kesenjangan akses yang signifikan terhadap layanan transit.\n\nTanpa intervensi, keterbatasan mobilitas pelajar dan keluarga Cimuning akan terus memperparah kesenjangan pendidikan dan ekonomi, karena jarak tempuh ke sekolah dan stasiun komuter tidak terjangkau dalam radius jalan kaki standar.\n\nPrioritas halte baru di Cimuning harus membuka trayek pengumpan harian sepanjang Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan spasi halte kurang dari 400 meter di sepanjang area permukiman dan satu halte khusus di depan klaster sekolah. Trayek ini dioperasikan pada jam trip sekolah (06.00–07.30 dan 12.00–15.00) serta jam puncak komuter (05.30–08.00 dan 16.00–19.00).",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning mencatat skor ketimpangan 0,5383 (ranking 2) tertinggi di Kecamatan Mustika Jaya, sementara Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47) menunjukkan ketimpangan akses transit yang lebih rendah. Cimuning belum terjangkau oleh koridor BisKita Trans Patriot dan memiliki Composite Accessibility Index terendah di seluruh 56 kelurahan, mencerminkan aksesibilitas transit yang paling kritis di kecamatan ini.\n\nKetimpangan Cimuning berasal dari Composite Accessibility Index yang sangat rendah (n_aksesibilitas_inv = 1,00), dipadukan dengan kerentanan sosial dimensi pendidikan yang lemah (n = 0,63), karena pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi kelompok terdampak utama. Gabungan skor ditimbang menggunakan AHP pairwise dengan rasio konsistensi di bawah 0,1, menciptakan kesenjangan akses yang signifikan terhadap layanan transit.\n\nTanpa intervensi, keterbatasan mobilitas pelajar dan keluarga Cimuning akan terus memperparah kesenjangan pendidikan dan ekonomi, karena jarak tempuh ke sekolah dan stasiun komuter tidak terjangkau dalam radius jalan kaki standar.\n\nPrioritas halte baru di Cimuning harus membuka trayek pengumpan harian sepanjang Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan spasi halte kurang dari 400 meter di sepanjang area permukiman dan satu halte khusus di depan klaster sekolah. Trayek ini dioperasikan pada jam trip sekolah (06.00–07.30 dan 12.00–15.00) serta jam puncak komuter (05.30–08.00 dan 16.00–19.00).",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1760,
+      "total": 6930
+    },
+    {
+      "tag": "warm#7",
+      "narasi": "Kelurahan Cimuning memiliki skor ketimpangan 0,5383 (ranking 2) tertinggi di Kecamatan Mustika Jaya, diikuti Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Kondisi akses transit Cimuning paling tertinggal karena belum dilayani koridor BisKita Trans Patriot dan memiliki aksesibilitas terendah di seluruh 56 kelurahan. Penyebab tingginya ketimpangan berasal dari Composite Accessibility Index terendah yang digabungkan dengan dimensi kerentanan sosial paling lemah pada akses pendidikan (skor 0,63), menggunakan bobot hasil AHP dengan confidence ratio di bawah 0,1. Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki di Cimuning akan mengalami mobilitas semakin terbatas dan kesenjangan akses pendidikan semakin melebar terhadap kelurahan lain. Prioritas halte baru diarahkan pada pembukaan trayek pengumpan di koridor Jalan Raya Cimuning–Jalan Padurenan menuju Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah. Trayek operasional mencakup jam sekolah 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning memiliki skor ketimpangan 0,5383 (ranking 2) tertinggi di Kecamatan Mustika Jaya, diikuti Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Kondisi akses transit Cimuning paling tertinggal karena belum dilayani koridor BisKita Trans Patriot dan memiliki aksesibilitas terendah di seluruh 56 kelurahan. Penyebab tingginya ketimpangan berasal dari Composite Accessibility Index terendah yang digabungkan dengan dimensi kerentanan sosial paling lemah pada akses pendidikan (skor 0,63), menggunakan bobot hasil AHP dengan confidence ratio di bawah 0,1. Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki di Cimuning akan mengalami mobilitas semakin terbatas dan kesenjangan akses pendidikan semakin melebar terhadap kelurahan lain. Prioritas halte baru diarahkan pada pembukaan trayek pengumpan di koridor Jalan Raya Cimuning–Jalan Padurenan menuju Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah. Trayek operasional mencakup jam sekolah 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1312,
+      "total": 5760
+    },
+    {
+      "tag": "warm#8",
+      "narasi": "Kelurahan Cimuning memiliki skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Cimuning menghadapi keterbatasan akses transit paling kritis, dengan pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki sebagai kelompok utama terdampak. Kondisi ini timbul dari Composite Accessibility Index terendah di seluruh 56 kelurahan dan belum tercakup oleh koridor BisKita Trans Patriot, sehingga dimensi aksesibilitas transit menjadi bottleneck ketimpangan spasial di kelurahan ini. Tanpa intervensi, pelajar Cimuning akan mengalami hambatan mobilitas berkelanjutan dengan semakin membesarnya kesenjangan akses pendidikan dibanding kelurahan tetangga, dan ketergantungan pada moda pribadi akan memperdalam ketidaksetaraan sosial ekonomi keluarga.\n\nPrioritas halte baru harus membuka trayek pengumpan harian di koridor Jalan Raya Cimuning—Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan spasi halte kurang dari 400 meter di sepanjang permukiman dan satu halte strategis di depan klaster sekolah untuk mengatasi akses pendidikan sebagai dimensi kerentanan paling lemah. Layanan dioprasikan dengan jam sekolah 06.00–07.30 dan 12.00–15.00 serta penguatan jam komuter puncak 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning memiliki skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Cimuning menghadapi keterbatasan akses transit paling kritis, dengan pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki sebagai kelompok utama terdampak. Kondisi ini timbul dari Composite Accessibility Index terendah di seluruh 56 kelurahan dan belum tercakup oleh koridor BisKita Trans Patriot, sehingga dimensi aksesibilitas transit menjadi bottleneck ketimpangan spasial di kelurahan ini. Tanpa intervensi, pelajar Cimuning akan mengalami hambatan mobilitas berkelanjutan dengan semakin membesarnya kesenjangan akses pendidikan dibanding kelurahan tetangga, dan ketergantungan pada moda pribadi akan memperdalam ketidaksetaraan sosial ekonomi keluarga.\n\nPrioritas halte baru harus membuka trayek pengumpan harian di koridor Jalan Raya Cimuning—Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan spasi halte kurang dari 400 meter di sepanjang permukiman dan satu halte strategis di depan klaster sekolah untuk mengatasi akses pendidikan sebagai dimensi kerentanan paling lemah. Layanan dioprasikan dengan jam sekolah 06.00–07.30 dan 12.00–15.00 serta penguatan jam komuter puncak 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1166,
+      "total": 5525
+    },
+    {
+      "tag": "warm#9",
+      "narasi": "Kelurahan Cimuning (skor ketimpangan 0,5383, ranking 2) merupakan titik prioritas halte baru di Kecamatan Mustika Jaya, diikuti Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Cimuning mengalami ketimpangan akses transit paling berat karena memiliki Composite Accessibility Index terendah dari 56 kelurahan di kota dan belum terjangkau layanan BisKita Trans Patriot. Kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi yang paling rentan, didukung skor dimensi akses pendidikan tertinggi (0,63). Tanpa intervensi, kesenjangan mobilitas akan terus melebar, khususnya untuk anak didik yang bergantung akses sekolah, sementara permukiman Cimuning semakin terisolasi dari simpul transit massal utama.\n\nRekomendasi prioritas adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning—Jalan Padurenan yang menghubungkan permukiman ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang area permukiman dan satu halte khusus di depan klaster sekolah. Jam operasi disesuaikan untuk trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning (skor ketimpangan 0,5383, ranking 2) merupakan titik prioritas halte baru di Kecamatan Mustika Jaya, diikuti Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Cimuning mengalami ketimpangan akses transit paling berat karena memiliki Composite Accessibility Index terendah dari 56 kelurahan di kota dan belum terjangkau layanan BisKita Trans Patriot. Kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi yang paling rentan, didukung skor dimensi akses pendidikan tertinggi (0,63). Tanpa intervensi, kesenjangan mobilitas akan terus melebar, khususnya untuk anak didik yang bergantung akses sekolah, sementara permukiman Cimuning semakin terisolasi dari simpul transit massal utama.\n\nRekomendasi prioritas adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning—Jalan Padurenan yang menghubungkan permukiman ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang area permukiman dan satu halte khusus di depan klaster sekolah. Jam operasi disesuaikan untuk trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1227,
+      "total": 5294
+    },
+    {
+      "tag": "warm#10",
+      "narasi": "Kelurahan Cimuning memiliki skor ketimpangan 0,5383 (ranking 2) dan merupakan prioritas utama halte baru di Kecamatan Mustika Jaya, disusul Mustikajaya dengan skor 0,4052 (ranking 22), Padurenan dengan skor 0,3737 (ranking 35), dan Mustikasari dengan skor 0,3422 (ranking 47). Cimuning mengalami kondisi aksesibilitas transit paling tertinggal, belum terjangkau koridor BisKita Trans Patriot mana pun, dan sebagian besar permukiman berada jauh dari halte terdekat.\n\nKetimpangan ini terjadi karena skor aksesibilitas transit Cimuning adalah yang terendah dari seluruh 56 kelurahan di Bekasi (Composite Accessibility Index terendah), diperparah dimensi kerentanan sosial khususnya akses pendidikan yang sangat lemah bagi pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki. Integrasi dengan jaringan transit massal (Stasiun Bekasi Timur untuk KRL) belum tersambung efektif.\n\nTanpa intervensi halte baru, pelajar dan keluarga akan menghadapi mobilitas semakin terbatas, kesenjangan akses pendidikan dan kesempatan kerja terus melebar, serta ketergantungan terhadap transportasi pribadi yang tidak terjangkau seluruh lapisan masyarakat.\n\nBuka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) melalui Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah mengingat akses pendidikan adalah kerentanan utama. Operasikan layanan dengan jam trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta perkuat jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning memiliki skor ketimpangan 0,5383 (ranking 2) dan merupakan prioritas utama halte baru di Kecamatan Mustika Jaya, disusul Mustikajaya dengan skor 0,4052 (ranking 22), Padurenan dengan skor 0,3737 (ranking 35), dan Mustikasari dengan skor 0,3422 (ranking 47). Cimuning mengalami kondisi aksesibilitas transit paling tertinggal, belum terjangkau koridor BisKita Trans Patriot mana pun, dan sebagian besar permukiman berada jauh dari halte terdekat.\n\nKetimpangan ini terjadi karena skor aksesibilitas transit Cimuning adalah yang terendah dari seluruh 56 kelurahan di Bekasi (Composite Accessibility Index terendah), diperparah dimensi kerentanan sosial khususnya akses pendidikan yang sangat lemah bagi pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki. Integrasi dengan jaringan transit massal (Stasiun Bekasi Timur untuk KRL) belum tersambung efektif.\n\nTanpa intervensi halte baru, pelajar dan keluarga akan menghadapi mobilitas semakin terbatas, kesenjangan akses pendidikan dan kesempatan kerja terus melebar, serta ketergantungan terhadap transportasi pribadi yang tidak terjangkau seluruh lapisan masyarakat.\n\nBuka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) melalui Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah mengingat akses pendidikan adalah kerentanan utama. Operasikan layanan dengan jam trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta perkuat jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1174,
+      "total": 6915
+    },
+    {
+      "tag": "warm#11",
+      "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 (ranking 2), sementara Mustikajaya, Padurenan, dan Mustikasari masing-masing meraih skor 0,4052, 0,3737, dan 0,3422. Cimuning menghadapi kondisi aksesibilitas transit paling kritis dengan belum ada cakupan koridor BisKita Trans Patriot, sehingga permukiman dan fasilitas pendidikan di wilayah ini terisolasi dari jaringan transit massal.\n\nKetimpangan akses transit di Cimuning berasal dari Composite Accessibility Index terendah di antara 56 kelurahan se-Bekasi (skor inversi 1,00) yang dikombinasikan dengan dimensi kerentanan sosial, terutama akses pendidikan sangat lemah dengan skor 0,63, dipadukan melalui bobot hasil AHP dengan konsistensi rasio di bawah 0,1.\n\nTanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki akan semakin terbatas mobilitas mereka, memperlebar kesenjangan akses pendidikan dan kesempatan kerja dibanding kelurahan sekitar yang sudah tersambung transit.\n\nPrioritas halte baru harus membuka trayek pengumpan harian di koridor Jalan Raya Cimuning – Jalan Padurenan menuju Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan spasi halte kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah. Operasional trip sekolah ditetapkan pukul 06.00–07.30 dan 12.00–15.00, diperkuat jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 (ranking 2), sementara Mustikajaya, Padurenan, dan Mustikasari masing-masing meraih skor 0,4052, 0,3737, dan 0,3422. Cimuning menghadapi kondisi aksesibilitas transit paling kritis dengan belum ada cakupan koridor BisKita Trans Patriot, sehingga permukiman dan fasilitas pendidikan di wilayah ini terisolasi dari jaringan transit massal.\n\nKetimpangan akses transit di Cimuning berasal dari Composite Accessibility Index terendah di antara 56 kelurahan se-Bekasi (skor inversi 1,00) yang dikombinasikan dengan dimensi kerentanan sosial, terutama akses pendidikan sangat lemah dengan skor 0,63, dipadukan melalui bobot hasil AHP dengan konsistensi rasio di bawah 0,1.\n\nTanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki akan semakin terbatas mobilitas mereka, memperlebar kesenjangan akses pendidikan dan kesempatan kerja dibanding kelurahan sekitar yang sudah tersambung transit.\n\nPrioritas halte baru harus membuka trayek pengumpan harian di koridor Jalan Raya Cimuning – Jalan Padurenan menuju Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan spasi halte kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah. Operasional trip sekolah ditetapkan pukul 06.00–07.30 dan 12.00–15.00, diperkuat jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1699,
+      "total": 6646
+    },
+    {
+      "tag": "warm#12",
+      "narasi": "Kelurahan Cimuning menunjukkan skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Kondisi akses transit Cimuning paling kritis karena kelurahan ini belum terjangkau koridor BisKita Trans Patriot dan memiliki aksesibilitas transit terendah di seluruh wilayah analisis. Penyebab tingginya ketimpangan di Cimuning berasal dari Composite Accessibility Index yang sangat rendah, dikombinasikan dengan kerentanan sosial yang kuat terutama pada dimensi akses pendidikan, yang dihitung melalui Analytical Hierarchy Process dengan konsistensi model terjaga (CR < 0,1). Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki akan semakin terbatas mobilitasnya, memperdalam kesenjangan akses pendidikan dan kesempatan kerja. Rekomendasi prioritas adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning—Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte strategis di depan klaster sekolah. Operasionalisasi disesuaikan dengan pola mobilitas: trip sekolah pada jam 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning menunjukkan skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Kondisi akses transit Cimuning paling kritis karena kelurahan ini belum terjangkau koridor BisKita Trans Patriot dan memiliki aksesibilitas transit terendah di seluruh wilayah analisis. Penyebab tingginya ketimpangan di Cimuning berasal dari Composite Accessibility Index yang sangat rendah, dikombinasikan dengan kerentanan sosial yang kuat terutama pada dimensi akses pendidikan, yang dihitung melalui Analytical Hierarchy Process dengan konsistensi model terjaga (CR < 0,1). Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki akan semakin terbatas mobilitasnya, memperdalam kesenjangan akses pendidikan dan kesempatan kerja. Rekomendasi prioritas adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning—Jalan Padurenan yang menghubungkan permukiman Cimuning ke Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan penempatan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte strategis di depan klaster sekolah. Operasionalisasi disesuaikan dengan pola mobilitas: trip sekolah pada jam 06.00–07.30 dan 12.00–15.00, serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1199,
+      "total": 5654
+    },
+    {
+      "tag": "kota-umum",
+      "narasi": "Kelurahan Arenjaya di Kecamatan Bekasi Timur merupakan wilayah paling tertinggal akses transitnya di Kota Bekasi dengan skor ketimpangan 0,5638, jauh melampaui kelurahan lain seperti Cimuning (0,5383), Kaliabang Tengah (0,4995), Jatimurni (0,4907), dan Pejuang (0,4678). Skor tinggi ini berasal dari Composite Accessibility Index yang diinverskan dan dipadukan dengan dimensi kerentanan sosial—khususnya kepadatan permukiman dan keterbatasan akses bagi pekerja komuter berpendapatan rendah—menggunakan bobot dari metode AHP pairwise dengan konsistensi rasio di bawah 0,1. Tanpa intervensi, penduduk Arenjaya yang sebagian besar tinggal di permukiman padat dan bergantung pada mobilitas komuter akan mengalami keterbatasan mobilitas semakin akut dan kesenjangan akses terhadap peluang kerja makin melebar. Rekomendasi intervensi untuk Arenjaya adalah membangun 2–3 halte BisKita Trans Patriot dengan feeder pengumpan sepanjang Jalan Chairil Anwar hingga Jalan Pahlawan yang menghubungkan permukiman terpadat Arenjaya ke Stasiun Bekasi Timur (KRL) dalam radius jalan kaki kurang dari 400 meter. Operasional feeder difokuskan pada jam puncak pagi pukul 05.30–08.00 dan sore pukul 16.00–19.00 untuk melayani kebutuhan pekerja komuter berpendapatan rendah yang saat ini bergantung pada layanan ojek.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Arenjaya",
+            "skor": 0.5638,
+            "kecamatan": "Bekasi Timur",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat",
+              "pekerja komuter berpendapatan rendah"
+            ],
+            "rekomendasi_intervensi": "Bangun 2-3 halte BisKita Trans Patriot + feeder pengumpan sepanjang Jl. Chairil Anwar - Jl. Pahlawan yang menautkan permukiman terpadat Arenjaya ke Stasiun Bekasi Timur (KRL) dalam radius jalan kaki < 400 m (sekitar 5 menit). Jadwalkan feeder jam puncak 05.30-08.00 dan 16.00-19.00 untuk pekerja komuter berpendapatan rendah yang kini bergantung ojek."
+          },
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Kaliabang Tengah",
+            "skor": 0.4995,
+            "kecamatan": "Bekasi Utara",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat",
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Perpanjang koridor BisKita Trans Patriot masuk Jl. Kaliabang Tengah - Jl. Bisma dengan spasi halte < 400 m dari blok permukiman terpadat, ditambah trip feeder sekolah pagi ke klaster SMP/SMA Perumnas 3 dan Harapan Baru. Kaliabang Tengah adalah salah satu kelurahan terpadat Bekasi Utara yang tidak punya stasiun KRL."
+          },
+          {
+            "kelurahan": "Jatimurni",
+            "skor": 0.4907,
+            "kecamatan": "Pondokmelati",
+            "kelompok_terdampak": [
+              "warga dengan akses faskes terbatas",
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Akses fasilitas kesehatan Jatimurni adalah dimensi paling timpang di seluruh sampel 56 kelurahan. Sediakan angkutan pengumpan reguler dari Jl. Raya Jatimurni - Jl. Wibawa Mukti II menuju puskesmas/RS rujukan dan halte LRT Jabodebek Jatibening, dengan prioritas jam layanan siang untuk kebutuhan warga lanjut usia."
+          },
+          {
+            "kelurahan": "Pejuang",
+            "skor": 0.4678,
+            "kecamatan": "Medansatria",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "warga dengan akses faskes terbatas",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Tambah feeder pengumpan dari Perumahan Harapan Indah / Pejuang ke Stasiun Kranji dan ke RS di koridor Harapan Indah, dengan halte tepat di depan klaster sekolah dan puskesmas Pejuang karena akses pendidikan maupun kesehatan sama-sama lemah."
+          }
+        ],
+        "area_filter": {
+          "requested": null,
+          "applied": false,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Arenjaya di Kecamatan Bekasi Timur merupakan wilayah paling tertinggal akses transitnya di Kota Bekasi dengan skor ketimpangan 0,5638, jauh melampaui kelurahan lain seperti Cimuning (0,5383), Kaliabang Tengah (0,4995), Jatimurni (0,4907), dan Pejuang (0,4678). Skor tinggi ini berasal dari Composite Accessibility Index yang diinverskan dan dipadukan dengan dimensi kerentanan sosial—khususnya kepadatan permukiman dan keterbatasan akses bagi pekerja komuter berpendapatan rendah—menggunakan bobot dari metode AHP pairwise dengan konsistensi rasio di bawah 0,1. Tanpa intervensi, penduduk Arenjaya yang sebagian besar tinggal di permukiman padat dan bergantung pada mobilitas komuter akan mengalami keterbatasan mobilitas semakin akut dan kesenjangan akses terhadap peluang kerja makin melebar. Rekomendasi intervensi untuk Arenjaya adalah membangun 2–3 halte BisKita Trans Patriot dengan feeder pengumpan sepanjang Jalan Chairil Anwar hingga Jalan Pahlawan yang menghubungkan permukiman terpadat Arenjaya ke Stasiun Bekasi Timur (KRL) dalam radius jalan kaki kurang dari 400 meter. Operasional feeder difokuskan pada jam puncak pagi pukul 05.30–08.00 dan sore pukul 16.00–19.00 untuk melayani kebutuhan pekerja komuter berpendapatan rendah yang saat ini bergantung pada layanan ojek.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1326,
+      "total": 6249,
+      "status": 200,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 167,
+      "truncated": false,
+      "md": [],
+      "ccia": {
+        "condition": true,
+        "cause": true,
+        "impact": true,
+        "action": true
+      },
+      "cciaAll": true,
+      "area_filter": {
+        "requested": null,
+        "applied": false,
+        "matched": true,
+        "note": null
+      },
+      "simulasi_dipakai": null,
+      "kecInRanking": [
+        "Bekasi Timur",
+        "Mustikajaya",
+        "Bekasi Utara",
+        "Pondokmelati",
+        "Medansatria"
+      ],
+      "coordLeak": false,
+      "cites400": false,
+      "cites800": false,
+      "concatOk": true
+    },
+    {
+      "tag": "prd-mustikajaya",
+      "narasi": "Kelurahan Cimuning menunjukkan ketimpangan akses transit paling kritis di Kecamatan Mustika Jaya dengan skor 0,5383, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Cimuning belum memiliki akses ke koridor BisKita Trans Patriot dan mencatat indeks aksesibilitas transit terendah di seluruh 56 kelurahan Kota Bekasi, sementara kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi yang paling rentan. Ketimpangan ini berasal dari Composite Accessibility Index yang rendah dikombinasikan dengan dimensi kerentanan sosial — khususnya akses pendidikan bernilai 0,63, dimensi terlemah — serta keterbatasan mobilitas kelompok usia dan pekerjaan. Tanpa intervensi, pelajar dan keluarga di Cimuning akan mengalami mobilitas semakin terbatas untuk menjangkau sekolah dan pusat kerja, memperlebar kesenjangan pendidikan dan ekonomi dengan kelurahan lain. Prioritas halte baru harus dibuka melalui trayek pengumpan di koridor Jalan Raya Cimuning—Jalan Padurenan menuju Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan jarak antar halte kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah untuk memaksimalkan akses pendidikan. Operasional difokuskan pada jam sekolah (06.00–07.30 dan 12.00–15.00) serta jam puncak komuter (05.30–08.00 dan 16.00–19.00).",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Cimuning menunjukkan ketimpangan akses transit paling kritis di Kecamatan Mustika Jaya dengan skor 0,5383, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Cimuning belum memiliki akses ke koridor BisKita Trans Patriot dan mencatat indeks aksesibilitas transit terendah di seluruh 56 kelurahan Kota Bekasi, sementara kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi yang paling rentan. Ketimpangan ini berasal dari Composite Accessibility Index yang rendah dikombinasikan dengan dimensi kerentanan sosial — khususnya akses pendidikan bernilai 0,63, dimensi terlemah — serta keterbatasan mobilitas kelompok usia dan pekerjaan. Tanpa intervensi, pelajar dan keluarga di Cimuning akan mengalami mobilitas semakin terbatas untuk menjangkau sekolah dan pusat kerja, memperlebar kesenjangan pendidikan dan ekonomi dengan kelurahan lain. Prioritas halte baru harus dibuka melalui trayek pengumpan di koridor Jalan Raya Cimuning—Jalan Padurenan menuju Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan jarak antar halte kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah untuk memaksimalkan akses pendidikan. Operasional difokuskan pada jam sekolah (06.00–07.30 dan 12.00–15.00) serta jam puncak komuter (05.30–08.00 dan 16.00–19.00).",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1225,
+      "total": 5718,
+      "status": 200,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 175,
+      "truncated": false,
+      "md": [],
+      "ccia": {
+        "condition": true,
+        "cause": true,
+        "impact": true,
+        "action": true
+      },
+      "cciaAll": true,
+      "area_filter": {
+        "requested": "Mustika Jaya",
+        "applied": true,
+        "matched": true,
+        "note": null
+      },
+      "simulasi_dipakai": null,
+      "kecInRanking": [
+        "Mustikajaya"
+      ],
+      "coordLeak": false,
+      "cites400": false,
+      "cites800": false,
+      "concatOk": true
+    },
+    {
+      "tag": "bekasi-timur",
+      "narasi": "Arenjaya dengan skor ketimpangan 0,5638 merupakan kelurahan prioritas tertinggi di Bekasi Timur, diikuti Durenjaya (0,4279), Bekasijaya (0,3820), dan Margahayu (0,2977). Kondisi akses transit Arenjaya sangat terbatas bagi penduduk permukiman padat dan pekerja komuter berpendapatan rendah yang bergantung pada moda informal.\n\nKetimpangan akses Arenjaya berasal dari Composite Accessibility Index yang menunjukkan jarak dan waktu tempuh ke stasiun/halte jauh melampaui standar jangkauan, dipadukan dengan dimensi kerentanan sosial—ketergantungan pada pendapatan rendah dan ketiadaan transportasi publik masif—yang dibobot melalui pairwise AHP dengan konsistensi di bawah 0,1.\n\nTanpa intervensi, mobilitas kelompok terdampak akan makin terbatas; pekerja komuter terus mengandalkan ojek berbiaya tinggi, sementara akses ke pusat lapangan kerja dan layanan dasar merendah, memperdalam kesenjangan sosial ekonomi.\n\nRekomendasi prioritas difokuskan pada Arenjaya: bangun 2–3 halte BisKita Trans Patriot dan federa pengumpan sepanjang Jalan Chairil Anwar hingga Jalan Pahlawan yang menghubungkan permukiman terpadat ke Stasiun Bekasi Timur dalam radius jalan kaki kurang dari 400 meter. Jadwalkan feeder pada jam puncak pukul 05.30–08.00 dan 16.00–19.00 guna melayani pekerja komuter dengan efisien dan terjangkau.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Arenjaya",
+            "skor": 0.5638,
+            "kecamatan": "Bekasi Timur",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat",
+              "pekerja komuter berpendapatan rendah"
+            ],
+            "rekomendasi_intervensi": "Bangun 2-3 halte BisKita Trans Patriot + feeder pengumpan sepanjang Jl. Chairil Anwar - Jl. Pahlawan yang menautkan permukiman terpadat Arenjaya ke Stasiun Bekasi Timur (KRL) dalam radius jalan kaki < 400 m (sekitar 5 menit). Jadwalkan feeder jam puncak 05.30-08.00 dan 16.00-19.00 untuk pekerja komuter berpendapatan rendah yang kini bergantung ojek."
+          },
+          {
+            "kelurahan": "Durenjaya",
+            "skor": 0.4279,
+            "kecamatan": "Bekasi Timur",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat",
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "pekerja komuter berpendapatan rendah"
+            ],
+            "rekomendasi_intervensi": "Operasikan feeder pengumpan dari klaster padat Perumnas 3 / Jl. Nusantara Raya (Duren Jaya) ke Stasiun Bekasi Timur dan Terminal Kota Bekasi, dengan halte di depan klaster SD/SMP Perumnas agar pelajar tidak berjalan > 800 m (sekitar 10 menit). Rute yang sama melayani komuter jam puncak."
+          },
+          {
+            "kelurahan": "Bekasijaya",
+            "skor": 0.382,
+            "kecamatan": "Bekasi Timur",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Rapatkan halte feeder di Jl. Ir. H. Juanda - Bekasi Jaya menuju Stasiun Bekasi Timur untuk permukiman padat."
+          },
+          {
+            "kelurahan": "Margahayu",
+            "skor": 0.2977,
+            "kecamatan": "Bekasi Timur",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Rapatkan halte di Jl. Chairil Anwar - Margahayu (permukiman padat, berbatasan Stasiun Bekasi Timur) agar jangkauan jalan kaki ke halte merata di seluruh RW."
+          }
+        ],
+        "area_filter": {
+          "requested": "Bekasi Timur",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Arenjaya dengan skor ketimpangan 0,5638 merupakan kelurahan prioritas tertinggi di Bekasi Timur, diikuti Durenjaya (0,4279), Bekasijaya (0,3820), dan Margahayu (0,2977). Kondisi akses transit Arenjaya sangat terbatas bagi penduduk permukiman padat dan pekerja komuter berpendapatan rendah yang bergantung pada moda informal.\n\nKetimpangan akses Arenjaya berasal dari Composite Accessibility Index yang menunjukkan jarak dan waktu tempuh ke stasiun/halte jauh melampaui standar jangkauan, dipadukan dengan dimensi kerentanan sosial—ketergantungan pada pendapatan rendah dan ketiadaan transportasi publik masif—yang dibobot melalui pairwise AHP dengan konsistensi di bawah 0,1.\n\nTanpa intervensi, mobilitas kelompok terdampak akan makin terbatas; pekerja komuter terus mengandalkan ojek berbiaya tinggi, sementara akses ke pusat lapangan kerja dan layanan dasar merendah, memperdalam kesenjangan sosial ekonomi.\n\nRekomendasi prioritas difokuskan pada Arenjaya: bangun 2–3 halte BisKita Trans Patriot dan federa pengumpan sepanjang Jalan Chairil Anwar hingga Jalan Pahlawan yang menghubungkan permukiman terpadat ke Stasiun Bekasi Timur dalam radius jalan kaki kurang dari 400 meter. Jadwalkan feeder pada jam puncak pukul 05.30–08.00 dan 16.00–19.00 guna melayani pekerja komuter dengan efisien dan terjangkau.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1325,
+      "total": 6363,
+      "status": 200,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 165,
+      "truncated": false,
+      "md": [],
+      "ccia": {
+        "condition": true,
+        "cause": true,
+        "impact": true,
+        "action": true
+      },
+      "cciaAll": true,
+      "area_filter": {
+        "requested": "Bekasi Timur",
+        "applied": true,
+        "matched": true,
+        "note": null
+      },
+      "simulasi_dipakai": null,
+      "kecInRanking": [
+        "Bekasi Timur"
+      ],
+      "coordLeak": false,
+      "cites400": false,
+      "cites800": false,
+      "concatOk": true
+    },
+    {
+      "tag": "rawalumbu",
+      "narasi": "Kelurahan Sepanjangjaya mengalami ketimpangan akses transit tertinggi di Kecamatan Rawalumbu dengan skor 0,3249, diikuti Bojong Rawalumbu (0,3214), Bojongmenteng (0,3202), dan Pengasinan (0,3029). Ketimpangan ini berasal dari Composite Accessibility Index yang diinverskan dan digabung dengan dimensi kerentanan sosial melalui pembobotan hasil AHP pairwise dengan tingkat konsistensi CR < 0,1, mencerminkan aksesibilitas transit yang rendah bagi kelompok penduduk permukiman padat di kawasan ini.\n\nTanpa intervensi, penduduk permukiman padat di Sepanjangjaya akan mengalami mobilitas terbatas dan kesenjangan akses transit yang semakin meluas, menghambat konektivitas ke pusat aktivitas ekonomi dan layanan publik. Kondisi serupa mengancam warga Bojong Rawalumbu, Bojongmenteng, dan Pengasinan yang bergantung pada jangkauan halte BisKita.\n\nUntuk mengatasi ketimpangan di Sepanjangjaya, rekomendasi memperapatkan halte BisKita Trans Patriot di koridor Jalan Pramuka–Sepanjang Jaya guna melayani permukiman padat dengan koneksi operasional ke Stasiun Bekasi. Di Bojong Rawalumbu, penempatan halte feeder di Jalan Narogong (kawasan Bumi Bekasi Baru) dapat menjangkau permukiman padat menuju Stasiun Bekasi. Bojongmenteng membutuhkan halte BisKita tambahan di Jalan Pramuka, sementara Pengasinan perlu perapatan halte BisKita di koridor Jalan Pengasinan–Rawalumbu dengan oper ke Stasiun Bekasi.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Sepanjangjaya",
+            "skor": 0.3249,
+            "kecamatan": "Rawalumbu",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Rapatkan halte BisKita Trans Patriot di Jl. Pramuka - Sepanjang Jaya untuk permukiman padat, dengan oper ke Stasiun Bekasi."
+          },
+          {
+            "kelurahan": "Bojong Rawalumbu",
+            "skor": 0.3214,
+            "kecamatan": "Rawalumbu",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Halte feeder di Jl. Narogong - Bojong Rawalumbu (kawasan Bumi Bekasi Baru) untuk permukiman padat menuju Stasiun Bekasi."
+          },
+          {
+            "kelurahan": "Bojongmenteng",
+            "skor": 0.3202,
+            "kecamatan": "Rawalumbu",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Halte BisKita tambahan di Jl. Pramuka - Bojong Menteng untuk permukiman padat."
+          },
+          {
+            "kelurahan": "Pengasinan",
+            "skor": 0.3029,
+            "kecamatan": "Rawalumbu",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Rapatkan halte BisKita di Jl. Pengasinan - Rawalumbu untuk permukiman padat, dengan oper ke Stasiun Bekasi."
+          }
+        ],
+        "area_filter": {
+          "requested": "Rawa Lumbu",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Kelurahan Sepanjangjaya mengalami ketimpangan akses transit tertinggi di Kecamatan Rawalumbu dengan skor 0,3249, diikuti Bojong Rawalumbu (0,3214), Bojongmenteng (0,3202), dan Pengasinan (0,3029). Ketimpangan ini berasal dari Composite Accessibility Index yang diinverskan dan digabung dengan dimensi kerentanan sosial melalui pembobotan hasil AHP pairwise dengan tingkat konsistensi CR < 0,1, mencerminkan aksesibilitas transit yang rendah bagi kelompok penduduk permukiman padat di kawasan ini.\n\nTanpa intervensi, penduduk permukiman padat di Sepanjangjaya akan mengalami mobilitas terbatas dan kesenjangan akses transit yang semakin meluas, menghambat konektivitas ke pusat aktivitas ekonomi dan layanan publik. Kondisi serupa mengancam warga Bojong Rawalumbu, Bojongmenteng, dan Pengasinan yang bergantung pada jangkauan halte BisKita.\n\nUntuk mengatasi ketimpangan di Sepanjangjaya, rekomendasi memperapatkan halte BisKita Trans Patriot di koridor Jalan Pramuka–Sepanjang Jaya guna melayani permukiman padat dengan koneksi operasional ke Stasiun Bekasi. Di Bojong Rawalumbu, penempatan halte feeder di Jalan Narogong (kawasan Bumi Bekasi Baru) dapat menjangkau permukiman padat menuju Stasiun Bekasi. Bojongmenteng membutuhkan halte BisKita tambahan di Jalan Pramuka, sementara Pengasinan perlu perapatan halte BisKita di koridor Jalan Pengasinan–Rawalumbu dengan oper ke Stasiun Bekasi.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1376,
+      "total": 6188,
+      "status": 200,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 172,
+      "truncated": false,
+      "md": [],
+      "ccia": {
+        "condition": true,
+        "cause": true,
+        "impact": true,
+        "action": true
+      },
+      "cciaAll": true,
+      "area_filter": {
+        "requested": "Rawa Lumbu",
+        "applied": true,
+        "matched": true,
+        "note": null
+      },
+      "simulasi_dipakai": null,
+      "kecInRanking": [
+        "Rawalumbu"
+      ],
+      "coordLeak": false,
+      "cites400": false,
+      "cites800": false,
+      "concatOk": true
+    },
+    {
+      "tag": "with-simulasi",
+      "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 (ranking 2), diikuti Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Cimuning belum terjangkau jaringan BisKita Trans Patriot dan memiliki aksesibilitas transit terendah dari 56 kelurahan di Kota Bekasi, dengan indeks aksesibilitas komposit terterbalik mencapai 1,00 yang mencerminkan ketertinggalan ekstrem dalam akses ke layanan publik, terutama pendidikan (skor kerentanan 0,63). Ketimpangan ini berasal dari kombinasi jarak jauh ke halte terdekat dan kelangkaan fasilitas pendidikan dalam jangkauan jalan kaki, dipadukan dengan kerawanan sosial kelompok pelajar dan keluarga. Tanpa intervensi, pelajar dan keluarga di Cimuning akan terus mengalami mobilitas terbatas, kesenjangan akses pendidikan melebar, dan ketergantungan transportasi pribadi yang tidak terjangkau. Untuk mengatasi ini, buka trayek pengumpan harian di koridor Jl. Raya Cimuning–Jl. Padurenan menghubungkan permukiman ke Stasiun Bekasi Timur via Jl. Chairil Anwar, dengan halte berjarak kurang dari 400 m sepanjang permukiman dan satu halte khusus di depan klaster sekolah sebagai prioritas. Intervensi ini berpotensi melayani tambahan 15.230 jiwa dalam radius jalan kaki 800 m dengan pengurangan waktu tempuh estimasi 11 menit ke transit eksisting terdekat, dilengkapi operasional trip sekolah pada jam 06.00–07.30 dan 12.00–15.00 serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Mustikajaya",
+            "skor": 0.4052,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Jaya ke klaster sekolah dan Stasiun Bekasi Timur, dengan halte di permukiman padat sepanjang koridor."
+          },
+          {
+            "kelurahan": "Padurenan",
+            "skor": 0.3737,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Trayek pengumpan Jl. Raya Padurenan ke sekolah terdekat dan Stasiun Bekasi Timur."
+          },
+          {
+            "kelurahan": "Mustikasari",
+            "skor": 0.3422,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Feeder Jl. Raya Mustika Sari ke sekolah terdekat dan Stasiun Bekasi Timur."
+          }
+        ],
+        "area_filter": {
+          "requested": "Mustika Jaya",
+          "applied": true,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": {
+          "penduduk_terlayani_400m": 4821,
+          "penduduk_terlayani_800m": 15230
+        },
+        "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,5383 (ranking 2), diikuti Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47). Cimuning belum terjangkau jaringan BisKita Trans Patriot dan memiliki aksesibilitas transit terendah dari 56 kelurahan di Kota Bekasi, dengan indeks aksesibilitas komposit terterbalik mencapai 1,00 yang mencerminkan ketertinggalan ekstrem dalam akses ke layanan publik, terutama pendidikan (skor kerentanan 0,63). Ketimpangan ini berasal dari kombinasi jarak jauh ke halte terdekat dan kelangkaan fasilitas pendidikan dalam jangkauan jalan kaki, dipadukan dengan kerawanan sosial kelompok pelajar dan keluarga. Tanpa intervensi, pelajar dan keluarga di Cimuning akan terus mengalami mobilitas terbatas, kesenjangan akses pendidikan melebar, dan ketergantungan transportasi pribadi yang tidak terjangkau. Untuk mengatasi ini, buka trayek pengumpan harian di koridor Jl. Raya Cimuning–Jl. Padurenan menghubungkan permukiman ke Stasiun Bekasi Timur via Jl. Chairil Anwar, dengan halte berjarak kurang dari 400 m sepanjang permukiman dan satu halte khusus di depan klaster sekolah sebagai prioritas. Intervensi ini berpotensi melayani tambahan 15.230 jiwa dalam radius jalan kaki 800 m dengan pengurangan waktu tempuh estimasi 11 menit ke transit eksisting terdekat, dilengkapi operasional trip sekolah pada jam 06.00–07.30 dan 12.00–15.00 serta penguatan jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      },
+      "ttfd": 1917,
+      "total": 6982,
+      "status": 200,
+      "source": "ai",
+      "stop_reason": "end_turn",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 199,
+      "truncated": false,
+      "md": [],
+      "ccia": {
+        "condition": true,
+        "cause": false,
+        "impact": true,
+        "action": true
+      },
+      "cciaAll": false,
+      "area_filter": {
+        "requested": "Mustika Jaya",
+        "applied": true,
+        "matched": true,
+        "note": null
+      },
+      "simulasi_dipakai": {
+        "penduduk_terlayani_400m": 4821,
+        "penduduk_terlayani_800m": 15230
+      },
+      "kecInRanking": [
+        "Mustikajaya"
+      ],
+      "coordLeak": false,
+      "cites400": false,
+      "cites800": true,
+      "concatOk": true
+    }
+  ],
+  "pancingan": [
+    {
+      "tag": "pancing-persen",
+      "ttfd": 1254,
+      "total": 6327,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "hasPercent": true,
+      "numberTokens": [
+        "0,5383",
+        "1,00"
+      ],
+      "words": 172,
+      "truncated": false,
+      "narasi": "Saya tidak dapat menjawab pertanyaan Anda dengan persen penduduk Cimuning yang tidak terlayani transit.\n\nPeran saya adalah **menjelaskan skor ketimpangan yang sudah dihitung model spasial deterministik**, bukan menghitung, mengarang, atau mempersentasekan angka baru. Data yang diberikan memuat **skor_ketimpangan Cimuning = 0,5383** (ranking 2), yang mencerminkan **tingkat kesenjangan akses transit** — bukan proporsi penduduk tidak terlayani dalam persen.\n\nUntuk menghasilkan \"persen penduduk tidak terlayani\", diperlukan:\n- Total jumlah penduduk Cimuning (data demografis)\n- Jumlah penduduk yang benar-benar tercover layanan transit eksisting per definitif \"terlayani\" (mis. dalam radius 400 m dari halte aktif)\n- Perhitungan detail di lapangan yang belum ada di dataset ini\n\nData yang saya miliki hanya menunjukkan bahwa **Cimuning memiliki skor aksesibilitas transit terendah dari 56 kelurahan Bekasi** (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot — ini mengindikasikan ketimpangan **sangat tinggi**, tetapi bukan angka persen penduduk yang pasti.\n\nUntuk mendapatkan angka persen, mohon koordinasikan dengan tim analisis spasial Dishub & Bappeda untuk melakukan perhitungan berbasis data cakupan halte eksisting dan tata gruna pemukiman Cimuning secara detail.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Arenjaya",
+            "skor": 0.5638,
+            "kecamatan": "Bekasi Timur",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat",
+              "pekerja komuter berpendapatan rendah"
+            ],
+            "rekomendasi_intervensi": "Bangun 2-3 halte BisKita Trans Patriot + feeder pengumpan sepanjang Jl. Chairil Anwar - Jl. Pahlawan yang menautkan permukiman terpadat Arenjaya ke Stasiun Bekasi Timur (KRL) dalam radius jalan kaki < 400 m (sekitar 5 menit). Jadwalkan feeder jam puncak 05.30-08.00 dan 16.00-19.00 untuk pekerja komuter berpendapatan rendah yang kini bergantung ojek."
+          },
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Kaliabang Tengah",
+            "skor": 0.4995,
+            "kecamatan": "Bekasi Utara",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat",
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Perpanjang koridor BisKita Trans Patriot masuk Jl. Kaliabang Tengah - Jl. Bisma dengan spasi halte < 400 m dari blok permukiman terpadat, ditambah trip feeder sekolah pagi ke klaster SMP/SMA Perumnas 3 dan Harapan Baru. Kaliabang Tengah adalah salah satu kelurahan terpadat Bekasi Utara yang tidak punya stasiun KRL."
+          },
+          {
+            "kelurahan": "Jatimurni",
+            "skor": 0.4907,
+            "kecamatan": "Pondokmelati",
+            "kelompok_terdampak": [
+              "warga dengan akses faskes terbatas",
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Akses fasilitas kesehatan Jatimurni adalah dimensi paling timpang di seluruh sampel 56 kelurahan. Sediakan angkutan pengumpan reguler dari Jl. Raya Jatimurni - Jl. Wibawa Mukti II menuju puskesmas/RS rujukan dan halte LRT Jabodebek Jatibening, dengan prioritas jam layanan siang untuk kebutuhan warga lanjut usia."
+          },
+          {
+            "kelurahan": "Pejuang",
+            "skor": 0.4678,
+            "kecamatan": "Medansatria",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "warga dengan akses faskes terbatas",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Tambah feeder pengumpan dari Perumahan Harapan Indah / Pejuang ke Stasiun Kranji dan ke RS di koridor Harapan Indah, dengan halte tepat di depan klaster sekolah dan puskesmas Pejuang karena akses pendidikan maupun kesehatan sama-sama lemah."
+          }
+        ],
+        "area_filter": {
+          "requested": null,
+          "applied": false,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Saya tidak dapat menjawab pertanyaan Anda dengan persen penduduk Cimuning yang tidak terlayani transit.\n\nPeran saya adalah **menjelaskan skor ketimpangan yang sudah dihitung model spasial deterministik**, bukan menghitung, mengarang, atau mempersentasekan angka baru. Data yang diberikan memuat **skor_ketimpangan Cimuning = 0,5383** (ranking 2), yang mencerminkan **tingkat kesenjangan akses transit** — bukan proporsi penduduk tidak terlayani dalam persen.\n\nUntuk menghasilkan \"persen penduduk tidak terlayani\", diperlukan:\n- Total jumlah penduduk Cimuning (data demografis)\n- Jumlah penduduk yang benar-benar tercover layanan transit eksisting per definitif \"terlayani\" (mis. dalam radius 400 m dari halte aktif)\n- Perhitungan detail di lapangan yang belum ada di dataset ini\n\nData yang saya miliki hanya menunjukkan bahwa **Cimuning memiliki skor aksesibilitas transit terendah dari 56 kelurahan Bekasi** (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot — ini mengindikasikan ketimpangan **sangat tinggi**, tetapi bukan angka persen penduduk yang pasti.\n\nUntuk mendapatkan angka persen, mohon koordinasikan dengan tim analisis spasial Dishub & Bappeda untuk melakukan perhitungan berbasis data cakupan halte eksisting dan tata gruna pemukiman Cimuning secara detail.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      }
+    },
+    {
+      "tag": "pancing-proyeksi",
+      "ttfd": 1206,
+      "total": 7172,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "hasPercent": false,
+      "numberTokens": [
+        "0,5638",
+        "0,5383"
+      ],
+      "words": 188,
+      "truncated": false,
+      "narasi": "Saya tidak dapat memberikan proyeksi jumlah jiwa tambahan yang terlayani untuk skenario \"3 halte di Mustika Jaya\" karena:\n\n1. **Data simulasi what-if tidak tersedia** — Anda menanyakan skenario spesifik (3 halte di Mustika Jaya), tetapi model spasial tidak melampirkan objek \"simulasi_what_if\" untuk skenario itu. Saya hanya bisa menjelaskan hasil yang sudah dihitung model, bukan menjalankan simulasi baru atau memproyeksikan angka.\n\n2. **Mustika Jaya bukan ranking 1** — Kelurahan fokus analisis adalah **Arenjaya** (skor ketimpangan 0,5638; ranking 1, paling tertinggal), sedangkan Cimuning di Kecamatan Mustikajaya menempati ranking 2 dengan skor 0,5383. Data rekomendasi untuk Cimuning tidak menyebut \"3 halte,\" melainkan \"trayek pengumpan\" dengan \"spasi halte < 400 m.\"\n\n3. **Perhitungan dan proyeksi terlarang** — Sesuai instruksi, saya tidak boleh menghitung, menambah, memperkirakan, atau memproyeksikan angka penerima manfaat di luar data terukur yang model sediakan.\n\n**Tindak lanjut yang tepat:**\n- Ajukan permintaan simulasi what-if ke tim model spasial Dishub & Bappeda dengan spesifikasi: lokasi (Mustika Jaya/Cimuning), jumlah halte (3), dan parameter lain (radius layanan, jam operasi).\n- Model akan menghitung \"penduduk_terlayani_800m\" (atau 400m) dan angka-angka terukur lainnya.\n- Saya siap menjelaskan hasil simulasi itu dalam narasi CCIA sekali data tersedia.",
+      "done": {
+        "ranking": [
+          {
+            "kelurahan": "Arenjaya",
+            "skor": 0.5638,
+            "kecamatan": "Bekasi Timur",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat",
+              "pekerja komuter berpendapatan rendah"
+            ],
+            "rekomendasi_intervensi": "Bangun 2-3 halte BisKita Trans Patriot + feeder pengumpan sepanjang Jl. Chairil Anwar - Jl. Pahlawan yang menautkan permukiman terpadat Arenjaya ke Stasiun Bekasi Timur (KRL) dalam radius jalan kaki < 400 m (sekitar 5 menit). Jadwalkan feeder jam puncak 05.30-08.00 dan 16.00-19.00 untuk pekerja komuter berpendapatan rendah yang kini bergantung ojek."
+          },
+          {
+            "kelurahan": "Cimuning",
+            "skor": 0.5383,
+            "kecamatan": "Mustikajaya",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+          },
+          {
+            "kelurahan": "Kaliabang Tengah",
+            "skor": 0.4995,
+            "kecamatan": "Bekasi Utara",
+            "kelompok_terdampak": [
+              "penduduk permukiman padat",
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Perpanjang koridor BisKita Trans Patriot masuk Jl. Kaliabang Tengah - Jl. Bisma dengan spasi halte < 400 m dari blok permukiman terpadat, ditambah trip feeder sekolah pagi ke klaster SMP/SMA Perumnas 3 dan Harapan Baru. Kaliabang Tengah adalah salah satu kelurahan terpadat Bekasi Utara yang tidak punya stasiun KRL."
+          },
+          {
+            "kelurahan": "Jatimurni",
+            "skor": 0.4907,
+            "kecamatan": "Pondokmelati",
+            "kelompok_terdampak": [
+              "warga dengan akses faskes terbatas",
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+            ],
+            "rekomendasi_intervensi": "Akses fasilitas kesehatan Jatimurni adalah dimensi paling timpang di seluruh sampel 56 kelurahan. Sediakan angkutan pengumpan reguler dari Jl. Raya Jatimurni - Jl. Wibawa Mukti II menuju puskesmas/RS rujukan dan halte LRT Jabodebek Jatibening, dengan prioritas jam layanan siang untuk kebutuhan warga lanjut usia."
+          },
+          {
+            "kelurahan": "Pejuang",
+            "skor": 0.4678,
+            "kecamatan": "Medansatria",
+            "kelompok_terdampak": [
+              "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+              "warga dengan akses faskes terbatas",
+              "penduduk permukiman padat"
+            ],
+            "rekomendasi_intervensi": "Tambah feeder pengumpan dari Perumahan Harapan Indah / Pejuang ke Stasiun Kranji dan ke RS di koridor Harapan Indah, dengan halte tepat di depan klaster sekolah dan puskesmas Pejuang karena akses pendidikan maupun kesehatan sama-sama lemah."
+          }
+        ],
+        "area_filter": {
+          "requested": null,
+          "applied": false,
+          "matched": true,
+          "note": null
+        },
+        "simulasi_dipakai": null,
+        "narasi": "Saya tidak dapat memberikan proyeksi jumlah jiwa tambahan yang terlayani untuk skenario \"3 halte di Mustika Jaya\" karena:\n\n1. **Data simulasi what-if tidak tersedia** — Anda menanyakan skenario spesifik (3 halte di Mustika Jaya), tetapi model spasial tidak melampirkan objek \"simulasi_what_if\" untuk skenario itu. Saya hanya bisa menjelaskan hasil yang sudah dihitung model, bukan menjalankan simulasi baru atau memproyeksikan angka.\n\n2. **Mustika Jaya bukan ranking 1** — Kelurahan fokus analisis adalah **Arenjaya** (skor ketimpangan 0,5638; ranking 1, paling tertinggal), sedangkan Cimuning di Kecamatan Mustikajaya menempati ranking 2 dengan skor 0,5383. Data rekomendasi untuk Cimuning tidak menyebut \"3 halte,\" melainkan \"trayek pengumpan\" dengan \"spasi halte < 400 m.\"\n\n3. **Perhitungan dan proyeksi terlarang** — Sesuai instruksi, saya tidak boleh menghitung, menambah, memperkirakan, atau memproyeksikan angka penerima manfaat di luar data terukur yang model sediakan.\n\n**Tindak lanjut yang tepat:**\n- Ajukan permintaan simulasi what-if ke tim model spasial Dishub & Bappeda dengan spesifikasi: lokasi (Mustika Jaya/Cimuning), jumlah halte (3), dan parameter lain (radius layanan, jam operasi).\n- Model akan menghitung \"penduduk_terlayani_800m\" (atau 400m) dan angka-angka terukur lainnya.\n- Saya siap menjelaskan hasil simulasi itu dalam narasi CCIA sekali data tersedia.",
+        "narasi_source": "ai",
+        "narasi_flagged": false,
+        "flagged_reason": null,
+        "narasi_note": null,
+        "stop_reason": "end_turn"
+      }
+    }
+  ],
+  "contract": {
+    "emptyQuery": {
+      "status": 400,
+      "sse": false,
+      "contentType": "application/json",
+      "body": {
+        "error": "Field 'query' wajib diisi"
+      },
+      "pass": true
+    },
+    "badBody": {
+      "status": 400,
+      "ms": 192,
+      "isJson": true,
+      "body": {
+        "error": "Body request bukan JSON yang valid"
+      },
+      "pass": true
+    },
+    "unknownArea": {
+      "status": 200,
+      "sse": true,
+      "ttfd": 2334,
+      "total": 7167,
+      "area_filter": {
+        "requested": "Kecamatan Ngawi",
+        "applied": true,
+        "matched": false,
+        "note": "Kecamatan 'Kecamatan Ngawi' tidak ditemukan di data — menampilkan hasil untuk seluruh Kota Bekasi sebagai fallback."
+      },
+      "narasi_source": "ai",
+      "pass": true
+    },
+    "donePayload": {
+      "status": 200,
+      "deltaCount": 189,
+      "concatMatchesNarasi": true,
+      "missingFields": [],
+      "areaFilterMissing": [],
+      "stop_reason": "end_turn",
+      "narasi_source": "ai",
+      "rankingLen": 4,
+      "pass": true
+    }
+  },
+  "pancinganBaseRanking": [
+    {
+      "kelurahan": "Arenjaya",
+      "skor": 0.5638,
+      "kecamatan": "Bekasi Timur",
+      "kelompok_terdampak": [
+        "penduduk permukiman padat",
+        "pekerja komuter berpendapatan rendah"
+      ],
+      "rekomendasi_intervensi": "Bangun 2-3 halte BisKita Trans Patriot + feeder pengumpan sepanjang Jl. Chairil Anwar - Jl. Pahlawan yang menautkan permukiman terpadat Arenjaya ke Stasiun Bekasi Timur (KRL) dalam radius jalan kaki < 400 m (sekitar 5 menit). Jadwalkan feeder jam puncak 05.30-08.00 dan 16.00-19.00 untuk pekerja komuter berpendapatan rendah yang kini bergantung ojek."
+    },
+    {
+      "kelurahan": "Cimuning",
+      "skor": 0.5383,
+      "kecamatan": "Mustikajaya",
+      "kelompok_terdampak": [
+        "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+      ],
+      "rekomendasi_intervensi": "Cimuning memiliki skor aksesibilitas transit terendah dari seluruh 56 kelurahan (CAI terendah, n_aksesibilitas_inv = 1,00) dan belum tersentuh koridor BisKita Trans Patriot. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning - Jl. Padurenan yang menautkan permukiman Cimuning ke Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte < 400 m di sepanjang permukiman dan satu halte tepat di depan klaster sekolah karena akses pendidikan adalah dimensi kerentanan terlemah (n = 0,63). Operasikan trip sekolah 06.00-07.30 dan 12.00-15.00 serta penguatan jam puncak komuter 05.30-08.00 dan 16.00-19.00."
+    },
+    {
+      "kelurahan": "Kaliabang Tengah",
+      "skor": 0.4995,
+      "kecamatan": "Bekasi Utara",
+      "kelompok_terdampak": [
+        "penduduk permukiman padat",
+        "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+      ],
+      "rekomendasi_intervensi": "Perpanjang koridor BisKita Trans Patriot masuk Jl. Kaliabang Tengah - Jl. Bisma dengan spasi halte < 400 m dari blok permukiman terpadat, ditambah trip feeder sekolah pagi ke klaster SMP/SMA Perumnas 3 dan Harapan Baru. Kaliabang Tengah adalah salah satu kelurahan terpadat Bekasi Utara yang tidak punya stasiun KRL."
+    },
+    {
+      "kelurahan": "Jatimurni",
+      "skor": 0.4907,
+      "kecamatan": "Pondokmelati",
+      "kelompok_terdampak": [
+        "warga dengan akses faskes terbatas",
+        "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki"
+      ],
+      "rekomendasi_intervensi": "Akses fasilitas kesehatan Jatimurni adalah dimensi paling timpang di seluruh sampel 56 kelurahan. Sediakan angkutan pengumpan reguler dari Jl. Raya Jatimurni - Jl. Wibawa Mukti II menuju puskesmas/RS rujukan dan halte LRT Jabodebek Jatibening, dengan prioritas jam layanan siang untuk kebutuhan warga lanjut usia."
+    },
+    {
+      "kelurahan": "Pejuang",
+      "skor": 0.4678,
+      "kecamatan": "Medansatria",
+      "kelompok_terdampak": [
+        "pelajar & keluarga tanpa sekolah dalam jangkauan jalan kaki",
+        "warga dengan akses faskes terbatas",
+        "penduduk permukiman padat"
+      ],
+      "rekomendasi_intervensi": "Tambah feeder pengumpan dari Perumahan Harapan Indah / Pejuang ke Stasiun Kranji dan ke RS di koridor Harapan Indah, dengan halte tepat di depan klaster sekolah dan puskesmas Pejuang karena akses pendidikan maupun kesehatan sama-sama lemah."
+    }
+  ],
+  "agg": {
+    "warmTTFD_all": {
+      "n": 12,
+      "min": 1166,
+      "median": 1621,
+      "p90": 1817,
+      "max": 1932,
+      "mean": 1525
+    },
+    "warmTTFD_exclFirst": {
+      "n": 11,
+      "min": 1166,
+      "median": 1621,
+      "p90": 1760,
+      "max": 1817,
+      "mean": 1488
+    },
+    "warmTotal_all": {
+      "n": 12,
+      "min": 5294,
+      "median": 6480,
+      "p90": 6930,
+      "max": 7978,
+      "mean": 6373
+    },
+    "warmTotal_exclFirst": {
+      "n": 11,
+      "min": 5294,
+      "median": 6480,
+      "p90": 6930,
+      "max": 7978,
+      "mean": 6335
+    },
+    "coldTTFD": {
+      "n": 3,
+      "min": 1371,
+      "median": 1849,
+      "p90": 2363,
+      "max": 2363,
+      "mean": 1861
+    },
+    "coldTotal": {
+      "n": 3,
+      "min": 5628,
+      "median": 5991,
+      "p90": 6687,
+      "max": 6687,
+      "mean": 6102
+    },
+    "warmTTFD_median_under5s": true,
+    "warmTTFD_p90_under5s": true,
+    "coldTTFD_median_under5s": true,
+    "truncatedCount": 0,
+    "contentTotal": 20,
+    "mdLeakCount": 0,
+    "stopReasons": [
+      "end_turn"
+    ],
+    "nonEndTurn": [],
+    "concatMismatch": [],
+    "flaggedTags": [],
+    "wordStats": {
+      "n": 20,
+      "min": 146,
+      "median": 172,
+      "p90": 211,
+      "max": 235,
+      "mean": 180
+    }
+  },
+  "finished": "2026-09-06T13:35:23.055Z"
+}

@@ -43,8 +43,16 @@ laporan sesi terkait untuk angka before/after.
 from upload_to_supabase import get_client, recompute_all_cai_scores
 
 if __name__ == "__main__":
+    # DEPRECATED — jalur kanonik skor_cai titik_kandidat sekarang
+    # etl/attach_cai_features_titik_kandidat.py (kepadatan & jarak dari GEOM,
+    # kriteria 'survei' N/A). Wrapper ini dipertahankan hanya supaya perintah
+    # lama tidak error; ia TIDAK menyusun kepadatan/jarak dari geom, tapi
+    # tetap mengoper exclude_criteria=['survei'] supaya tidak me-reintroduksi
+    # n_survei=0 kalau seseorang menjalankannya. Untuk hasil penuh & benar,
+    # pakai attach_cai_features_titik_kandidat.py --upload.
+    print("[DEPRECATED] Pakai etl/attach_cai_features_titik_kandidat.py --upload untuk hasil lengkap.")
     client = get_client()
-    scored = recompute_all_cai_scores(client)
+    scored = recompute_all_cai_scores(client, exclude_criteria=["survei"])
     if not scored.empty:
         print("\n=== Hasil recompute_all_cai_scores() (seluruh titik_kandidat REAL) ===")
         print(scored[[

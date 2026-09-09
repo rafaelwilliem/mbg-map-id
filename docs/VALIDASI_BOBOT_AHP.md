@@ -337,6 +337,19 @@ sekadar review informal:
 - `n_volume` CAI untuk 8 titik real berbasis **estimasi observasi lapangan
   singkat**, bukan traffic counting kontinu 2 jam (lihat `DATA_CHECKLIST.md`
   28 Agu) — presisi lebih rendah dari desain instrumen awal.
+- **CAI `titik_kandidat`: kriteria "skor survei kondisi halte" N/A, 3 bobot
+  sisanya direnormalisasi (keputusan tim 2026-09-07).** Kriteria ke-4 CAI
+  (bobot AHP 0,1418) = skor Form Kondisi Halte atas halte **eksisting** —
+  tidak berlaku di lokasi usulan halte baru yang belum ada haltenya.
+  `recompute_all_cai_scores(exclude_criteria=['survei'])` → `skor_cai.n_survei`
+  & `bobot_survei` = NULL; bobot kepadatan/jarak/volume dinormalisasi ulang
+  0,3290/0,3290/0,2002 → **0,3834/0,3834/0,2333** (jumlah 1). Set 4-bobot AHP
+  di `konfigurasi_bobot` tetap definisi kanonik CAI — ini turunan runtime
+  khusus subset `titik_kandidat`. Karena `n_survei` sebelumnya seragam 0,
+  efeknya rescale `skor_final` seragam (×1/0,8582 ≈ 1,165): **ranking 19
+  kandidat tidak berubah** (verifikasi `attach_cai_features_titik_kandidat.py`),
+  hanya angka absolut + rincian panel. Memberi 0 sebelumnya membuat 14,18%
+  bobot jadi beban mati seragam. Grid TDI / `skor_equity` tidak tersentuh.
 - 53 dari 56 kelurahan belum punya `titik_kandidat` survei sendiri →
   `skor_cai_rata2`-nya pakai fallback rata-rata kota (ditandai di kolom
   `sumber`). Ranking Equity untuk kelurahan ini lebih lemah dasarnya.

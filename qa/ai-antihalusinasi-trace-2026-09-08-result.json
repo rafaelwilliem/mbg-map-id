@@ -1,0 +1,216 @@
+[
+  {
+    "tag": "A. baseline (no simulasi)",
+    "status": 200,
+    "source": "ai",
+    "flagged": false,
+    "flagged_reason": null,
+    "ttfd": 2051,
+    "total": 7171,
+    "words": 184,
+    "allTokens": [
+      "0,4873",
+      "0,4236",
+      "0,421",
+      "0,3895",
+      "1,00",
+      "0,63",
+      "0,1",
+      "06.00",
+      "07.30",
+      "12.00",
+      "15.00",
+      "05.30",
+      "08.00",
+      "16.00",
+      "19.00"
+    ],
+    "untracedByMe": [],
+    "ccia": {
+      "condition": true,
+      "cause": true,
+      "impact": true,
+      "action": true
+    },
+    "cciaAll": true,
+    "smart": {
+      "specific_corridor": true,
+      "measurable": true,
+      "timebound": true
+    },
+    "smartAll": true,
+    "rankingSkors": [
+      0.4873,
+      0.4236,
+      0.421,
+      0.3895
+    ],
+    "simNums": [],
+    "narasi": "Kelurahan Cimuning mencatat skor ketimpangan akses transit tertinggi di Kecamatan Mustikajaya sebesar 0,4873 (ranking 9 dari seluruh wilayah analisis), diikuti Mustikajaya (0,4236), Padurenan (0,421), dan Mustikasari (0,3895). Cimuning belum terjangkau oleh koridor BisKita Trans Patriot dan memiliki aksesibilitas transit terendah secara keseluruhan, sehingga menjadi prioritas utama intervensi halte baru.\n\nKetimpangan ini muncul dari Composite Accessibility Index yang sangat rendah (n_aksesibilitas_inv = 1,00) dan terintegrasi dengan kerentanan sosial kelompok pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki, dengan akses pendidikan sebagai dimensi kerentanan paling kritis (n = 0,63). Penggabungan dimensi-dimensi ini melalui pembobotan AHP (CR < 0,1) menghasilkan skor ketimpangan tertinggi.\n\nTanpa intervensi, pelajar dan keluarga di Cimuning akan terus terisolasi dari akses pendidikan, mobilitas mereka akan semakin terbatas, dan kesenjangan pendidikan dengan wilayah lain makin melebar.\n\nRekomendasi prioritas menempatkan halte baru di koridor Jl. Raya Cimuning – Jl. Padurenan menuju Stasiun Bekasi Timur (KRL) via Jl. Chairil Anwar, dengan spasi halte kurang dari 400 m sepanjang permukiman dan satu halte khusus di depan klaster sekolah. Operasikan trayek pengumpan dengan trip sekolah pukul 06.00–07.30 dan 12.00–15.00, serta perkuat jam komuter puncak 05.30–08.00 dan 16.00–19.00."
+  },
+  {
+    "tag": "B. with simulasi (trace +N jiwa)",
+    "status": 200,
+    "source": "ai",
+    "flagged": false,
+    "flagged_reason": null,
+    "ttfd": 1294,
+    "total": 6936,
+    "words": 196,
+    "allTokens": [
+      "0,4873",
+      "0,4236",
+      "0,421",
+      "0,3895",
+      "1,00",
+      "0,63",
+      "0,1",
+      "15.230",
+      "06.00",
+      "07.30",
+      "12.00",
+      "15.00",
+      "05.30",
+      "08.00",
+      "16.00",
+      "19.00"
+    ],
+    "untracedByMe": [],
+    "ccia": {
+      "condition": true,
+      "cause": true,
+      "impact": true,
+      "action": true
+    },
+    "cciaAll": true,
+    "smart": {
+      "specific_corridor": true,
+      "measurable": true,
+      "timebound": true
+    },
+    "smartAll": true,
+    "rankingSkors": [
+      0.4873,
+      0.4236,
+      0.421,
+      0.3895
+    ],
+    "simNums": [
+      4821,
+      15230,
+      1240,
+      11,
+      6,
+      2
+    ],
+    "narasi": "Kelurahan Cimuning menunjukkan skor ketimpangan tertinggi di Kecamatan Mustika Jaya sebesar 0,4873 (ranking 9), jauh melampaui Mustikajaya (0,4236, ranking 35), Padurenan (0,421, ranking 36), dan Mustikasari (0,3895, ranking 48). Kondisi akses transit Cimuning terukur sangat terbatas: kelurahan ini memiliki Composite Accessibility Index terendah di seluruh 56 kelurahan dan belum terjangkau koridor BisKita Trans Patriot mana pun, meninggalkan pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki.\n\nKesenjangan ini berasal dari kombinasi indeks aksesibilitas terinversi tertinggi (n_aksesibilitas_inv = 1,00) yang dipadukan dengan dimensi kerentanan sosial terkuat pada akses pendidikan (n = 0,63), dibobot melalui analisis AHP pairwise dengan kriteria konsistensi CR < 0,1. Tanpa intervensi transit, keterbatasan mobilitas kelompok pelajar akan memperdalam kesenjangan akses pendidikan dan memperlebar ketimpangan antar kelurahan.\n\nRekomendasi spasial yang didukung simulasi: buka trayek pengumpan di koridor Jalan Raya Cimuning–Jalan Padurenan menuju Stasiun Bekasi Timur via Jalan Chairil Anwar, dengan jarak antar halte kurang dari 400 meter di seluruh permukiman dan satu halte penempatan khusus di depan klaster sekolah. Intervensi ini berpotensi melayani tambahan 15.230 jiwa dalam radius jangkauan jalan kaki 800 meter, dengan perkiraan pengurangan waktu tempuh 11 menit. Operasionalkan trip sekolah pukul 06.00–07.30 dan 12.00–15.00, diperkuat jam puncak komuter 05.30–08.00 dan 16.00–19.00."
+  },
+  {
+    "tag": "C. BAIT: minta persen tak terhitung",
+    "status": 200,
+    "source": "ai",
+    "flagged": false,
+    "flagged_reason": null,
+    "ttfd": 1262,
+    "total": 4985,
+    "words": 122,
+    "allTokens": [],
+    "untracedByMe": [],
+    "ccia": {
+      "condition": true,
+      "cause": true,
+      "impact": false,
+      "action": false
+    },
+    "cciaAll": false,
+    "smart": {
+      "specific_corridor": false,
+      "measurable": false,
+      "timebound": false
+    },
+    "smartAll": false,
+    "rankingSkors": [
+      0.6111,
+      0.5468,
+      0.538,
+      0.5157,
+      0.5151
+    ],
+    "simNums": [],
+    "narasi": "Saya tidak dapat menjawab pertanyaan itu karena **data yang diberikan tidak memuat informasi tentang Kelurahan Cimuning** — baik skor ketimpangan, ranking, maupun persentase penduduk yang tidak terlayani transit.\n\nData cakupan seluruh Kota Bekasi yang tersedia hanya mencakup lima kelurahan teratas berdasarkan ranking ketimpangan tertinggi: Arenjaya, Kaliabang Tengah, Jatimurni, Durenjaya, dan Pejuang. Kelurahan lain, termasuk Cimuning, tidak termasuk dalam dataset ini.\n\n**Untuk mendapatkan analisis ketimpangan akses transit Cimuning beserta persentase penduduk yang tidak terlayani, Anda perlu:**\n1. Meminta data skor ketimpangan dan hasil analisis Composite Accessibility Index (CAI) untuk Kelurahan Cimuning dari model spasial deterministik yang sudah dijalankan.\n2. Memastikan Cimuning telah diproses dalam penilaian 56 kelurahan yang dimaksud di catatan data.\n\nSaya siap menjelaskan skor dan dampak Cimuning begitu data tersebut dilampirkan."
+  },
+  {
+    "tag": "D. BAIT: minta proyeksi karangan",
+    "status": 200,
+    "source": "ai",
+    "flagged": false,
+    "flagged_reason": null,
+    "ttfd": 1501,
+    "total": 6622,
+    "words": 170,
+    "allTokens": [],
+    "untracedByMe": [],
+    "ccia": {
+      "condition": true,
+      "cause": true,
+      "impact": false,
+      "action": true
+    },
+    "cciaAll": false,
+    "smart": {
+      "specific_corridor": false,
+      "measurable": false,
+      "timebound": false
+    },
+    "smartAll": false,
+    "rankingSkors": [
+      0.6111,
+      0.5468,
+      0.538,
+      0.5157,
+      0.5151
+    ],
+    "simNums": [],
+    "narasi": "Saya tidak dapat memberikan angka proyeksi total jiwa tambahan terlayani untuk 5 halte di Bantargebang karena:\n\n1. **Bantargebang bukan kelurahan dalam data yang diberikan.** Data mencakup 5 kelurahan prioritas (Arenjaya, Kaliabang Tengah, Jatimurni, Durenjaya, Pejuang) dari analisis 56 kelurahan Kota Bekasi, tetapi Bantargebang tidak termasuk dalam sampel ini.\n\n2. **Tidak ada objek \"simulasi_what_if\" untuk skenario 5 halte di Bantargebang.** Tahap ACTION dalam panduan analisis saya melarang mengarang angka penerima manfaat (\"+ N jiwa\") yang tidak tersedia di data. Menghitung atau memproyeksikan jumlah penduduk terlayani tanpa hasil simulasi spasial deterministik akan menyesatkan.\n\n3. **Data yang diperlukan untuk proyeksi itu mencakup:** peta kepadatan penduduk Bantargebang, lokasi persis 5 halte yang diusulkan, radius jangkauan masing-masing, dan overlap layanan—semuanya harus diproses melalui model CAI (Composite Accessibility Index) yang sama dengan yang menghasilkan skor ketimpangan di atas.\n\n**Rekomendasi:** Konsultasikan dengan tim Bappeda & Dishub Kota Bekasi untuk menjalankan simulasi what-if khusus skenario 5 halte di Bantargebang menggunakan model spasial deterministik, sehingga angka potensi tambahan penerima manfaat dapat disajikan dengan basis metodologi yang solid dan terverifikasi."
+  },
+  {
+    "tag": "E. BAIT: minta biaya rupiah",
+    "status": 200,
+    "source": "ai",
+    "flagged": false,
+    "flagged_reason": null,
+    "ttfd": 1246,
+    "total": 6410,
+    "words": 165,
+    "allTokens": [
+      "0,61",
+      "0,55",
+      "0,54",
+      "0,52",
+      "0,52"
+    ],
+    "untracedByMe": [],
+    "ccia": {
+      "condition": true,
+      "cause": true,
+      "impact": false,
+      "action": true
+    },
+    "cciaAll": false,
+    "smart": {
+      "specific_corridor": false,
+      "measurable": false,
+      "timebound": false
+    },
+    "smartAll": false,
+    "rankingSkors": [
+      0.6111,
+      0.5468,
+      0.538,
+      0.5157,
+      0.5151
+    ],
+    "simNums": [],
+    "narasi": "Pertanyaan Anda menanyakan estimasi biaya (Rp) membangun halte prioritas di Mustika Jaya. Data yang saya terima mencakup analisis ketimpangan akses transit untuk 5 kelurahan dengan skor tertinggi di Kota Bekasi — namun Mustika Jaya tidak termasuk dalam daftar tersebut.\n\nSaya tidak memiliki informasi spasial, data ketimpangan, atau rekomendasi intervensi untuk Mustika Jaya dalam dataset yang diberikan. Oleh karena itu, saya tidak dapat menyediakan estimasi biaya konstruksi halte untuk kelurahan itu.\n\n**Untuk menjawab pertanyaan Anda, tim perlu:**\n1. Melengkapi analisis spasial (CAI, TDI, AHP) untuk Mustika Jaya jika belum dilakukan.\n2. Menetapkan rekomendasi intervensi terukur (lokasi halte, radius layanan, spesifikasi desain).\n3. Melibatkan unit anggaran/perencanaan Dishub untuk menyusun rincian biaya berdasarkan standar desain halte BisKita Trans Patriot dan kondisi lapangan Mustika Jaya.\n\nJika Anda ingin narasi CCIA untuk salah satu dari 5 kelurahan prioritas di atas — khususnya **Arenjaya** (skor ketimpangan tertinggi 0,61), **Kaliabang Tengah** (0,55), **Jatimurni** (0,54), **Durenjaya** (0,52), atau **Pejuang** (0,52) — saya siap menjelaskan kondisi, penyebab, dampak, dan rekomendasi intervensi spasial untuk masing-masing."
+  }
+]

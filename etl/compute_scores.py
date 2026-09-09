@@ -101,7 +101,14 @@ def normalize_min_max(series: pd.Series, inverse: bool = False) -> pd.Series:
     return 1 - normalized if inverse else normalized
 
 
-def compute_cai(df: pd.DataFrame, weights: dict = None) -> pd.DataFrame:
+CAI_CRITERIA_KEYS = ("kepadatan", "jarak_inv", "volume", "survei")
+
+
+def compute_cai(
+    df: pd.DataFrame,
+    weights: dict = None,
+    exclude_criteria: list = None,
+) -> pd.DataFrame:
     """
     Hitung Composite Accessibility Index untuk tiap baris (titik/grid).
 
@@ -109,25 +116,67 @@ def compute_cai(df: pd.DataFrame, weights: dict = None) -> pd.DataFrame:
       - kepadatan_penduduk   (jiwa/km2 atau jumlah penduduk sekitar titik)
       - jarak_fasilitas_m    (meter, semakin kecil semakin baik -> inverse)
       - volume_penumpang     (penumpang/hari di simpul transit terdekat)
-      - skor_survei          (0-1, sudah dihitung dari S_survei lapangan)
+      - skor_survei          (0-1, sudah dihitung dari S_survei lapangan) —
+        WAJIB hanya kalau 'survei' TIDAK ada di exclude_criteria.
+
+    exclude_criteria (opsional, default None -> perilaku lama 4 kriteria):
+      list berisi subset dari {'kepadatan','jarak_inv','volume','survei'}.
+      Kriteria yang disebut di sini diperlakukan N/A (bukan "bernilai 0"):
+        - kolom ternormalisasinya (mis. n_survei) ditulis NaN, BUKAN 0;
+        - bobotnya dikeluarkan dari WLC dan sisa bobot AHP dinormalisasi
+          ulang supaya berjumlah 1 -> kontribusi tiap kriteria yang tersisa
+          tetap bisa ditelusuri (Sum n_i * bobot_i == skor_cai).
+      Dipakai untuk titik_kandidat (usulan halte baru): kriteria "skor survei
+      lapangan (kondisi fisik & akses simpul)" = Form Kondisi Halte atas halte
+      EKSISTING, jadi tidak berlaku di lokasi yang belum ada haltenya —
+      keputusan tim 2026-09-07, lihat docs/VALIDASI_BOBOT_AHP.md. Set bobot
+      AHP 4 kriteria di konfigurasi_bobot TETAP definisi kanonik CAI;
+      renormalisasi ini turunan runtime khusus subset titik_kandidat.
 
     Return: df yang sama + kolom n_kepadatan, n_jarak_inv, n_volume,
-    n_survei, dan skor_cai (0-1).
+    n_survei, skor_cai (0-1), plus bobot EFEKTIF yang dipakai per baris
+    (bobot_kepadatan, bobot_jarak, bobot_volume, bobot_survei — kolom yang
+    dikecualikan ditulis NaN). Kolom bobot_* ini yang di-persist ke tabel
+    skor_cai supaya breakdown di CaiScorePanel rekonsiliasi dengan skor_final.
     """
     weights = weights or DEFAULT_WEIGHTS
     assert abs(sum(weights.values()) - 1.0) < 1e-6, "Bobot harus berjumlah 1.0"
+
+    exclude = set(exclude_criteria or [])
+    unknown = exclude - set(CAI_CRITERIA_KEYS)
+    if unknown:
+        raise ValueError(f"exclude_criteria tak dikenal: {sorted(unknown)} (valid: {CAI_CRITERIA_KEYS})")
+    if not exclude <= set(CAI_CRITERIA_KEYS) or len(exclude) >= len(CAI_CRITERIA_KEYS):
+        raise ValueError("exclude_criteria tidak boleh mengecualikan semua kriteria CAI.")
+
+    # Bobot efektif: kriteria yang di-exclude -> 0, sisanya dinormalisasi
+    # ulang ke jumlah 1. Kalau exclude kosong, eff identik dengan weights.
+    eff = {k: (0.0 if k in exclude else float(weights[k])) for k in weights}
+    total_eff = sum(eff.values())
+    assert total_eff > 0, "Tidak ada bobot tersisa setelah exclude_criteria."
+    eff = {k: v / total_eff for k, v in eff.items()}
 
     out = df.copy()
     out["n_kepadatan"] = normalize_min_max(out["kepadatan_penduduk"])
     out["n_jarak_inv"] = normalize_min_max(out["jarak_fasilitas_m"], inverse=True)
     out["n_volume"] = normalize_min_max(out["volume_penumpang"])
-    out["n_survei"] = out["skor_survei"]  # sudah 0-1 dari instrumen survei, tidak perlu normalisasi ulang
+    # 'survei' N/A -> NaN (bukan 0); kalau tidak dikecualikan, pakai skor
+    # instrumen survei apa adanya (sudah 0-1, tidak dinormalisasi ulang).
+    out["n_survei"] = np.nan if "survei" in exclude else out["skor_survei"]
 
+    # bobot efektif per baris (konstan lintas baris di sini, ditulis sbg
+    # kolom supaya upload_to_supabase bisa mem-persist-nya ke skor_cai.bobot_*)
+    out["bobot_kepadatan"] = np.nan if "kepadatan" in exclude else eff["kepadatan"]
+    out["bobot_jarak"] = np.nan if "jarak_inv" in exclude else eff["jarak_inv"]
+    out["bobot_volume"] = np.nan if "volume" in exclude else eff["volume"]
+    out["bobot_survei"] = np.nan if "survei" in exclude else eff["survei"]
+
+    term_survei = 0.0 if "survei" in exclude else eff["survei"] * out["n_survei"]
     out["skor_cai"] = (
-        weights["kepadatan"] * out["n_kepadatan"]
-        + weights["jarak_inv"] * out["n_jarak_inv"]
-        + weights["volume"] * out["n_volume"]
-        + weights["survei"] * out["n_survei"]
+        eff["kepadatan"] * out["n_kepadatan"]
+        + eff["jarak_inv"] * out["n_jarak_inv"]
+        + eff["volume"] * out["n_volume"]
+        + term_survei
     )
     return out.sort_values("skor_cai", ascending=False).reset_index(drop=True)
 

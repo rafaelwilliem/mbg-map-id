@@ -74,6 +74,7 @@ export default function MapView({
   simulationMode = false,
   onMapClick,
   markers = [],
+  clickMarker = null,
   layers = [],
   onMapReady,
   children,
@@ -81,6 +82,7 @@ export default function MapView({
   const containerRef = useRef(null)
   const mapRef = useRef(null)
   const markerRefs = useRef([])
+  const clickMarkerRef = useRef(null)
   const layerIdsRef = useRef([])
   // onMapReady disimpan di ref supaya effect init (mount-only) tidak perlu
   // memasukkannya ke dependency array.
@@ -88,6 +90,8 @@ export default function MapView({
   useEffect(() => {
     onMapReadyRef.current = onMapReady
   }, [onMapReady])
+  // Penjaga supaya onMapReady dipanggil maksimal SEKALI per instance peta.
+  const mapReadyFiredRef = useRef(false)
 
   // Init peta sekali saat komponen pertama kali render
   useEffect(() => {
@@ -106,14 +110,32 @@ export default function MapView({
 
     mapRef.current.addControl(new NavigationControl(), 'top-right')
 
+    // Serahkan instance peta ke pemanggil SEGERA setelah konstruktor, JANGAN
+    // menunggu event 'load'. Alasannya (temuan QA 2026-09-08): kalau style
+    // basemap gagal render (MAPID style JSON balik 200 & ter-parse, tapi vector
+    // tile-nya tidak pernah sampai), event 'load' TIDAK PERNAH menyala →
+    // mapInstance di App.jsx tetap null → moveMap() di SearchBar diam-diam
+    // early-return dan kamera tidak pernah bergerak, tanpa error/log apa pun.
+    // Konsumen onMapReady saat ini cuma butuh objek Map-nya ada, bukan style
+    // yang selesai dimuat: SearchBar (flyTo/fitBounds — aman sebelum style
+    // load, MapLibre menyimpan target kamera) dan DataLaporan (getCanvas, baru
+    // dipanggil saat user menekan tombol export). Kalau nanti ada konsumen yang
+    // butuh addSource/addLayer, dia yang harus menunggu 'load'/isStyleLoaded()
+    // sendiri — jangan kembalikan penantian itu ke sini.
     {
       const map = mapRef.current
-      map.once('load', () => onMapReadyRef.current?.(map))
+      if (!mapReadyFiredRef.current) {
+        mapReadyFiredRef.current = true
+        onMapReadyRef.current?.(map)
+      }
     }
 
     return () => {
       mapRef.current?.remove()
       mapRef.current = null
+      // Reset supaya instance peta BARU (mis. remount / StrictMode double-mount
+      // di dev) tetap diserahkan lagi ke pemanggil.
+      mapReadyFiredRef.current = false
     }
   }, [])
 
@@ -163,47 +185,73 @@ export default function MapView({
     map.getCanvas().style.cursor = simulationMode ? 'crosshair' : ''
   }, [simulationMode])
 
-  // Render markers setiap kali prop markers berubah
+  // Buat satu Marker MapLibre dari spec {lat, lon, color?, popupHtml?,
+  // popupText?, onClick?}. CATATAN maplibre-gl 6.x: setPopup() TIDAK lagi
+  // meng-toggle popup saat marker diklik (hanya keypress Space/Enter) — jadi
+  // toggle-nya harus dipasang manual di sini, kalau tidak popup tidak pernah
+  // muncul saat diklik.
+  const createMarker = (map, m) => {
+    const el = document.createElement('div')
+    el.style.width = '14px'
+    el.style.height = '14px'
+    el.style.borderRadius = '50%'
+    el.style.border = '2px solid white'
+    el.style.boxShadow = '0 1px 3px rgba(0,0,0,0.4)'
+    el.style.background = m.color || '#1B659D'
+
+    const marker = new Marker({ element: el }).setLngLat([m.lon, m.lat])
+    const hasPopup = !!(m.popupHtml || m.popupText)
+    if (m.popupHtml) marker.setPopup(new Popup({ offset: 12 }).setHTML(m.popupHtml))
+    else if (m.popupText) marker.setPopup(new Popup({ offset: 12 }).setText(m.popupText))
+
+    if (hasPopup || m.onClick) {
+      el.style.cursor = 'pointer'
+      el.addEventListener('click', (ev) => {
+        // Jangan biarkan klik marker jatuh ke handler klik-peta (mode simulasi /
+        // cek CAI di koordinat lain).
+        ev.stopPropagation()
+        // Kalau marker punya aksi khusus (mis. titik kandidat -> buka panel
+        // skor CAI), itu yang jalan; kalau tidak, toggle popup info.
+        if (m.onClick) m.onClick()
+        else if (hasPopup) marker.togglePopup()
+      })
+    }
+
+    marker.addTo(map)
+    return marker
+  }
+
+  // Marker persisten (halte, titik kandidat, dll). markers WAJIB stabil-refs
+  // dari pemanggil (useMemo di App.jsx) — kalau array baru tiap render, marker
+  // + popup yang sedang terbuka ikut dibongkar-pasang tiap render.
   useEffect(() => {
     const map = mapRef.current
     if (!map) return
-
-    markerRefs.current.forEach((m) => m.remove())
-    markerRefs.current = markers.map((m) => {
-      const el = document.createElement('div')
-      el.style.width = '14px'
-      el.style.height = '14px'
-      el.style.borderRadius = '50%'
-      el.style.border = '2px solid white'
-      el.style.boxShadow = '0 1px 3px rgba(0,0,0,0.4)'
-      el.style.background = m.color || '#1B659D'
-
-      const marker = new Marker({ element: el }).setLngLat([m.lon, m.lat])
-
-      if (m.popupHtml) {
-        marker.setPopup(new Popup({ offset: 12 }).setHTML(m.popupHtml))
-      } else if (m.popupText) {
-        marker.setPopup(new Popup({ offset: 12 }).setText(m.popupText))
-      }
-
-      if (m.onClick) {
-        el.style.cursor = 'pointer'
-        el.addEventListener('click', (ev) => {
-          // Hentikan propagasi supaya klik marker tidak juga dihitung sebagai
-          // klik peta biasa (mis. memicu mode simulasi di koordinat lain).
-          ev.stopPropagation()
-          m.onClick()
-        })
-      }
-
-      marker.addTo(map)
-      return marker
-    })
+    markerRefs.current.forEach((mk) => mk.remove())
+    markerRefs.current = markers.map((m) => createMarker(map, m))
+    return () => {
+      markerRefs.current.forEach((mk) => mk.remove())
+      markerRefs.current = []
+    }
   }, [markers])
 
+  // Marker transient "lokasi yang baru diklik" — effect terpisah supaya
+  // perubahannya (tiap klik) tidak membongkar marker persisten di atas.
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+    clickMarkerRef.current?.remove()
+    clickMarkerRef.current = clickMarker ? createMarker(map, clickMarker) : null
+    return () => {
+      clickMarkerRef.current?.remove()
+      clickMarkerRef.current = null
+    }
+  }, [clickMarker])
+
   // Sinkronisasi layer GeoJSON generik (mis. grid kepadatan, jaringan transit,
-  // indeks gap aksesibilitas untuk Analisis Spasial). addSource/addLayer harus
-  // menunggu style selesai load, jadi pakai isStyleLoaded() + fallback event 'load'.
+  // indeks gap aksesibilitas untuk Analisis Spasial, sorotan wilayah hasil
+  // pencarian). addSource/addLayer baru boleh dipanggil setelah style selesai
+  // di-PARSE — lihat catatan kesiapan style di bawah.
   useEffect(() => {
     const map = mapRef.current
     if (!map) return
@@ -236,10 +284,54 @@ export default function MapView({
       layerIdsRef.current = layers.map((l) => l.id)
     }
 
-    if (map.isStyleLoaded()) {
-      applyLayers()
-    } else {
-      map.once('load', applyLayers)
+    // KENAPA TIDAK CUKUP `if (map.isStyleLoaded()) ... else map.once('load')`
+    // (bentuk lama, diganti 2026-09-08): isStyleLoaded() JUGA bernilai false
+    // selama tile sumber masih dimuat — mis. TEPAT setelah fitBounds dari hasil
+    // pencarian — padahal MapLibre sebenarnya sudah menerima addSource/addLayer
+    // begitu style selesai di-parse. Karena event 'load' hanya menyala SEKALI
+    // seumur instance peta, setiap pembaruan layer yang kebetulan datang saat
+    // kamera sedang bergerak akan menunggu event yang tidak akan pernah datang
+    // lagi, alias HILANG diam-diam (ditemukan saat menambah layer sorotan
+    // wilayah: state React sudah terisi, legenda sudah muncul, tapi layernya
+    // tidak pernah masuk ke peta).
+    // Sekarang: coba terapkan langsung; hanya kalau MapLibre benar-benar
+    // menolak karena style belum siap, baru menunggu event berikutnya.
+    // KENAPA 'styledata' dan BUKAN 'idle' (revisi 2026-09-09): bentuk
+    // sebelumnya menunggu `map.once('idle', ...)`. Dengan basemap MAPID,
+    // vector tile-nya kadang stall/retry terus sehingga peta TIDAK PERNAH
+    // mencapai 'idle' — akibatnya coba() tak pernah dijalankan ulang dan
+    // layer 'sorot-wilayah-*' (dipasang saat user memilih kelurahan/
+    // kecamatan dari search) diam-diam tidak pernah muncul, sementara
+    // kamera tetap bergerak (fitBounds jalan dari bbox secara terpisah) —
+    // terlihat seolah "sudah pan ke area tapi tanpa outline". 'styledata'
+    // menyala BERULANG di tiap progres data style (style lambat selesai
+    // di-parse, source dimuat), jadi coba() akan terus mencoba sampai
+    // style bisa menerima addLayer. coba()/applyLayers() idempoten (tiap
+    // addSource/addLayer dijaga getSource/getLayer), aman dipanggil ulang.
+    // 'load' tetap dipasang sekali sebagai jaring pengaman paint pertama.
+    const coba = () => {
+      try {
+        applyLayers()
+        return true
+      } catch (err) {
+        // Satu-satunya kegagalan yang WAJAR di sini: style belum selesai
+        // di-parse (akan dicoba lagi lewat listener di bawah). Kegagalan lain
+        // dimunculkan supaya tidak hilang tanpa jejak.
+        if (!/style is not done loading/i.test(String(err?.message))) {
+          console.warn('[GeoTransit Insight] gagal menyinkronkan layer peta:', err)
+        }
+        return false
+      }
+    }
+
+    if (coba()) return
+
+    const onStyleSiap = () => coba()
+    map.on('styledata', onStyleSiap)
+    map.once('load', onStyleSiap)
+    return () => {
+      map.off('styledata', onStyleSiap)
+      map.off('load', onStyleSiap)
     }
   }, [layers])
 

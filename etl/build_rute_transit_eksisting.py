@@ -76,6 +76,17 @@ LAYER_STASIUN = "STASIUNKA_PT_25K"
 LAYER_REL = "RELKA_LN_25K"
 LAYER_TERMINAL = "TERMINALBUS_PT_25K"
 
+# Buffer batas kota (meter) untuk seleksi TITIK STASIUN saja. Versi lama
+# memakai `within(boundary_union)` ketat -> hanya 1 titik lolos, dan NAMOBJ-nya
+# kosong (Stasiun Bekasi/Bekasi Timur/Kranji hilang karena peron persis di
+# tepi batas RBI yang disederhanakan). Sekarang: `intersects` terhadap batas
+# yang di-buffer +500 m, LALU baris tanpa NAMOBJ dibuang (titik nyasar tak
+# bernama tidak berguna sebagai layer peta). Stasiun benar-benar di luar kota
+# (mis. Cakung, ~2,7 km di luar) tetap tersaring oleh buffer 500 m ini.
+# Rel (LineString) TETAP pakai intersects + clip ke batas TANPA buffer.
+STASIUN_BOUNDARY_BUFFER_M = 500
+METRIC_CRS = "EPSG:32748"  # UTM 48S, CRS metrik proyek
+
 SUMBER_KRL = (
     "BIG RBI 25K KUGI50 2022-12-31 (tanahair.indonesia.go.id) — REAL, "
     "existing infrastructure, belum disurvei tim"
@@ -299,23 +310,13 @@ def load_kota_bekasi_boundary(client) -> gpd.GeoDataFrame:
 def build_krl_records(gdb_path: str, boundary_union) -> list:
     records = []
 
-    stasiun = gpd.read_file(gdb_path, layer=LAYER_STASIUN)
-    stasiun["geometry"] = stasiun.geometry.force_2d()
-    stasiun = stasiun.set_crs(epsg=4326, allow_override=True)
-    stasiun_clip = stasiun[stasiun.geometry.within(boundary_union)]
-    print(f"[B2] {LAYER_STASIUN}: {len(stasiun)} total di .gdb, {len(stasiun_clip)} di dalam Kota Bekasi.")
-
-    nama_col_stasiun = "NAMOBJ" if "NAMOBJ" in stasiun_clip.columns else None
-    for _, row in stasiun_clip.iterrows():
-        nama = row[nama_col_stasiun] if nama_col_stasiun else "Stasiun KRL"
-        records.append({
-            "nama": nama or "Stasiun KRL",
-            "jenis": "krl",
-            "tipe_geometri": "point",
-            "geom": f"SRID=4326;{row.geometry.wkt}",
-            "sumber": SUMBER_KRL,
-            "catatan": CATATAN_KRL,
-        })
+    # TITIK STASIUN KRL SENGAJA TIDAK DIBANGUN (keputusan Sam 2026-09-07).
+    # Jejak garis rel di bawah + ikon stasiun bawaan basemap MAPID sudah cukup;
+    # marker titik stasiun sebelumnya salah lokasi & membingungkan (biru,
+    # sebentuk marker "Lokasi dicek"). LAYER_STASIUN / STASIUN_BOUNDARY_BUFFER_M
+    # dibiarkan terdefinisi kalau suatu saat keputusan ini dibalik.
+    # Kalau .gdb di-rerun dan tabel sudah terisi titik lama, jalankan
+    # etl/fix_krl_stasiun_rute_transit.py --upload (DELETE-only) untuk bersih.
 
     rel = gpd.read_file(gdb_path, layer=LAYER_REL)
     rel["geometry"] = rel.geometry.force_2d()

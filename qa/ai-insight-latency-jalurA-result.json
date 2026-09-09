@@ -1,0 +1,556 @@
+{
+  "started": "2026-09-06T12:33:06.468Z",
+  "cold": [
+    {
+      "ms": 5701,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "words": 123,
+      "truncated": false,
+      "md": [],
+      "matched": true
+    },
+    {
+      "ms": 5943,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "words": 147,
+      "truncated": false,
+      "md": [],
+      "matched": true
+    },
+    {
+      "ms": 5140,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "words": 141,
+      "truncated": false,
+      "md": [],
+      "matched": true
+    }
+  ],
+  "warm": [
+    {
+      "ms": 4491,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 110,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 4910,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 116,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 4909,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 128,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 4155,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 109,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 4597,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 138,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 5199,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 131,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 4740,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 113,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 4876,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 122,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 4805,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 115,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 4730,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 119,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 4776,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 125,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "ms": 5116,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 138,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    }
+  ],
+  "kec": [
+    {
+      "input": "Mustika Jaya",
+      "expectKec": "Mustikajaya",
+      "matched": true,
+      "note": null,
+      "kecInRanking": [
+        "Mustikajaya"
+      ],
+      "onlyExpected": true,
+      "ms": 4365
+    },
+    {
+      "input": "Bekasi Timur",
+      "expectKec": "Bekasi Timur",
+      "matched": true,
+      "note": null,
+      "kecInRanking": [
+        "Bekasi Timur"
+      ],
+      "onlyExpected": true,
+      "ms": 5232
+    },
+    {
+      "input": "Rawa Lumbu",
+      "expectKec": "Rawalumbu",
+      "matched": true,
+      "note": null,
+      "kecInRanking": [
+        "Rawalumbu"
+      ],
+      "onlyExpected": true,
+      "ms": 5277
+    }
+  ],
+  "narasiPool": [
+    {
+      "tag": "cold#1",
+      "narasi": "Cimuning (skor ketimpangan 0,54, ranking tertinggi) menghadapi aksesibilitas transit paling terbatas di Kecamatan Mustika Jaya, diikuti Mustikajaya (0,41), Padurenan (0,37), dan Mustikasari (0,34). Ketimpangan Cimuning berasal dari Composite Accessibility Index terendah dan belum terlayani koridor BisKita Trans Patriot, dikombinasi kerentanan sosial khususnya akses pendidikan lemah pada pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki. Tanpa intervensi, pelajar dan pengguna tanpa kendaraan di Cimuning akan makin sulit menjangkau sekolah dan pusat kerja, memperlebar kesenjangan akses lintas kelurahan. Prioritaskan pembukaan trayek pengumpan harian di koridor Jalan Raya Cimuning—Jalan Padurenan menuju Stasiun Bekasi Timur, dengan spasi halte kurang dari 400 meter sepanjang permukiman dan satu halte khusus di depan klaster sekolah, dioperasikan pada jam sekolah (06.00–07.30 dan 12.00–15.00) serta jam puncak komuter (05.30–08.00 dan 16.00–19.00).",
+      "ms": 5701,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "words": 123,
+      "truncated": false,
+      "md": [],
+      "matched": true
+    },
+    {
+      "tag": "cold#2",
+      "narasi": "Cimuning dengan skor ketimpangan 0,5383 merupakan kelurahan paling tertinggal di Kecamatan Mustika Jaya, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Kondisi Cimuning ditandai oleh aksesibilitas transit terendah tanpa jangkauan koridor BisKita Trans Patriot yang ada, sehingga pelajar dan keluarga tidak dapat mengakses sekolah dalam radius jalan kaki. Penyebab ketimpangan ini berasal dari Composite Accessibility Index yang sangat rendah (n_aksesibilitas_inv = 1,00) digabung dengan dimensi kerentanan pendidikan yang kritis (n = 0,63), sesuai bobot hasil penilaian AHP. Tanpa intervensi, mobilitas pelajar akan semakin terbatas dan kesenjangan akses pendidikan makin melebar di antara kelurahan. Prioritas pertama adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan menuju Stasiun Bekasi Timur melalui Jalan Chairil Anwar dengan spasi halte di bawah 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah, dioperasikan pada jam trip sekolah (06.00–07.30 dan 12.00–15.00) serta jam puncak komuter (05.30–08.00 dan 16.00–19.00).",
+      "ms": 5943,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "words": 147,
+      "truncated": false,
+      "md": [],
+      "matched": true
+    },
+    {
+      "tag": "cold#3",
+      "narasi": "Cimuning merupakan kelurahan dengan ketimpangan akses transit tertinggi di Kecamatan Mustika Jaya dengan skor 0,5383, jauh tertinggal dibanding Mustika Jaya (0,4052), Padurenan (0,3737), dan Mustika Sari (0,3422), karena belum terjangkau jaringan BisKita Trans Patriot dan memiliki indeks aksesibilitas terendah dari seluruh kelurahan yang dievaluasi. Ketimpangan ini diperkuat oleh kerentanan dimensi pendidikan, di mana pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki menjadi kelompok terdampak utama yang kesulitan mobilitas sehari-hari. Tanpa intervensi, kesenjangan akses pendidikan dan kesempatan kerja akan terus melebar, meninggalkan anak-anak Cimuning terpisah dari pusat pembelajaran dan peluang ekonomi di pusat kota. Prioritaskan pembukaan trayek pengumpan di koridor Jalan Raya Cimuning–Jalan Padurenan menuju Stasiun Bekasi Timur dengan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di klaster sekolah, dioperasikan pada jam berangkat sekolah 06.00–07.30, pulang sekolah 12.00–15.00, dan jam komuter puncak 05.30–08.00 serta 16.00–19.00.",
+      "ms": 5140,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "words": 141,
+      "truncated": false,
+      "md": [],
+      "matched": true
+    },
+    {
+      "tag": "warm#1",
+      "narasi": "Cimuning dengan skor ketimpangan 0,5383 merupakan prioritas utama di Kecamatan Mustikajaya, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Ketimpangan tertinggi di Cimuning disebabkan aksesibilitas transit terendah dari seluruh kota (indeks inversi 1,00) dan dimensi kerentanan akses pendidikan paling kritis (skor 0,63) bagi pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki. Tanpa intervensi, mobilitas pelajar akan semakin terbatas dan kesenjangan pendidikan akan melebar. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning–Jl. Padurenan menuju Stasiun Bekasi Timur (KRL) dengan spasi halte kurang dari 400 meter di sepanjang permukiman, satu halte khusus di klaster sekolah, serta operasikan trip sekolah pukul 06.00–07.30 dan 12.00–15.00 plus penguatan jam komuter 05.30–08.00 dan 16.00–19.00.",
+      "ms": 4491,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 110,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#2",
+      "narasi": "Cimuning merupakan kelurahan prioritas utama di Kecamatan Mustika Jaya dengan skor ketimpangan 0,5383 (ranking 2), sementara Mustikajaya mencatat 0,4052 (ranking 22), Padurenan 0,3737 (ranking 35), dan Mustikasari 0,3422 (ranking 47). Aksesibilitas transit Cimuning sangat terbatas karena belum menjangkau koridor BisKita Trans Patriot dan pelajar serta keluarga tanpa sekolah dalam radius jalan kaki menjadi kelompok terparah. Tanpa intervensi, keterbatasan mobilitas akan memperdalam kesenjangan akses pendidikan dan pekerjaan, khususnya bagi generasi muda dan keluarga berpenghasilan rendah. Prioritaskan pembukaan trayek pengumpan di koridor Jalan Raya Cimuning–Padurenan menuju Stasiun Bekasi Timur dengan halte berjarak kurang dari 400 meter dan satu halte khusus di depan klaster sekolah, operasionalkan trip sekolah pagi 06.00–07.30, sore 12.00–15.00, serta jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+      "ms": 4910,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 116,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#3",
+      "narasi": "Cimuning menjadi prioritas utama dengan skor ketimpangan 0,5383 karena akses transit terendah di seluruh wilayah dan belum terlayani koridor BisKita Trans Patriot, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Ketimpangan akses terutama memengaruhi pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki, serta di Mustikajaya juga penduduk permukiman padat. Tanpa intervensi, mobilitas kelompok rentan akan terus terbatas dan kesenjangan akses pendidikan makin meluas. Cimuning memerlukan pembukaan trayek pengumpan koridor Jl. Raya Cimuning – Jl. Padurenan ke Stasiun Bekasi Timur dengan halte berjarak kurang dari 400 m di permukiman dan satu halte di klaster sekolah, dioperasikan trip khusus pelajar pukul 06.00–07.30 dan 12.00–15.00 serta jam puncak komuter 05.30–08.00 dan 16.00–19.00, sedangkan Mustikajaya, Padurenan, dan Mustikasari memerlukan feeder lokal ke sekolah terdekat dan stasiun melalui koridor jalan raya masing-masing.",
+      "ms": 4909,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 128,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#4",
+      "narasi": "Cimuning menunjukkan ketimpangan akses transit tertinggi di Kecamatan Mustikajaya dengan skor 0,5383, jauh di atas Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422), didorong oleh aksesibilitas transit terendah dan kerentanan pendidikan paling kritis pada pelajar serta keluarga tanpa sekolah dalam jangkauan jalan kaki. Tanpa intervensi, kelompok ini akan mengalami mobilitas makin terbatas dan kesenjangan pendidikan makin melebar. Prioritas utama ialah membuka trayek pengumpan harian di koridor Jl. Raya Cimuning–Jl. Padurenan menuju Stasiun Bekasi Timur dengan jarak halte kurang dari 400 meter, menempatkan satu halte langsung di depan klaster sekolah untuk menjangkau pelajar, dan mengoperasikan trip khusus sekolah pada pukul 06.00–07.30 serta 12.00–15.00 dengan penguatan jam komuter pagi dan sore hari.",
+      "ms": 4155,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 109,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#5",
+      "narasi": "Cimuning merupakan kelurahan dengan ketimpangan akses transit tertinggi di Kecamatan Mustikajaya dengan skor 0,5383, jauh melampaui kelurahan lain seperti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422), sehingga akses angkutan umum di wilayah ini sangat terbatas dan belum terjangkau koridor BisKita Trans Patriot. Ketimpangan ini berasal dari Composite Accessibility Index terendah dan dimensi kerentanan sosial di bidang pendidikan yang paling lemah pada pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki. Tanpa intervensi, mobilitas kelompok ini akan semakin terbatas dan kesenjangan pendidikan makin melebar. Prioritas halte baru adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan menuju Stasiun Bekasi Timur melalui Jalan Chairil Anwar dengan spasi halte kurang dari 400 meter, termasuk satu halte langsung di depan klaster sekolah, didukung operasi trip khusus sekolah pukul 06.00–07.30 dan 12.00–15.00 serta penguatan jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+      "ms": 4597,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 138,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#6",
+      "narasi": "Cimuning dengan skor ketimpangan 0,5383 merupakan prioritas utama di Kecamatan Mustikajaya, jauh tertinggal dibanding Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422), karena aksesibilitas transit terendah dan belum terjangkau koridor BisKita Trans Patriot manapun. Ketimpangan ini dipicu oleh Composite Accessibility Index yang sangat rendah dikombinasikan dengan kerentanan sosial paling akut pada akses pendidikan, sebagaimana terukur dalam pembobotan analitik hierarki AHP. Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki akan mengalami mobilitas semakin terbatas dan kesenjangan pendidikan makin melebar. Pembukaan trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan menautkan permukiman ke Stasiun Bekasi Timur melalui Jalan Chairil Anwar, dengan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte khusus di depan klaster sekolah, dioperasikan pada jam sekolah 06.00–07.30 dan 12.00–15.00 serta jam komuter 05.30–08.00 dan 16.00–19.00.",
+      "ms": 5199,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 131,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#7",
+      "narasi": "Cimuning dengan skor ketimpangan 0,5383 adalah kelurahan paling tertinggal di Kecamatan Mustikajaya, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Ketimpangan akses transit Cimuning berasal dari Composite Accessibility Index terendah dan dimensi kerentanan sosial yang tinggi, terutama akses pendidikan bagi pelajar dan keluarga. Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki akan mengalami mobilitas semakin terbatas, memperdalam kesenjangan pendidikan dan kesempatan kerja. Prioritaskan pembukaan trayek pengumpan di koridor Jl. Raya Cimuning–Jl. Padurenan menuju Stasiun Bekasi Timur melalui Jl. Chairil Anwar dengan jarak antar-halte kurang dari 400 meter, satu halte khusus di depan klaster sekolah, dan operasi trip sekolah pukul 06.00–07.30 serta 12.00–15.00 ditambah jam puncak komuter pukul 05.30–08.00 dan 16.00–19.00.",
+      "ms": 4740,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 113,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#8",
+      "narasi": "Cimuning (skor ketimpangan 0,54) adalah prioritas utama halte baru di Kecamatan Mustika Jaya, diikuti Mustikajaya (0,40), Padurenan (0,37), dan Mustikasari (0,34) dengan tingkat kesenjangan akses transit yang menurun. Ketimpangan Cimuning berasal dari Composite Accessibility Index terendah gabungan dengan kerentanan sosial pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki, di mana akses pendidikan merupakan dimensi kerentanan terlemah. Tanpa intervensi, pelajar dan keluarga di Cimuning semakin sulit menjangkau sekolah, sementara mobilitas komuter terbatas dan kesenjangan pendidikan melebar. Prioritaskan pembukaan trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan menuju Stasiun Bekasi Timur dengan halte berspasi kurang dari 400 meter di sepanjang permukiman dan satu halte di depan klaster sekolah, dioperasikan pada jam sekolah 06.00–07.30 dan 12.00–15.00 serta jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+      "ms": 4876,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 122,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#9",
+      "narasi": "Cimuning dengan skor ketimpangan 0,5383 adalah titik prioritas halte baru di Kecamatan Mustika Jaya, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Ketimpangan akses Cimuning tertinggi karena tidak ada koridor BisKita Trans Patriot dan skor aksesibilitas terundur; kelompok pelajar serta keluarga tanpa sekolah dalam jangkauan jalan kaki menghadapi kesenjangan paling akut. Tanpa intervensi, mobilitas pelajar akan tetap terbatas dan kesenjangan akses pendidikan semakin melebar bagi permukiman padat Cimuning. Buka trayek pengumpan harian di koridor Jl. Raya Cimuning – Jl. Padurenan menuju Stasiun Bekasi Timur (KRL) dengan spasi halte kurang dari 400 meter di permukiman, satu halte khusus di depan klaster sekolah, dan operasi trip sekolah jam 06.00–07.30 serta 12.00–15.00 ditambah puncak komuter 05.30–08.00 dan 16.00–19.00.",
+      "ms": 4805,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 115,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#10",
+      "narasi": "Cimuning dengan skor ketimpangan 0,5383 (ranking 2) menunjukkan kondisi akses transit terparah di Mustika Jaya, diikuti Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422). Aksesibilitas transit Cimuning terendah karena Composite Accessibility Index-nya paling rendah dan belum terjangkau koridor BisKita Trans Patriot, dipadukan dengan kerentanan akses pendidikan yang kritis. Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki di Cimuning akan semakin terisolasi, memperluas kesenjangan akses pendidikan dan mobilitas. Prioritas halte baru di Cimuning adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan menuju Stasiun Bekasi Timur dengan halte berjarak kurang dari 400 meter di sepanjang permukiman dan satu halte di depan klaster sekolah, operasi trip sekolah pukul 06.00–07.30 dan 12.00–15.00 serta jam puncak 05.30–08.00 dan 16.00–19.00.",
+      "ms": 4730,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 119,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#11",
+      "narasi": "Cimuning dengan skor ketimpangan 0,54 merupakan kelurahan paling tertinggal dalam akses transit di Kecamatan Mustika Jaya, sementara Mustikajaya (0,41), Padurenan (0,37), dan Mustikasari (0,34) menunjukkan kondisi akses yang relatif lebih baik. Ketimpangan Cimuning berasal dari indeks aksesibilitas transit terendah dan dimensi kerentanan pendidikan yang sangat lemah, mencerminkan belum adanya cakupan BisKita Trans Patriot di wilayah tersebut. Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki akan semakin terisolasi, memperdalam kesenjangan akses pendidikan dan mobilitas komuter. Prioritas intervensi adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan menuju Stasiun Bekasi Timur dengan spasi halte kurang dari 400 meter di sepanjang permukiman dan satu halte di depan klaster sekolah, dioperasikan pada jam sekolah 06.00–07.30 dan 12.00–15.00 serta jam puncak komuter 05.30–08.00 dan 16.00–19.00.",
+      "ms": 4776,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 125,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "warm#12",
+      "narasi": "Cimuning dengan skor ketimpangan 0,5383 merupakan kelurahan prioritas tertinggi di Kecamatan Mustika Jaya, jauh tertinggal dibanding Mustikajaya (0,4052), Padurenan (0,3737), dan Mustikasari (0,3422) yang aksesnya relatif lebih baik. Penyebab tingginya ketimpangan adalah Cimuning memiliki Composite Accessibility Index terendah dan dimensi kerentanan sosial terkuat pada akses pendidikan, diperkuat oleh belum adanya cakupan koridor BisKita Trans Patriot; skor ini hasil inversi CAI dan pembobotan dimensi kerentanan melalui analisis AHP. Tanpa intervensi, pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki akan semakin terisolasi, memperdalam kesenjangan akses pendidikan dan mobilitas. Prioritas utama adalah membuka trayek pengumpan harian di koridor Jalan Raya Cimuning–Jalan Padurenan menuju Stasiun Bekasi Timur dengan spasi halte di bawah 400 meter sepanjang permukiman dan satu halte khusus di depan klaster sekolah, dioperasikan pada jam berangkat sekolah 06.00–07.30, jam pulang sekolah 12.00–15.00, dan jam puncak komuter 05.30–08.00 serta 16.00–19.00.",
+      "ms": 5116,
+      "status": 200,
+      "source": "ai",
+      "flagged": false,
+      "flagged_reason": null,
+      "words": 138,
+      "truncated": false,
+      "md": [],
+      "matched": true,
+      "kecInRanking": [
+        "Mustikajaya"
+      ]
+    },
+    {
+      "tag": "simulasi",
+      "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi 0,5383 (ranking 2) di Kecamatan Mustikajaya, jauh melampaui Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47), menunjukkan akses transit paling tertinggal tanpa jangkauan koridor BisKita Trans Patriot. Penyebab ketimpangan ini terletak pada Composite Accessibility Index terendah dari 56 kelurahan (n_aksesibilitas_inv = 1,00) yang digabungkan dengan dimensi kerentanan sosial pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki, dengan akses pendidikan sebagai komponen paling lemah (bobot AHP CR < 0,1). Tanpa intervensi, pelajar dan warga keluarga Cimuning akan mengalami mobilitas semakin terbatas serta kesenjangan akses pendidikan berkelanjutan dibanding kelurahan tetangga. Buka trayek feeder harian koridor Jl. Raya Cimuning–Jl. Padurenan ke Stasiun Bekasi Timur (KRL) dengan halte jarak < 400 m sepanjang permukiman dan satu halte di depan klaster sekolah, operasikan jam sekolah 06.00–07.30 serta 12.00–15.00 dan jam komuter 05.30–08.00 serta 16.00–19.00; simulasi menunjukkan potensi melayani",
+      "ms": 5349,
+      "words": 145,
+      "truncated": true,
+      "md": []
+    }
+  ],
+  "restDbQuery": {
+    "n": 5,
+    "min": 235,
+    "median": 253,
+    "p90": 1687,
+    "max": 1687,
+    "mean": 602
+  },
+  "earlyPath": {
+    "n": 6,
+    "min": 64,
+    "median": 190,
+    "p90": 217,
+    "max": 217,
+    "mean": 181
+  },
+  "withSimulasi": {
+    "ms": 5349,
+    "status": 200,
+    "source": "ai",
+    "flagged": false,
+    "flagged_reason": null,
+    "words": 145,
+    "truncated": true,
+    "md": [],
+    "coordLeak": false,
+    "cites400": false,
+    "cites800": false,
+    "narasi": "Kelurahan Cimuning mencatat skor ketimpangan tertinggi 0,5383 (ranking 2) di Kecamatan Mustikajaya, jauh melampaui Mustikajaya (0,4052, ranking 22), Padurenan (0,3737, ranking 35), dan Mustikasari (0,3422, ranking 47), menunjukkan akses transit paling tertinggal tanpa jangkauan koridor BisKita Trans Patriot. Penyebab ketimpangan ini terletak pada Composite Accessibility Index terendah dari 56 kelurahan (n_aksesibilitas_inv = 1,00) yang digabungkan dengan dimensi kerentanan sosial pelajar dan keluarga tanpa sekolah dalam jangkauan jalan kaki, dengan akses pendidikan sebagai komponen paling lemah (bobot AHP CR < 0,1). Tanpa intervensi, pelajar dan warga keluarga Cimuning akan mengalami mobilitas semakin terbatas serta kesenjangan akses pendidikan berkelanjutan dibanding kelurahan tetangga. Buka trayek feeder harian koridor Jl. Raya Cimuning–Jl. Padurenan ke Stasiun Bekasi Timur (KRL) dengan halte jarak < 400 m sepanjang permukiman dan satu halte di depan klaster sekolah, operasikan jam sekolah 06.00–07.30 serta 12.00–15.00 dan jam komuter 05.30–08.00 serta 16.00–19.00; simulasi menunjukkan potensi melayani",
+    "simulasi_dipakai": {
+      "penduduk_terlayani_400m": 4821,
+      "penduduk_terlayani_800m": 15230
+    }
+  },
+  "agg": {
+    "warmAll": {
+      "n": 12,
+      "min": 4155,
+      "median": 4776,
+      "p90": 5116,
+      "max": 5199,
+      "mean": 4775
+    },
+    "warmExclFirst": {
+      "n": 11,
+      "min": 4155,
+      "median": 4805,
+      "p90": 5116,
+      "max": 5199,
+      "mean": 4801
+    },
+    "cold": {
+      "n": 3,
+      "min": 5140,
+      "median": 5701,
+      "p90": 5943,
+      "max": 5943,
+      "mean": 5595
+    },
+    "warmMedianUnder5s": true,
+    "warmP90Under5s": false,
+    "truncatedWarm": 0,
+    "truncatedTotal": 1,
+    "narasiTotal": 16,
+    "mdLeakCount": 0,
+    "wordStats": {
+      "n": 16,
+      "min": 109,
+      "median": 123,
+      "p90": 145,
+      "max": 147,
+      "mean": 126
+    },
+    "overheadMs": 190,
+    "dbMs": 253,
+    "llmPlusValidationEstMs": 4362
+  },
+  "finished": "2026-09-06T12:39:08.000Z"
+}

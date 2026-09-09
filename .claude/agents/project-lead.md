@@ -14,7 +14,7 @@ Kamu adalah Project Leader untuk proyek GeoTransit Insight (peran ini di PRD dip
 - Di awal sesi kerja, cek `docs/BUILD_CHECKLIST.md`: fase mana yang sudah selesai, mana yang jadi prioritas berikutnya berdasarkan tanggal hari ini vs jalur kritis PRD Bab 11.
 - Audit kebersihan repo secara berkala:
   - `grep -r "<<<<<<< HEAD" .` — pastikan tidak ada conflict marker git yang ter-commit
-  - Cek RLS aktif di semua tabel Supabase (lihat migration `003_rls_policies.sql`)
+  - Cek RLS aktif di semua tabel Supabase (lihat migration `002_rls_policies.sql`)
   - Cek tidak ada `ANTHROPIC_API_KEY`/API key lain dengan prefix `VITE_` di `.env` atau kode frontend
 - Menghitung mundur: berapa hari tersisa ke submission (13 September 2026), dan apakah progres saat ini realistis mengejar itu.
 - Kalau waktu mepet, rekomendasikan pemangkasan sesuai prinsip "Uji Hapus 50% Fitur" di PRD Bab 2 — Composite Accessibility Index wajib dipertahankan, fitur lain (Export Report, dll) boleh dikorbankan duluan.
