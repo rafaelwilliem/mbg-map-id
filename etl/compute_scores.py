@@ -86,6 +86,88 @@ DEFAULT_EQUITY_WEIGHTS = {
 }
 
 
+# ============================================================
+# CONFIDENCE RATIO — metrik BARU (2026-09-13, diminta Sam + mentor).
+# BUKAN AHP consistency_ratio (konfigurasi_bobot, sudah ada sejak migration
+# 018) — consistency_ratio mengukur koherensi matriks pairwise AHP (validitas
+# METODOLOGI pembobotan); confidence_ratio mengukur seberapa yakin kita bahwa
+# SKOR SPESIFIK suatu sel/kelurahan merepresentasikan kondisi nyata lapangan
+# (keluasan bukti data yang menyusunnya). Desain lengkap + justifikasi tiap
+# angka: docs/CONFIDENCE_RATIO.md — WAJIB dibaca sebelum mengubah fungsi di
+# bawah. Tidak mengubah skor CAI/TDI/Equity atau bobot AHP mana pun; murni
+# kolom tambahan aditif.
+#
+# Ambang tier dipakai SAMA persis untuk CAI (grid), TDI (grid), dan Equity
+# (kelurahan) supaya label "Tinggi/Sedang/Rendah" berarti hal yang konsisten
+# lintas ketiga index, meski formula ratio-nya berbeda per index.
+# ============================================================
+CONFIDENCE_TIER_TINGGI_MIN = 0.90
+CONFIDENCE_TIER_SEDANG_MIN = 0.50
+
+
+def confidence_tier_dari_ratio(ratio) -> str | None:
+    """Label kategorikal dari confidence_ratio (0-1): Tinggi (>=0,90) / Sedang
+    (>0,50 dan <0,90) / Rendah (<=0,50). None kalau ratio None/NaN (mis.
+    kelurahan yang tidak match sel grid manapun -> confidence N/A, bukan 0).
+
+    PERBAIKAN (2026-09-13, ditemukan lewat verifikasi silang agregasi Equity):
+    batas bawah "Sedang" harus `>` (BUKAN `>=`) CONFIDENCE_TIER_SEDANG_MIN.
+    CAI punya lantai struktural ratio=0,50 persis (kepadatan+jarak SELALU
+    aktif, n_kriteria_aktif minimum=2 -> 2/4=0,50 — lihat docs/
+    CONFIDENCE_RATIO.md tabel contoh: "Sel A ... 0,50 ... Rendah"). Dengan `>=`
+    (versi lama), SEMUA sel CAI di lantai 0,50 salah masuk "Sedang", dan
+    "Rendah" jadi tier yang mustahil muncul untuk CAI sama sekali — baru
+    ketahuan saat agregasi MIN Equity per kelurahan seharusnya menghasilkan
+    campuran Rendah/Sedang, tapi 56/56 kelurahan keliru semua "Sedang". Backfill
+    SQL migration 035 (CASE WHEN terpisah, tidak lewat fungsi ini) SUDAH benar
+    dari awal -- fungsi Python ini yang menyimpang, sekarang disamakan."""
+    if ratio is None or (isinstance(ratio, float) and np.isnan(ratio)):
+        return None
+    if ratio >= CONFIDENCE_TIER_TINGGI_MIN:
+        return "Tinggi"
+    if ratio > CONFIDENCE_TIER_SEDANG_MIN:
+        return "Sedang"
+    return "Rendah"
+
+
+# TDI confidence: berdasar SUMBER halte gabungan (survei+OSM, compute_tdi_full.
+# load_halte_gabungan(), sejak 2026-09-11) yang terdekat dari sel dan dipakai
+# skor_aksesibilitas_transit. survei_lapangan (15 halte_eksisting REAL
+# tersurvei tim, verifikasi fisik langsung) dianggap lebih dapat dipercaya
+# daripada osm_belum_disurvei (~32 titik BisKita Trans Patriot dari OSM,
+# jaringan resmi network="Trans Bekasi Patriot" tapi belum dicek fisik tim).
+# 0,60 adalah judgment call eksplisit (bukan hasil statistik) — dipilih di
+# tengah rentang "cukup dipercaya tapi bukan verifikasi langsung"; lihat
+# docs/CONFIDENCE_RATIO.md bagian TDI untuk penjelasan lengkap kenapa bukan
+# mendekati 0 atau 1, dan kenapa jarak TIDAK dipakai sebagai faktor tambahan
+# di versi minimal ini.
+TDI_CONFIDENCE_BY_SUMBER = {
+    "survei_lapangan": 1.00,
+    "osm_belum_disurvei": 0.60,
+}
+
+
+def compute_tdi_confidence(sumber_halte_terdekat: pd.Series) -> pd.DataFrame:
+    """confidence_ratio + confidence_tier per sel dari kolom sumber_halte_terdekat
+    (nilai HARUS salah satu key TDI_CONFIDENCE_BY_SUMBER — dibiarkan meledak
+    (KeyError via .map ke NaN + assert) kalau ada sumber lain yang belum
+    didaftarkan, daripada diam-diam None). TIDAK menyentuh skor_tdi — fungsi
+    terpisah, dipanggil eksplisit oleh compute_tdi_full.py setelah compute_tdi().
+    """
+    ratio = sumber_halte_terdekat.map(TDI_CONFIDENCE_BY_SUMBER)
+    n_unknown = int(ratio.isna().sum())
+    assert n_unknown == 0, (
+        f"{n_unknown} baris punya sumber_halte_terdekat di luar "
+        f"{sorted(TDI_CONFIDENCE_BY_SUMBER)} — daftarkan confidence-nya dulu "
+        "di TDI_CONFIDENCE_BY_SUMBER, jangan biarkan diam-diam NaN."
+    )
+    tier = ratio.map(confidence_tier_dari_ratio)
+    return pd.DataFrame(
+        {"tdi_confidence_ratio": ratio.values, "tdi_confidence_tier": tier.values},
+        index=sumber_halte_terdekat.index,
+    )
+
+
 def normalize_min_max(series: pd.Series, inverse: bool = False) -> pd.Series:
     """
     Normalisasi min-max ke skala 0-1.

@@ -86,7 +86,7 @@ import argparse
 import geopandas as gpd
 import pandas as pd
 
-from compute_scores import compute_equity_index, sensitivity_check_equity, DEFAULT_EQUITY_WEIGHTS
+from compute_scores import compute_equity_index, sensitivity_check_equity, DEFAULT_EQUITY_WEIGHTS, confidence_tier_dari_ratio
 from rerun_dasymetric_grid import fetch_all_paginated, wkb_hex_to_geom, SUMBER_BATAS_RESMI, WGS84
 from upload_to_supabase import get_client, load_weights_from_db
 
@@ -96,6 +96,10 @@ PREFIX_ID_TITIK_SURVEI_DEMO = "KND-DEMO-"
 
 SUMBER_LOKAL = "REAL - agregasi lokal (skor_cai_rata2 dari titik_kandidat survei di kelurahan ini, n={n})"
 SUMBER_FALLBACK = "REAL - FALLBACK rata-rata kota (belum ada titik_kandidat survei di kelurahan ini, skor_cai_rata2 kota={kota:.4f})"
+
+# Confidence Ratio Equity (035/docs/CONFIDENCE_RATIO.md) — teks persis harus
+# sama dengan comment kolom skor_equity.confidence_metode di migration 035.
+CONFIDENCE_METODE = "minimum (konservatif) atas cai_confidence_ratio sel grid dalam kelurahan"
 
 
 def load_kelurahan(client) -> gpd.GeoDataFrame:
@@ -197,6 +201,80 @@ def attach_jarak_poi(client, kelurahan: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     return out.dropna(subset=list(kolom_jenis.values())).reset_index(drop=True)
 
 
+def attach_confidence_cai(client, kelurahan: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """
+    Confidence Ratio Equity (BARU 2026-09-13, lihat docs/CONFIDENCE_RATIO.md)
+    = MINIMUM cai_confidence_ratio atas sel grid_analisis yang centroidnya
+    jatuh di kelurahan ini ("weakest link", defensif -- kelurahan hanya
+    dianggap seyakin sel terlemahnya, bukan dirata-ratakan sehingga satu sel
+    lemah "ditutupi" banyak sel kuat). confidence_ratio_rata2 (mean) disimpan
+    berdampingan HANYA sebagai pembanding audit -- lihat komentar kolom di
+    migration 035, JANGAN dipakai sebagai nilai otoritatif di UI/AI.
+
+    Pola spatial join SAMA PERSIS dengan attach_jarak_poi() di atas (centroid
+    grid_analisis -> sjoin predicate='within' ke kelurahan) supaya himpunan
+    sel yang "match" identik antar kriteria. BEDA PENTING dari attach_jarak_poi:
+    di sini TIDAK ada dropna/exclude kelurahan yang tidak match -- Confidence
+    Ratio murni sinyal keandalan TAMBAHAN (lihat batasan keras di migration
+    035), bukan input skor_final, jadi kelurahan yang kebetulan tidak match
+    sel grid manapun tetap masuk Equity Index dengan confidence_ratio NULL,
+    BUKAN dikeluarkan dari hasil.
+    """
+    # fetch_all_paginated cuma dukung filter kesetaraan (.eq) -- "IS NOT NULL"
+    # difilter di pandas sesudahnya, bukan di query, supaya tidak perlu ubah
+    # helper bersama itu di hari deadline.
+    grid_rows_semua = fetch_all_paginated(client, "grid_analisis", "id, geom, cai_confidence_ratio")
+    grid_rows = [r for r in grid_rows_semua if r.get("cai_confidence_ratio") is not None]
+    if not grid_rows:
+        print("[PERINGATAN] Tidak ada sel grid_analisis dengan cai_confidence_ratio terisi -- "
+              "confidence_ratio Equity akan NULL semua. Jalankan `python etl/compute_cai_grid.py "
+              "--upload` dan pastikan migration 035 sudah di-apply (backfill SQL) dulu.")
+        out = kelurahan.copy()
+        out["confidence_ratio"] = pd.NA
+        out["confidence_ratio_rata2"] = pd.NA
+        out["confidence_tier"] = None
+        out["confidence_n_sel"] = 0
+        return out
+
+    grid_geoms = [wkb_hex_to_geom(r["geom"]) for r in grid_rows]
+    grid = gpd.GeoDataFrame(
+        {"grid_id": [r["id"] for r in grid_rows],
+         "cai_confidence_ratio": [float(r["cai_confidence_ratio"]) for r in grid_rows]},
+        geometry=grid_geoms, crs=WGS84,
+    )
+    grid_m = grid.to_crs(METRIC_CRS)
+    kelurahan_m = kelurahan.to_crs(METRIC_CRS)
+    centroids = grid_m.copy()
+    centroids["geometry"] = centroids.geometry.centroid
+
+    joined = gpd.sjoin(centroids, kelurahan_m[["kelurahan_id", "geometry"]], how="left", predicate="within")
+    joined = joined.loc[~joined.index.duplicated(keep="first")]
+    n_unmatched = joined["kelurahan_id"].isna().sum()
+    if n_unmatched:
+        print(
+            f"[INFO] {n_unmatched}/{len(joined)} sel dg cai_confidence_ratio tidak match ke kelurahan "
+            "RBI manapun (celah antar-polygon RBI 25K, sama seperti attach_jarak_poi) -> dikecualikan "
+            "dari agregasi confidence (BUKAN dikecualikan dari Equity Index -- lihat docstring fungsi ini)."
+        )
+    joined = joined.dropna(subset=["kelurahan_id"])
+
+    agg = joined.groupby("kelurahan_id")["cai_confidence_ratio"].agg(["min", "mean", "count"])
+
+    out = kelurahan.copy()
+    out["confidence_ratio"] = out["kelurahan_id"].map(agg["min"])
+    out["confidence_ratio_rata2"] = out["kelurahan_id"].map(agg["mean"])
+    out["confidence_n_sel"] = out["kelurahan_id"].map(agg["count"]).fillna(0).astype(int)
+    out["confidence_tier"] = out["confidence_ratio"].map(confidence_tier_dari_ratio)
+
+    n_tanpa = out["confidence_ratio"].isna().sum()
+    if n_tanpa:
+        print(f"[INFO] {n_tanpa}/{len(out)} kelurahan tidak punya sel ber-confidence yang match -> "
+              "confidence_ratio NULL untuk kelurahan itu (tetap masuk Equity Index).")
+    print(f"[INFO] confidence_ratio (min) Equity: {len(out) - n_tanpa}/{len(out)} kelurahan terisi. "
+          f"Distribusi tier: {out['confidence_tier'].value_counts(dropna=False).to_dict()}")
+    return out
+
+
 def attach_skor_cai(client, kelurahan: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
     """
     skor_cai_rata2 per kelurahan -- lihat STRATEGI di docstring modul untuk
@@ -264,6 +342,11 @@ def build_equity_input(client) -> gpd.GeoDataFrame:
     kelurahan = attach_penduduk(client, kelurahan)
     kelurahan = attach_jarak_poi(client, kelurahan)
     kelurahan = attach_skor_cai(client, kelurahan)
+    # Confidence Ratio (035/docs/CONFIDENCE_RATIO.md) -- SETELAH attach_jarak_poi
+    # supaya kelurahan yang sudah di-dropna() attach_jarak_poi tidak ikut minta
+    # confidence untuk baris yang toh tidak akan diupload. TIDAK menggunakan
+    # dropna sendiri -- lihat docstring attach_confidence_cai().
+    kelurahan = attach_confidence_cai(client, kelurahan)
     return kelurahan
 
 
@@ -295,6 +378,21 @@ def upload_equity_scores_real(client, scored_df: pd.DataFrame) -> int:
             # Narasi deskriptif -- SENGAJA NULL, lihat catatan di docstring modul.
             "kelompok_terdampak": None,
             "rekomendasi_intervensi": None,
+            # Confidence Ratio (035/docs/CONFIDENCE_RATIO.md) -- BUKAN AHP
+            # consistency_ratio. NULL kalau kelurahan tidak match sel grid
+            # manapun (lihat attach_confidence_cai()) -- pola sama dengan
+            # kolom jarak_rata2_* yang boleh NULL secara individual.
+            "confidence_ratio": (
+                round(float(row["confidence_ratio"]), 4)
+                if pd.notna(row["confidence_ratio"]) else None
+            ),
+            "confidence_ratio_rata2": (
+                round(float(row["confidence_ratio_rata2"]), 4)
+                if pd.notna(row["confidence_ratio_rata2"]) else None
+            ),
+            "confidence_tier": row["confidence_tier"] if pd.notna(row["confidence_tier"]) else None,
+            "confidence_n_sel": int(row["confidence_n_sel"]),
+            "confidence_metode": CONFIDENCE_METODE if pd.notna(row["confidence_ratio"]) else None,
         })
 
     result = client.table("skor_equity").insert(records).execute()

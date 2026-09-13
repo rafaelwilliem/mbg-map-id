@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   LayoutDashboard,
   Map as MapIcon,
@@ -15,7 +15,9 @@ import {
 import MapView from './components/Map/MapView'
 import SearchBar from './components/Search/SearchBar'
 import CaiScorePanel from './components/Map/CaiScorePanel'
+import TdiScorePanel from './components/Map/TdiScorePanel'
 import MapLegend from './components/Map/MapLegend'
+import LayerControl from './components/Map/LayerControl'
 import AIPanel from './components/AIPanel/AIPanel'
 import AnalisisSpasial from './components/AnalisisSpasial/AnalisisSpasial'
 import SimulationPanel from './components/SimulationMode/SimulationPanel'
@@ -25,8 +27,21 @@ import DataLaporan from './components/DataLaporan/DataLaporan'
 import LoginPage from './components/Auth/LoginPage'
 import Pengaturan from './components/Pengaturan/Pengaturan'
 import { supabase, isConfigured } from './lib/supabaseClient'
-import { extractLatLon, extractLineStringCoords, findNearestPoint, haversineMeters } from './lib/geo'
+import { extractLatLon, extractLineStringCoords, extractPolygonRings, haversineMeters } from './lib/geo'
 import { isDummyHalte } from './lib/halteEksisting'
+import { fetchAllRows } from './lib/fetchAllRows'
+import { SOROT_WILAYAH_COLOR, SOROT_WILAYAH_HALO_COLOR } from './lib/mapColors'
+import {
+  CHOROPLETH_COLORS,
+  computeMinMax,
+  fmtBound,
+  gradientCssFromColors,
+  linearInterpolateFillColorExpr,
+  sqrtInterpolateFillColorExpr,
+  toPolygonFeatureCollection,
+  VIRIDIS_COLORS,
+} from './lib/choropleth'
+import { markerIconSvg, legendIconSvg } from './lib/mapIcons'
 
 // Batas area studi (outline Kota Bekasi) — aset STATIS yang di-bundle saat
 // build, hasil etl/build_bekasi_boundary_geojson.py (dissolve 56 kelurahan
@@ -47,11 +62,34 @@ import biskitaHalteOsmRaw from './data/biskita_halte_osm.geojson?raw'
 import stasiunKotaBekasiRaw from './data/stasiun_kota_bekasi.geojson?raw'
 import lrtJabodebekOsmRaw from './data/lrt_jabodebek_osm.geojson?raw'
 
+// Koridor Transjakarta B21 (Bekasi Timur -> Cawang) — request Sam 2026-09-12,
+// LAYER KONTEKS VISUAL MURNI (kategori sama dengan Koridor BisKita/KRL/LRT di
+// atas): TIDAK dipakai skor CAI/TDI apa pun, TIDAK disentuh ETL/Supabase,
+// TIDAK masuk Export Report (DataLaporan) — bukan data/skor/kartu dashboard
+// baru, jadi aturan tetap sinkronisasi Data & Laporan tidak berlaku di sini.
+// Aset STATIS hasil ekspor relasi rute OSM (ref=B21): 1 LineString (411 titik,
+// ~21,4 km) + 15 Point halte, sudah divalidasi (geometri valid, halte snap
+// persis ke vertex garis — data relasi rute bertag, bukan aproksimasi seperti
+// layer biskita_koridor_osm). `?raw` + JSON.parse karena Vite tidak memproses
+// `.geojson` sebagai modul JSON secara default.
+import transjakartaB21Raw from './data/transjakarta_b21_osm.geojson?raw'
+
 const bekasiBoundary = JSON.parse(bekasiBoundaryRaw)
 const biskitaKoridorOsm = JSON.parse(biskitaKoridorOsmRaw)
 const biskitaHalteOsm = JSON.parse(biskitaHalteOsmRaw)
 const stasiunKotaBekasi = JSON.parse(stasiunKotaBekasiRaw)
 const lrtJabodebekOsm = JSON.parse(lrtJabodebekOsmRaw)
+const transjakartaB21 = JSON.parse(transjakartaB21Raw)
+// Pisahkan garis rute (1 LineString) dari titik halte (15 Point) — sumbernya
+// satu FeatureCollection gabungan, tapi MapView butuh source per-tipe geometri
+// terpisah (line layer vs marker) mengikuti pola biskitaKoridorOsm/biskitaHalteOsm.
+const transjakartaB21Line = {
+  type: 'FeatureCollection',
+  features: (transjakartaB21.features || []).filter((f) => f.geometry?.type === 'LineString'),
+}
+const transjakartaB21Stops = (transjakartaB21.features || []).filter(
+  (f) => f.geometry?.type === 'Point',
+)
 
 // Feature flag login wall — OFF by default. Auth gate (LoginPage) hanya
 // dipasang kalau VITE_AUTH_REQUIRED === 'true' DI SAMPING isConfigured.
@@ -117,6 +155,154 @@ const DEMO_CAI_POINTS = [
   },
 ]
 
+// Data contoh rincian CAI — dipakai kalau Supabase belum tersambung, meniru
+// JSON keluaran RPC get_cai_breakdown (migration 033) APA ADANYA. CAI kini
+// SURFACE grid 300 m (grid_analisis), bukan lagi 19 titik_kandidat diskret —
+// jadi bentuk ini per-sel, bukan per-titik. TIDAK ada formula dihitung di sini:
+// `kontribusi` sudah = nilai x bobot, murni angka contoh statis.
+//   * DEMO_CAI_BREAKDOWN         -> kasus mayoritas sel: 2 kriteria aktif
+//     (kepadatan + jarak), bobot efektif 0,5 / 0,5 (rasio AHP kepadatan=jarak).
+//   * DEMO_CAI_BREAKDOWN_VOLUME  -> sel dekat titik cacah lapangan: 3 kriteria
+//     (kepadatan + jarak + volume), bobot efektif 0,3834 / 0,3834 / 0,2331.
+// handleMapClick memilih salah satunya berdasar titik DEMO_CAI_POINTS terdekat
+// (hanya untuk variasi tampilan — jarak tidak lagi jadi gerbang apa pun).
+const DEMO_CAI_BREAKDOWN = {
+  ditemukan: true,
+  cell_id: 1487,
+  match: 'memuat',
+  jarak_ke_sel_m: 0,
+  skor_cai: 0.5316,
+  skor_cai_reproduksi: 0.5316,
+  formula:
+    'cai_skor = Σ( nilai_ternormalisasi_i × bobot_efektif_i ) untuk kriteria AKTIF di sel; ' +
+    'tiap nilai dinormalisasi min-max 0–1; bobot dari AHP pairwise Saaty (konfigurasi_bobot ' +
+    "nama_index='CAI'), subset kriteria aktif direnormalisasi ke jumlah 1. Model ADITIF (WLC), " +
+    'bukan rasio seperti TDI.',
+  volume_estimasi: false,
+  komponen: [
+    {
+      kunci: 'kepadatan',
+      label: 'Kepadatan penduduk',
+      nilai: 0.618,
+      bobot: 0.5,
+      kontribusi: 0.309,
+      nilai_mentah: 7284.15,
+      satuan: 'jiwa per sel (~300 × 300 m, dasymetric mapping)',
+      arah: 'Makin padat → skor CAI naik (prioritas naik)',
+    },
+    {
+      kunci: 'jarak_fasilitas_inv',
+      label: 'Jarak ke fasilitas umum (inverse)',
+      nilai: 0.4452,
+      bobot: 0.5,
+      kontribusi: 0.2226,
+      nilai_mentah: 612.4,
+      satuan: 'meter ke POI fasilitas umum terdekat (sekolah/faskes/kerja, OSM; dibatasi 3000 m)',
+      arah: 'Makin dekat → skor CAI naik',
+    },
+  ],
+  catatan:
+    'Data contoh — surface CAI grid 300 m HYBRID: kepadatan (dasymetric) & jarak POI (OSM) ' +
+    'diturunkan dari geodata di setiap sel. Kriteria volume transit N/A untuk sel ini (tidak ada ' +
+    'titik cacah lapangan ≤ 300 m); kriteria survei kondisi halte N/A (tidak ada halte tersurvei ' +
+    '≤ 400 m). Bobot 2 kriteria sisanya (kepadatan, jarak) direnormalisasi ke jumlah 1.',
+}
+
+const DEMO_CAI_BREAKDOWN_VOLUME = {
+  ditemukan: true,
+  cell_id: 803,
+  match: 'terdekat',
+  jarak_ke_sel_m: 128,
+  skor_cai: 0.632,
+  skor_cai_reproduksi: 0.632,
+  formula: DEMO_CAI_BREAKDOWN.formula,
+  volume_estimasi: false,
+  komponen: [
+    {
+      kunci: 'kepadatan',
+      label: 'Kepadatan penduduk',
+      nilai: 0.701,
+      bobot: 0.3834,
+      kontribusi: 0.2688,
+      nilai_mentah: 9105.6,
+      satuan: 'jiwa per sel (~300 × 300 m, dasymetric mapping)',
+      arah: 'Makin padat → skor CAI naik (prioritas naik)',
+    },
+    {
+      kunci: 'jarak_fasilitas_inv',
+      label: 'Jarak ke fasilitas umum (inverse)',
+      nilai: 0.523,
+      bobot: 0.3834,
+      kontribusi: 0.2005,
+      nilai_mentah: 445,
+      satuan: 'meter ke POI fasilitas umum terdekat (sekolah/faskes/kerja, OSM; dibatasi 3000 m)',
+      arah: 'Makin dekat → skor CAI naik',
+    },
+    {
+      kunci: 'volume',
+      label: 'Volume penumpang / aktivitas transit',
+      nilai: 0.698,
+      bobot: 0.2331,
+      kontribusi: 0.1627,
+      nilai_mentah: 412,
+      satuan: 'aktivitas / 2 jam (traffic counting lapangan, titik survei ≤ 300 m)',
+      arah: 'Makin tinggi → skor CAI naik',
+    },
+  ],
+  catatan:
+    'Data contoh — surface CAI grid 300 m HYBRID: sel ini ≤ 300 m dari titik cacah lapangan, jadi ' +
+    'kriteria volume transit AKTIF (traffic counting riil). Kriteria survei kondisi halte N/A ' +
+    '(tidak ada halte tersurvei ≤ 400 m); bobot 3 kriteria sisanya direnormalisasi ke jumlah 1.',
+}
+
+// Rincian TDI contoh — dipakai kalau Supabase belum tersambung / RPC
+// get_tdi_breakdown gagal, saat overlai analitik = 'tdi' dan user klik peta.
+// Struktur meniru output RPC (migration 015, refined 021/027) apa adanya;
+// TIDAK ada formula dihitung di sini, murni angka contoh statis. Dipindah dari
+// AnalisisSpasial.jsx pada konsolidasi peta 2026-09-12 (klik-untuk-rincian TDI
+// kini ditangani di sini, peta utama, bukan di peta kecil terpisah).
+const DEMO_TDI_BREAKDOWN = {
+  ditemukan: true,
+  cell_id: null,
+  match: 'memuat',
+  jarak_ke_sel_m: 0,
+  skor_tdi: 0.68,
+  skor_tdi_reproduksi_perkiraan: 0.679,
+  tdi_raw: 41.32,
+  aksesibilitas_floor: 0.01,
+  formula:
+    'TDI_raw = kepadatan_penduduk x indeks_kebutuhan_mobilitas / maks(skor_aksesibilitas_transit, 0,01); ' +
+    'skor_tdi = normalisasi_minmax(ln(1 + TDI_raw)) lintas seluruh sel grid',
+  komponen: [
+    {
+      kunci: 'kepadatan_penduduk',
+      label: 'Kepadatan penduduk',
+      nilai: 8120.5,
+      satuan: 'jiwa per sel (~300 x 300 m, hasil dasymetric mapping)',
+      peran: 'pembilang',
+      arah: 'Makin tinggi -> TDI makin tinggi (defisit layanan makin besar)',
+    },
+    {
+      kunci: 'indeks_kebutuhan_mobilitas',
+      label: 'Indeks Kebutuhan Mobilitas',
+      nilai: 0.612,
+      satuan: 'indeks 0-1 (proksi: proporsi usia rentan, kepadatan POI harian, proporsi usia sekolah 5-19)',
+      peran: 'pembilang',
+      arah: 'Makin tinggi -> TDI makin tinggi',
+    },
+    {
+      kunci: 'skor_aksesibilitas_transit',
+      label: 'Skor Aksesibilitas Transit',
+      nilai: 0.12,
+      satuan: 'indeks 0-1 (coverage isochrone 400/800 m ke halte eksisting terdekat)',
+      peran: 'penyebut',
+      arah: 'Makin tinggi -> TDI makin RENDAH (akses transit sudah baik)',
+    },
+  ],
+  catatan:
+    'Data contoh. skor_tdi lebih tinggi = sel makin "transit desert" (makin butuh prioritas).',
+}
+
 // Data contoh halte_eksisting — dipakai kalau Supabase belum tersambung/tabel
 // masih kosong, supaya layer "jaringan transit eksisting" (acceptance criteria
 // Peta Multi-Layer Gap Analysis, CLAUDE.md) tetap tampil. Koordinat & nama
@@ -164,6 +350,43 @@ const DEMO_RUTE_KRL_GEOJSON = {
 }
 const DEMO_RUTE_TRANSIT_DISCLAIMER =
   'Data contoh — belum tersambung ke tabel rute_transit_eksisting.'
+
+// Grid contoh untuk OVERLAI ANALITIK (choropleth kepadatan / TDI) saat Supabase
+// belum tersambung. 36 sel kotak membagi bbox kasar Kota Bekasi — BUKAN grid
+// 300 m riil grid_analisis, hanya supaya overlai tetap bisa didemokan. Nilai
+// deterministik (bukan Math.random) supaya stabil antar reload.
+const DEMO_CHORO_BBOX = { minLat: -6.35, maxLat: -6.15, minLon: 106.95, maxLon: 107.12 }
+function buildDemoChoroCells() {
+  const n = 6
+  const lonStep = (DEMO_CHORO_BBOX.maxLon - DEMO_CHORO_BBOX.minLon) / n
+  const latStep = (DEMO_CHORO_BBOX.maxLat - DEMO_CHORO_BBOX.minLat) / n
+  const cells = []
+  for (let r = 0; r < n; r++) {
+    for (let c = 0; c < n; c++) {
+      const seed = r * n + c + 1
+      const rnd = (k) => {
+        const x = Math.sin(seed * k) * 43758.5453
+        return x - Math.floor(x)
+      }
+      const minLon = DEMO_CHORO_BBOX.minLon + c * lonStep
+      const minLat = DEMO_CHORO_BBOX.minLat + r * latStep
+      const maxLon = minLon + lonStep
+      const maxLat = minLat + latStep
+      cells.push({
+        ring: [
+          [minLon, minLat],
+          [maxLon, minLat],
+          [maxLon, maxLat],
+          [minLon, maxLat],
+          [minLon, minLat],
+        ],
+        kepadatan: Math.round(rnd(12.9898) * 16000 + 1500),
+        tdi: Number(rnd(3.7).toFixed(2)),
+      })
+    }
+  }
+  return cells
+}
 
 // Warna marker titik_kandidat = TITIK SURVEI LAPANGAN (Form Traffic Counting).
 // SATU warna sejak 2026-09-07: skema 2-warna lama membedakan "4 kriteria CAI
@@ -224,6 +447,19 @@ const RUTE_LRT_COLOR = '#0D9488'
 // Ini usulan turunan model, BELUM disurvei — pembedaan wajib, lihat CLAUDE.md.
 const USULAN_MODEL_MARKER_COLOR = '#DB2777'
 
+// Warna koridor Transjakarta B21 (Bekasi Timur <-> Cawang) — sengaja MERAH,
+// rumpun warna belum dipakai layer mana pun (hijau/ungu/oranye/biru/teal/
+// magenta/emas sudah terpakai di atas), sekaligus dekat warna brand
+// Transjakarta di dunia nyata. Harus kontras jelas dari RUTE_BISKITA_OSM_COLOR
+// (oranye-300) supaya "koridor OSM lain" ini tidak tertukar dengan BisKita —
+// dibedakan garis PUTUS-PUTUS (data relasi OSM presisi, tapi bukan geometri
+// jalan-per-jalan tervalidasi tim seperti biskita_survei yang solid) + warna
+// beda rumpun sama sekali (merah vs oranye), memenuhi syarat colorblind-safe
+// non-warna CLAUDE.md Bab 10.3 sekaligus.
+// TODO(ui-ux-designer): ini asumsi sementara webgis-developer, bukan keputusan
+// desain final.
+const TRANSJAKARTA_B21_COLOR = '#DC2626'
+
 // Warna garis batas area studi (outline Kota Bekasi) — token brand-blue
 // (#1B659D, --color-brand-blue di src/index.css; sama dengan warna header &
 // marker default MapView). Garis putus-putus supaya kebaca sebagai "batas
@@ -231,16 +467,17 @@ const USULAN_MODEL_MARKER_COLOR = '#DB2777'
 const BATAS_KOTA_COLOR = '#1B659D'
 
 // Warna sorotan batas wilayah TERPILIH dari hasil pencarian (kelurahan/kecamatan
-// via RPC get_admin_geometry). Sengaja dibedakan tegas dari BATAS_KOTA_COLOR:
-// batas kota = biru brand + PUTUS-PUTUS ("area studi", konteks permanen);
-// wilayah terpilih = emas + SOLID tebal + isian tipis ("area yang barusan kamu
-// pilih", sementara). Beda bentuk garis + adanya isian bidang membuat keduanya
-// terbedakan TANPA bergantung warna sama sekali (syarat colorblind-safe
-// CLAUDE.md Bab 10.3) — dan emas adalah satu-satunya rumpun warna yang belum
-// dipakai legenda (hijau/ungu/oranye/biru/teal/magenta sudah terpakai).
+// via RPC get_admin_geometry) DAN filter kecamatan di tab Analisis Spasial.
+// Sengaja dibedakan tegas dari BATAS_KOTA_COLOR: batas kota = biru brand +
+// PUTUS-PUTUS ("area studi", konteks permanen); wilayah terpilih = emas +
+// SOLID tebal + isian tipis ("area yang barusan kamu pilih", sementara). Beda
+// bentuk garis + adanya isian bidang membuat keduanya terbedakan TANPA
+// bergantung warna sama sekali (syarat colorblind-safe CLAUDE.md Bab 10.3).
 // Tidak memakai pasangan merah–hijau sama sekali.
-// TODO(ui-ux-designer): emas ini asumsi webgis-developer, bukan keputusan desain final.
-const SOROT_WILAYAH_COLOR = '#CA8A04'
+// Dipindah ke lib/mapColors.js (2026-09-13, ui-ux-designer, final — bukan lagi
+// TODO) supaya AnalisisSpasial.jsx bisa memakai warna yang SAMA PERSIS untuk
+// badge nama kecamatan terpilih di panel kontrol, tanpa hex literal kedua.
+// Lihat lib/mapColors.js untuk rincian perbaikan kontras garis (halo gelap).
 
 function escapeHtml(str) {
   return String(str ?? '').replace(/[&<>"']/g, (c) => (
@@ -374,6 +611,29 @@ const BISKITA_HALTE_OSM_POPUP_HTML = [
   escapeHtml(biskitaHalteOsm?.properties?.sumber || ''),
 ].filter(Boolean).join('<br/>')
 
+// Popup koridor Transjakarta B21 — layer KONTEKS VISUAL murni, sama seperti
+// KRL/LRT/BisKita OSM di atas: tidak dipakai skor apa pun. Catatan cakupan
+// (±72% dalam Kota Bekasi) ditulis apa adanya mengikuti konvensi honest-
+// disclosure proyek ini (lihat BISKITA_KORIDOR_OSM_POPUP_HTML) — rute
+// ditampilkan UTUH (tidak dipotong), garis + seluruh 15 halte tetap
+// ditampilkan sampai Cawang supaya tidak menyalahi data relasi OSM yang valid.
+const TRANSJAKARTA_B21_LINE_POPUP_HTML = [
+  '<strong>Transjakarta B21: Bekasi Timur → Cawang</strong>',
+  '<span style="color:#64748b">Relasi rute OpenStreetMap (ref=B21, route=bus) — konteks visual, bukan data resmi dipakai skor CAI/TDI apa pun.</span>',
+  '<span style="color:#64748b">±72% panjang rute berada dalam Kota Bekasi (~15,55 km dari total ~21,4 km); sisanya menuju Cawang, DKI Jakarta, di luar area studi.</span>',
+].join('<br/>')
+
+// Popup per-halte B21 — dipakai lewat marker (bukan popupHtml layer statis)
+// supaya tiap titik menampilkan namanya sendiri, sama pola dengan
+// buildStasiunPopupHtml di bawah.
+function buildTransjakartaB21StopPopupHtml(nama) {
+  const lines = [
+    `<strong>${escapeHtml(nama || 'Halte Transjakarta B21')}</strong>`,
+    '<span style="color:#64748b">Transjakarta B21: Bekasi Timur → Cawang (OpenStreetMap) — konteks visual, bukan data resmi dipakai skor apa pun.</span>',
+  ]
+  return lines.join('<br/>')
+}
+
 // Auth gate sederhana single-role (Dishub/Bappeda staf) — Supabase Auth
 // email+password, TANPA role/permission berjenjang dan TANPA UI signup
 // (akun staf dibuat lewat Supabase Dashboard, lihat catatan di README/laporan
@@ -427,6 +687,85 @@ export default function App() {
   // dikosongkan saat hasil titik/garis dipilih atau input dibersihkan.
   const [sorotWilayah, setSorotWilayah] = useState(null)
 
+  // --- Panel Layer (tab Peta Interaktif) ---
+  // Visibilitas layer titik/garis konteks — default SELEKTIF, bukan semua ON:
+  // usulanModel & krl mulai tertutup (usulan model belum tervalidasi lapangan;
+  // jaringan KRL garis tumpang tindih dengan layer stasiun) sementara sisanya
+  // (halte, stasiun, koridorBiskita, lrt, batasKota) tampil dari awal. Key
+  // dipetakan ke marker group / layer garis di mapLayers di bawah.
+  // candidateMarkers (titik survei, jangkar CAI) sengaja TIDAK di daftar ini
+  // — selalu tampil.
+  const [layerVis, setLayerVis] = useState({
+    usulanModel: false,
+    halte: true,
+    stasiun: true,
+    koridorBiskita: true,
+    krl: true,
+    lrt: true,
+    batasKota: true,
+    // Default OFF — request Sam 2026-09-12 eksplisit menandai ini sebagai
+    // asumsi wajar, bukan keputusan final: layer baru mengikuti konvensi
+    // minimalis-default panel ini (hanya core layer yang disepakati lebih
+    // dulu default ON; tambahan sejak itu default OFF). Ganti ke `true` di
+    // sini kalau Sam minta tampil dari awal.
+    transjakartaB21: false,
+  })
+  // Ambang tampil untuk layer "Usulan halte model" — filter TUNGGAL di
+  // `usulan_halte_model.ranking` (ranking <= nilai ini), bukan data
+  // berbeda per level. Default 25 = "Level 1" (paling mendesak), konsisten
+  // dengan pola default konservatif panel ini (usulanModel sendiri default
+  // OFF; begitu dinyalakan, langsung tampil subset paling prioritas dulu,
+  // bukan semuanya). Diatur lewat LayerControl (3 preset + slider 0–100).
+  const [usulanModelRankLimit, setUsulanModelRankLimit] = useState(25)
+  // Overlai analitik choropleth full-map: 'none' | 'kepadatan' | 'tdi'.
+  const [analyticOverlay, setAnalyticOverlay] = useState('none')
+  // Cache sel grid_analisis untuk overlai — di-fetch LAZY (sekali, saat overlai
+  // pertama kali dinyalakan) lalu ditahan; toggle off/on tidak fetch ulang.
+  // Bentuk: array { ring:[[lon,lat]...], kepadatan:number, tdi:number } | null.
+  const [gridChoro, setGridChoro] = useState(null)
+  const [gridChoroLoading, setGridChoroLoading] = useState(false)
+  // Penjaga supaya fetch grid_analisis untuk overlai HANYA jalan sekali —
+  // toggle overlai off lalu on lagi tidak memicu fetch ulang.
+  const gridChoroFetchStartedRef = useRef(false)
+
+  useEffect(() => {
+    if (analyticOverlay === 'none' || gridChoroFetchStartedRef.current) return
+    gridChoroFetchStartedRef.current = true
+    let cancelled = false
+
+    ;(async () => {
+      setGridChoroLoading(true)
+      try {
+        if (!isConfigured) {
+          if (!cancelled) setGridChoro(buildDemoChoroCells())
+          return
+        }
+        // 2.607 baris grid_analisis > cap 1000/req PostgREST -> fetchAllRows.
+        const { data, error } = await fetchAllRows(() =>
+          supabase.from('grid_analisis').select('id, geom, kepadatan_penduduk, skor_tdi'),
+        )
+        if (error) throw error
+        const cells = (data ?? [])
+          .map((row) => {
+            const ring0 = extractPolygonRings(row.geom)?.[0]
+            if (!ring0) return null
+            return { ring: ring0, kepadatan: row.kepadatan_penduduk, tdi: row.skor_tdi }
+          })
+          .filter(Boolean)
+        if (!cancelled) setGridChoro(cells.length ? cells : buildDemoChoroCells())
+      } catch (err) {
+        console.error('Gagal memuat grid_analisis untuk overlai analitik:', err)
+        if (!cancelled) setGridChoro(buildDemoChoroCells())
+      } finally {
+        if (!cancelled) setGridChoroLoading(false)
+      }
+    })()
+
+    return () => {
+      cancelled = true
+    }
+  }, [analyticOverlay])
+
   // --- Simulasi What-If ---
   const [simulationActive, setSimulationActive] = useState(false)
   const [simLoading, setSimLoading] = useState(false)
@@ -442,6 +781,22 @@ export default function App() {
   const [caiLoading, setCaiLoading] = useState(false)
   const [caiResult, setCaiResult] = useState(null)
   const [caiUsingDemo, setCaiUsingDemo] = useState(!isConfigured)
+
+  // --- Rincian TDI per klik lokasi — aktif HANYA saat analyticOverlay==='tdi'
+  // (konsolidasi peta 2026-09-12: dipindah dari AnalisisSpasial.jsx, yang dulu
+  // punya <MapView> + handleMapClick sendiri). RPC get_tdi_breakdown HANYA
+  // menyajikan kolom grid_analisis yang sudah dihitung offline (data-ai-analyst)
+  // — tidak ada skor dihitung ulang di sini.
+  const [tdiLoading, setTdiLoading] = useState(false)
+  const [tdiResult, setTdiResult] = useState(null)
+  const [tdiUsingDemo, setTdiUsingDemo] = useState(!isConfigured)
+
+  // Overlai berpindah menjauh dari 'tdi' (mis. user ganti ke 'kepadatan' atau
+  // 'none') -> tutup panel rincian TDI yang mungkin masih terbuka, supaya
+  // tidak ada panel basi yang tidak relevan lagi dengan overlai aktif.
+  useEffect(() => {
+    if (analyticOverlay !== 'tdi') setTdiResult(null)
+  }, [analyticOverlay])
 
   // Daftar titik_kandidat + skor_cai — di-fetch sekali di awal supaya klik peta
   // instan (tidak query ulang tiap klik) DAN supaya bisa dirender sebagai marker
@@ -635,7 +990,7 @@ export default function App() {
     if (focusTab) setActiveTab('simulasi')
     setSimLoading(true)
     setCaiResult(null)
-    setClickMarker({ lat, lon, color: '#E08A1E', popupText })
+    setClickMarker({ lat, lon, color: '#E08A1E', popupText, pulse: true })
 
     try {
       if (isConfigured) {
@@ -663,23 +1018,78 @@ export default function App() {
       return
     }
 
-    // --- Alur skor CAI (klik lokasi -> cari titik_kandidat terdekat) ---
+    if (analyticOverlay === 'tdi') {
+      // --- Alur rincian TDI (RPC get_tdi_breakdown) — aktif hanya saat
+      // overlai analitik = 'tdi' (dipindah dari AnalisisSpasial.jsx, lihat
+      // catatan state tdiResult di atas). Klik saat overlai lain aktif tetap
+      // masuk jalur CAI di bawah, tidak berubah.
+      setTdiLoading(true)
+      setCaiResult(null)
+      setSimResult(null)
+      setClickMarker({ lat, lon, color: '#334155', popupText: 'Lokasi dicek', pulse: true })
+
+      if (isConfigured) {
+        setTdiUsingDemo(false)
+        try {
+          const { data, error } = await supabase.rpc('get_tdi_breakdown', { lng: lon, lat })
+          if (error) throw error
+          setTdiResult(data)
+        } catch (err) {
+          console.error('Gagal memanggil get_tdi_breakdown:', err)
+          setTdiResult({ ditemukan: false, pesan: 'Gagal memuat rincian TDI.' })
+        }
+      } else {
+        setTdiUsingDemo(true)
+        await new Promise((r) => setTimeout(r, 300))
+        setTdiResult(DEMO_TDI_BREAKDOWN)
+      }
+      setTdiLoading(false)
+      return
+    }
+
+    // --- Alur skor CAI (klik lokasi -> RPC get_cai_breakdown, surface grid 300 m) ---
+    // Sejak CAI pindah dari 19 titik_kandidat diskret ke SURFACE grid 300 m
+    // (grid_analisis, migration 033), skor CAI tersedia untuk SEMBARANG
+    // koordinat di area berpenduduk Kota Bekasi — bukan lagi lookup tetangga
+    // terdekat + ambang jarak. RPC HANYA menyajikan kolom cai_* yang sudah
+    // dihitung offline (etl/compute_cai_grid.py); frontend tidak menghitung
+    // ulang formula CAI. setCaiResult diisi JSON RPC apa adanya (CaiScorePanel
+    // yang mem-parse bentuk ditemukan:true / ditemukan:false).
     setCaiLoading(true)
     setSimResult(null)
     // Slate netral — marker transient "titik yang baru diklik", sengaja bukan
     // warna layer data mana pun. Marker simulasi sudah oranye.
-    setClickMarker({ lat, lon, color: '#334155', popupText: 'Lokasi dicek' })
+    setClickMarker({ lat, lon, color: '#334155', popupText: 'Lokasi dicek', pulse: true })
 
-    const nearest = findNearestPoint(caiPoints.points, { lat, lon })
-
-    setCaiUsingDemo(caiPoints.usingDemo)
-    setCaiResult(
-      nearest
-        ? { skor: nearest.point.skor, titik: nearest.point.titik, distance_m: nearest.distance_m }
-        : { skor: null }
-    )
+    if (isConfigured) {
+      setCaiUsingDemo(false)
+      try {
+        const { data, error } = await supabase.rpc('get_cai_breakdown', { lng: lon, lat })
+        if (error) throw error
+        setCaiResult(data)
+      } catch (err) {
+        console.error('Gagal memanggil get_cai_breakdown:', err)
+        setCaiResult({ ditemukan: false, pesan: 'Gagal memuat skor CAI.' })
+      }
+    } else {
+      // Mode demo: pilih ragam breakdown menurut titik DEMO_CAI_POINTS terdekat
+      // (jaraknya TIDAK lagi jadi gerbang apa pun — cuma untuk memvariasikan
+      // tampilan antara kasus 2-kriteria dan 3-kriteria + volume).
+      setCaiUsingDemo(true)
+      let terdekat = null
+      let jarakMin = Infinity
+      for (const p of DEMO_CAI_POINTS) {
+        const d = haversineMeters(p, { lat, lon })
+        if (d < jarakMin) {
+          jarakMin = d
+          terdekat = p
+        }
+      }
+      const pakaiVolume = (terdekat?.skor?.n_volume ?? 0) >= 0.5
+      setCaiResult(pakaiVolume ? DEMO_CAI_BREAKDOWN_VOLUME : DEMO_CAI_BREAKDOWN)
+    }
     setCaiLoading(false)
-  }, [simulationActive, caiPoints, runSimulationAt])
+  }, [simulationActive, runSimulationAt, analyticOverlay])
 
   function handleToggleSimulation() {
     setSimulationActive((v) => !v)
@@ -696,10 +1106,11 @@ export default function App() {
   const activeLabel = TABS.find((t) => t.id === activeTab)?.label ?? 'GeoTransit Insight'
 
   // Marker visual untuk seluruh titik_kandidat (supaya user LIHAT titik di peta
-  // dulu, bukan menebak lokasi lalu klik "buta") + marker lokasi yang baru
-  // diklik bebas (kalau ada). Klik langsung pada marker titik kandidat memanggil
-  // handleMapClick di koordinat titik itu sendiri (nearest-search akan
-  // menemukan dirinya sendiri, distance ~0m).
+  // dulu, bukan menebak lokasi lalu klik "buta"). Ke-19 marker ini tetap
+  // menandai titik survei lapangan. Klik langsung pada marker memanggil
+  // handleMapClick di koordinat titik itu sendiri — yang kini mengenai RPC
+  // get_cai_breakdown pada sel grid 300 m yang memuat titik tsb (sel itu punya
+  // volume terukur, jadi breakdown 3-4 kriteria).
   // Di-useMemo supaya identitas array marker STABIL antar-render (kalau tidak,
   // MapView membongkar-pasang seluruh marker + popup terbuka tiap kali App
   // re-render — mis. saat fetch data selesai / panel skor dibuka).
@@ -726,6 +1137,7 @@ export default function App() {
         lat: h.lat,
         lon: h.lon,
         color: HALTE_TERSURVEI_MARKER_COLOR,
+        icon: markerIconSvg('bus'),
         popupHtml: buildHaltePopupHtml(h),
       })),
     [haltePoints.points],
@@ -740,13 +1152,14 @@ export default function App() {
         .map((f) => {
           const [lon, lat] = f.geometry?.coordinates || []
           if (lat == null || lon == null) return null
+          const isLrt = f.properties?.moda === 'LRT'
           return {
             lat,
             lon,
-            color:
-              f.properties?.moda === 'LRT'
-                ? STASIUN_LRT_MARKER_COLOR
-                : STASIUN_KRL_MARKER_COLOR,
+            color: isLrt ? STASIUN_LRT_MARKER_COLOR : STASIUN_KRL_MARKER_COLOR,
+            // Glyph beda per moda: trem (LRT) vs kereta (KRL) — pembeda BENTUK
+            // di samping warna (colorblind-safe, CLAUDE.md Bab 10.3).
+            icon: markerIconSvg(isLrt ? 'tram' : 'train'),
             popupHtml: buildStasiunPopupHtml(f.properties),
           }
         })
@@ -756,23 +1169,71 @@ export default function App() {
 
   // Marker usulan halte hasil model spasial — magenta, popup berisi proyeksi
   // penduduk terlayani (keluaran simulate_new_stop) + penegasan belum disurvei.
+  // Disaring dulu ke ranking <= usulanModelRankLimit (kontrol bertingkat di
+  // LayerControl, lihat catatan state di atas) — bukan selalu seluruh baris.
   const usulanModelMarkers = useMemo(
     () =>
-      usulanModel.map((u) => ({
-        lat: u.lat,
-        lon: u.lon,
-        color: USULAN_MODEL_MARKER_COLOR,
-        popupHtml: buildUsulanModelPopupHtml(u),
-      })),
-    [usulanModel],
+      usulanModel
+        .filter((u) => (u.ranking ?? Infinity) <= usulanModelRankLimit)
+        .map((u) => ({
+          lat: u.lat,
+          lon: u.lon,
+          color: USULAN_MODEL_MARKER_COLOR,
+          // Pin + tepi PUTUS-PUTUS: usulan model, BELUM disurvei lapangan —
+          // sengaja tampil "belum riil" vs badge solid halte tersurvei.
+          icon: markerIconSvg('pin'),
+          iconStyle: 'dashed',
+          popupHtml: buildUsulanModelPopupHtml(u),
+        })),
+    [usulanModel, usulanModelRankLimit],
+  )
+
+  // Marker halte Transjakarta B21 (15 titik, konteks visual murni — lihat
+  // catatan impor transjakartaB21 di atas). Ikon bus dipakai ulang dari
+  // mapIcons.js (sama glyph dengan halte tersurvei), warna DIBEDAKAN
+  // (TRANSJAKARTA_B21_COLOR) supaya tetap terbedakan dari ungu halte
+  // tersurvei sekalipun bentuk ikonnya sama.
+  const transjakartaB21StopMarkers = useMemo(
+    () =>
+      transjakartaB21Stops
+        .map((f) => {
+          const [lon, lat] = f.geometry?.coordinates || []
+          if (lat == null || lon == null) return null
+          return {
+            lat,
+            lon,
+            color: TRANSJAKARTA_B21_COLOR,
+            icon: markerIconSvg('bus'),
+            popupHtml: buildTransjakartaB21StopPopupHtml(f.properties?.name),
+          }
+        })
+        .filter(Boolean),
+    [],
   )
 
   // clickMarker TIDAK digabung di sini — dikirim sebagai prop terpisah ke
   // MapView supaya perubahannya tiap klik tidak ikut membongkar marker persisten.
-  const markers = useMemo(
-    () => [...stationMarkers, ...halteMarkers, ...usulanModelMarkers, ...candidateMarkers],
-    [stationMarkers, halteMarkers, usulanModelMarkers, candidateMarkers],
-  )
+  // Grup marker disaring oleh panel Layer (layerVis). candidateMarkers (titik
+  // survei, jangkar CAI) SELALU ikut — tidak ada di daftar toggle.
+  const markers = useMemo(() => {
+    const out = []
+    if (layerVis.stasiun) out.push(...stationMarkers)
+    if (layerVis.halte) out.push(...halteMarkers)
+    if (layerVis.usulanModel) out.push(...usulanModelMarkers)
+    if (layerVis.transjakartaB21) out.push(...transjakartaB21StopMarkers)
+    out.push(...candidateMarkers)
+    return out
+  }, [
+    stationMarkers,
+    halteMarkers,
+    usulanModelMarkers,
+    transjakartaB21StopMarkers,
+    candidateMarkers,
+    layerVis.stasiun,
+    layerVis.halte,
+    layerVis.usulanModel,
+    layerVis.transjakartaB21,
+  ])
 
   // Layer garis rute transit eksisting — 2 layer terpisah dengan visual jelas
   // berbeda (lihat konstanta warna RUTE_BISKITA_COLOR/RUTE_KRL_COLOR di atas).
@@ -788,6 +1249,7 @@ export default function App() {
       data: ruteTransit.biskitaGeoJSON,
       paint: { 'line-color': RUTE_BISKITA_COLOR, 'line-width': 5, 'line-opacity': 0.9 },
       popupHtml: ruteTransit.biskitaPopupHtml,
+      visible: layerVis.koridorBiskita,
     },
     {
       id: 'rute-krl-eksisting',
@@ -800,6 +1262,7 @@ export default function App() {
         'line-dasharray': [2, 1.5],
       },
       popupHtml: ruteTransit.krlPopupHtml,
+      visible: layerVis.krl,
     },
   ]
 
@@ -857,8 +1320,128 @@ export default function App() {
     }
   }, [sorotWilayah])
 
-  // Semua display-only, selalu tampil (konteks dasar), tidak perlu toggle.
+  // Overlai analitik full-map dari grid 300 m (grid_analisis), dinyalakan dari
+  // panel Layer. Data grid mentah di-cache di `gridChoro` (lazy fetch). Tidak
+  // ada skor dihitung ulang di sini; hanya klasifikasi/visualisasi tampilan.
+  //
+  // Sejak 2026-09-12 KEDUANYA adalah fill poligon per-sel dengan warna
+  // KONTINU (bukan lagi heatmap density-based untuk TDI, bukan lagi kelas
+  // kuantil diskret untuk kepadatan) — root-cause dua masalah nyata yang
+  // ditemukan & dikonfirmasi dengan data live grid_analisis:
+  //   * 'tdi' dulu HEATMAP dari titik pusat sel: `heatmap-color` dikunci ke
+  //     `heatmap-density` (jumlah kernel titik yang saling tumpuk di suatu
+  //     piksel, dinormalisasi ke titik teramai di layar) — BUKAN skor_tdi sel
+  //     itu sendiri. Klaster 226 sel bertetangga di Bekasi Utara/Medansatria
+  //     (masing-masing cuma 0,60-0,89) tampak lebih menyala dari satu sel
+  //     terisolasi 0,93+ (kandidat usulan_halte_model sengaja de-klaster
+  //     >=800 m, tidak pernah dapat "bonus tetangga") — peta menyesatkan soal
+  //     lokasi prioritas sesungguhnya. Fix: fill poligon, warna langsung dari
+  //     skor_tdi sel (linearInterpolateFillColorExpr, lihat choropleth.js).
+  //   * 'kepadatan' dulu kelas KUANTIL 5 warna: data live (2.607 sel, 0-14.891
+  //     jiwa/km2) -> kelas teratas meliputi 1.751-14.891 (rentang 13.140!),
+  //     jadi sel 4.257/km2 dan sel 14.891/km2 (maksimum kota) dicat sama gelap
+  //     — beda 3,5x tak terbaca. Desil (10 kelas) dicoba & TIDAK memperbaiki
+  //     (desil teratas masih 2.835-14.891; kelas bawah malah degenerate 0-0).
+  //     Fix: skala kontinu akar-kuadrat (sqrtInterpolateFillColorExpr) —
+  //     detail lengkap kenapa sqrt (bukan linear/log) ada di choropleth.js.
+  const choroActive = analyticOverlay !== 'none'
+  const choroDerived = useMemo(() => {
+    if (!gridChoro?.length) return null
+    if (analyticOverlay === 'tdi') {
+      const fc = toPolygonFeatureCollection(gridChoro, (c) => c.tdi)
+      return { kind: 'tdi', fc }
+    }
+    const values = gridChoro.map((c) => c.kepadatan)
+    const range = computeMinMax(values)
+    const fc = toPolygonFeatureCollection(gridChoro, (c) => c.kepadatan)
+    return { kind: 'kepadatan', range, fc }
+  }, [gridChoro, analyticOverlay])
+
+  // Grup legenda untuk overlai aktif — keduanya sekarang bilah `gradient`
+  // (bukan swatch kelas diskret) karena keduanya kontinu. Posisi stop warna
+  // di CSS gradient (0/25/50/75/100%) 1:1 dengan stop di ekspresi fill-color
+  // (linear untuk TDI, sqrt untuk kepadatan) — lihat gradientCssFromColors.
+  const choroLegendGroup = useMemo(() => {
+    if (!choroActive || !choroDerived) return null
+    if (choroDerived.kind === 'tdi') {
+      return {
+        title: 'Overlai: Transit Desert Index',
+        note:
+          "Konsentrasi kebutuhan transit yang belum terlayani, per sel grid 300 m. Makin terang = skor TDI makin tinggi (wilayah makin 'transit desert'). Warna langsung dari skor_tdi sel itu sendiri (fill kontinu) — bukan lagi permukaan heatmap yang bisa menonjolkan klaster sel sedang dibanding satu sel skor tinggi yang terisolasi.",
+        items: [
+          {
+            shape: 'gradient',
+            gradient: gradientCssFromColors(VIRIDIS_COLORS),
+            labelLeft: 'TDI rendah (0)',
+            labelRight: 'TDI tinggi (1)',
+          },
+        ],
+      }
+    }
+    const [min, max] = choroDerived.range
+    return {
+      title: 'Overlai: Kepadatan penduduk',
+      note:
+        'Jiwa per sel grid 300 m (dasymetric). Makin gelap makin padat. Skala akar kuadrat (bukan linear) — supaya variasi kepadatan di kelurahan biasa (bukan hanya titik terpadat) tetap terlihat.',
+      items: [
+        {
+          shape: 'gradient',
+          gradient: gradientCssFromColors(CHOROPLETH_COLORS),
+          labelLeft: fmtBound(min),
+          labelRight: fmtBound(max),
+        },
+      ],
+    }
+  }, [choroActive, choroDerived])
+
+  // Layer titik/garis konteks. `visible` tiap layer disetel dari panel Layer
+  // (layerVis) — MapView menerapkannya lewat setLayoutProperty('visibility').
   const mapLayers = [
+    // Overlai analitik PALING AWAL (digambar paling BAWAH) supaya rute, marker,
+    // dan batas tetap di atas. Tanpa popupHtml -> klik peta tembus ke
+    // handleMapClick (RPC get_cai_breakdown) seperti biasa. Keduanya sekarang
+    // `type: 'fill'` (bukan lagi heatmap untuk TDI) dengan id berbeda supaya
+    // sinkronisasi layer MapView membongkar-pasang dengan bersih saat user
+    // ganti jenis overlai.
+    ...(choroActive && choroDerived
+      ? choroDerived.kind === 'tdi'
+        ? [
+            {
+              id: 'overlay-tdi-fill',
+              type: 'fill',
+              data: choroDerived.fc,
+              paint: {
+                // Kontinu, linear polos (skor_tdi sudah 0-1 dan cuma skew
+                // ringan — lihat linearInterpolateFillColorExpr di
+                // choropleth.js untuk alasan lengkap kenapa TDI tidak butuh
+                // kompresi sqrt seperti kepadatan).
+                'fill-color': linearInterpolateFillColorExpr(),
+                'fill-opacity': 0.75,
+                'fill-outline-color': 'rgba(255,255,255,0.35)',
+              },
+              visible: choroActive,
+            },
+          ]
+        : [
+            {
+              id: 'overlay-kepadatan-fill',
+              type: 'fill',
+              data: choroDerived.fc,
+              paint: {
+                // Kontinu + kompresi akar kuadrat — lihat
+                // sqrtInterpolateFillColorExpr di choropleth.js untuk data
+                // & alasan lengkap kenapa bukan kelas diskret/linear/log.
+                'fill-color': sqrtInterpolateFillColorExpr(
+                  choroDerived.range[0],
+                  choroDerived.range[1]
+                ),
+                'fill-opacity': 0.7,
+                'fill-outline-color': 'rgba(255,255,255,0.4)',
+              },
+              visible: choroActive,
+            },
+          ]
+      : []),
     {
       id: 'biskita-koridor-osm',
       type: 'line',
@@ -870,6 +1453,7 @@ export default function App() {
         'line-dasharray': [2, 1.2],
       },
       popupHtml: BISKITA_KORIDOR_OSM_POPUP_HTML,
+      visible: layerVis.koridorBiskita,
     },
     {
       // Jalur LRT Jabodebek — geometri rel ASLI dari OSM (bukan aproksimasi),
@@ -881,6 +1465,25 @@ export default function App() {
       data: lrtJabodebekOsm,
       paint: { 'line-color': RUTE_LRT_COLOR, 'line-width': 3, 'line-opacity': 0.85 },
       popupHtml: LRT_POPUP_HTML,
+      visible: layerVis.lrt,
+    },
+    {
+      // Koridor Transjakarta B21 (Bekasi Timur -> Cawang) — layer konteks
+      // visual murni (lihat catatan impor di atas), default OFF (layerVis
+      // init). Dashed + merah: beda tegas dari SEMUA layer rute lain (BisKita
+      // oranye, KRL/LRT biru/teal) supaya tidak pernah tertukar sekalipun
+      // toggle bersamaan.
+      id: 'rute-transjakarta-b21',
+      type: 'line',
+      data: transjakartaB21Line,
+      paint: {
+        'line-color': TRANSJAKARTA_B21_COLOR,
+        'line-width': 4,
+        'line-opacity': 0.9,
+        'line-dasharray': [3, 1.5],
+      },
+      popupHtml: TRANSJAKARTA_B21_LINE_POPUP_HTML,
+      visible: layerVis.transjakartaB21,
     },
     ...ruteLayers,
     {
@@ -895,26 +1498,52 @@ export default function App() {
         'circle-opacity': 0.9,
       },
       popupHtml: BISKITA_HALTE_OSM_POPUP_HTML,
+      visible: layerVis.koridorBiskita,
     },
     {
       id: 'batas-kota-bekasi',
       type: 'line',
       data: bekasiBoundary,
       paint: { 'line-color': BATAS_KOTA_COLOR, 'line-width': 2.5, 'line-dasharray': [3, 2] },
+      visible: layerVis.batasKota,
     },
-    // Sorotan wilayah terpilih dari pencarian — DITARUH PALING AKHIR supaya
-    // digambar di atas semua layer lain (elemen belakang array = paling atas).
-    // Isian sengaja sangat tipis (opacity 0,12): fungsinya menegaskan BIDANG
-    // wilayahnya, bukan mewarnai; grid/marker/rute di bawahnya tetap terbaca.
-    // Garis tepi 3px SOLID = elemen yang benar-benar dilihat user, sekaligus
-    // pembeda bentuk terhadap batas kota yang putus-putus.
+    // Sorotan wilayah terpilih dari pencarian / filter kecamatan (Analisis
+    // Spasial) — DITARUH PALING AKHIR supaya digambar di atas semua layer
+    // lain (elemen belakang array = paling atas), termasuk overlai analitik
+    // (Kepadatan/TDI) yang bisa aktif bersamaan di tab Analisis Spasial.
+    // Isian sengaja tipis (opacity 0,16): menegaskan BIDANG wilayahnya, bukan
+    // mewarnai penuh; grid/marker/rute di bawahnya tetap terbaca.
+    //
+    // Perbaikan 2026-09-13 (Sam melaporkan garis nyaris tak terlihat di
+    // peta): garis gold sebelumnya (line-width 3, tanpa halo) nyaris menyatu
+    // dengan (a) jalan basemap yang kebetulan oranye/amber, dan (b) ujung
+    // pucat/terang KEDUA palet choropleth kontinu (YlGnBu #ffffcc, Viridis
+    // #fde725 — lib/choropleth.js). Solusi: layer 'sorot-wilayah-garis-halo'
+    // digambar LEBIH DULU (lebar 6,5, warna gelap SOROT_WILAYAH_HALO_COLOR)
+    // sebagai casing kontras, lalu 'sorot-wilayah-garis' (gold, lebar 3,2)
+    // di atasnya sebagai core — pola casing gelap + core terang ini terbaca
+    // di ATAS/BAWAH kedua ujung kedua palet sekaligus (beda dari halo putih
+    // konvensional yang akan hilang di sel YlGnBu paling pucat). Ini murni
+    // pembeda VISUAL (bentuk garis dobel + kontras luminansi), bukan
+    // bergantung pada satu hue tunggal — konsisten dengan syarat
+    // colorblind-safe CLAUDE.md Bab 10.3.
     ...(sorotWilayahGeoJSON
       ? [
           {
             id: 'sorot-wilayah-fill',
             type: 'fill',
             data: sorotWilayahGeoJSON,
-            paint: { 'fill-color': SOROT_WILAYAH_COLOR, 'fill-opacity': 0.12 },
+            paint: { 'fill-color': SOROT_WILAYAH_COLOR, 'fill-opacity': 0.16 },
+          },
+          {
+            id: 'sorot-wilayah-garis-halo',
+            type: 'line',
+            data: sorotWilayahGeoJSON,
+            paint: {
+              'line-color': SOROT_WILAYAH_HALO_COLOR,
+              'line-width': 6.5,
+              'line-opacity': 0.85,
+            },
           },
           {
             id: 'sorot-wilayah-garis',
@@ -922,8 +1551,8 @@ export default function App() {
             data: sorotWilayahGeoJSON,
             paint: {
               'line-color': SOROT_WILAYAH_COLOR,
-              'line-width': 3,
-              'line-opacity': 0.95,
+              'line-width': 3.2,
+              'line-opacity': 1,
             },
           },
         ]
@@ -1101,43 +1730,130 @@ export default function App() {
             clickMarker={clickMarker}
             layers={mapLayers}
           >
-            <CaiScorePanel
-              loading={caiLoading}
-              result={caiResult}
-              usingDemo={caiUsingDemo}
-              onClose={() => {
-                setCaiResult(null)
-                setClickMarker(null)
-              }}
-            />
+            {/* Varian 'floating' (default) HANYA di luar tab Analisis Spasial
+                sejak 2026-09-13 (permintaan Sam) -- tab itu sekarang merender
+                CaiScorePanel/TdiScorePanel-nya SENDIRI dg variant="inline" di
+                panel kanan (lihat AnalisisSpasial.jsx), supaya rincian klik
+                tampil di bawah toggle overlai, bukan menutupi peta dg kotak
+                melayang. State caiResult/tdiResult tetap satu-satunya sumber
+                (di-lift ke sini), cuma tempat rendering-nya yang berbeda per
+                tab -- tidak ada duplikasi RPC/klik. */}
+            {activeTab !== 'analisis' && (
+              <CaiScorePanel
+                loading={caiLoading}
+                result={caiResult}
+                usingDemo={caiUsingDemo}
+                onClose={() => {
+                  setCaiResult(null)
+                  setClickMarker(null)
+                }}
+              />
+            )}
+            {activeTab !== 'analisis' && (
+              <TdiScorePanel
+                loading={tdiLoading}
+                result={tdiResult}
+                usingDemo={tdiUsingDemo}
+                onClose={() => {
+                  setTdiResult(null)
+                  setClickMarker(null)
+                }}
+              />
+            )}
             {activeTab === 'peta' && (
               <MapLegend
-                items={[
-                  // Entri sorotan hanya muncul saat ada wilayah terpilih —
-                  // legenda permanen untuk sesuatu yang biasanya tidak ada di
-                  // peta justru membingungkan. Ditaruh paling atas + menyebut
-                  // nama wilayahnya supaya jelas ini status sementara, bukan
-                  // layer tetap seperti entri di bawahnya.
+                groups={[
+                  // Grup "Pilihan aktif" hanya muncul saat ada wilayah terpilih
+                  // dari pencarian — legenda permanen untuk sesuatu yang biasanya
+                  // tidak ada di peta justru membingungkan. Menyebut nama
+                  // wilayahnya supaya jelas ini status sementara.
                   ...(sorotWilayah
                     ? [{
-                        color: SOROT_WILAYAH_COLOR,
-                        shape: 'line',
-                        lineStyle: 'solid',
-                        label: `Wilayah terpilih (hasil pencarian): ${sorotWilayah.nama}`,
+                        title: 'Pilihan aktif',
+                        items: [{
+                          color: SOROT_WILAYAH_COLOR,
+                          shape: 'line',
+                          lineStyle: 'solid',
+                          label: `Wilayah terpilih: ${sorotWilayah.nama}`,
+                        }],
                       }]
                     : []),
-                  { color: BATAS_KOTA_COLOR, shape: 'line', lineStyle: 'dashed', label: 'Batas Kota Bekasi (area studi)' },
-                  { color: HALTE_TERSURVEI_MARKER_COLOR, shape: 'dot', label: 'Halte tersurvei' },
-                  { color: RUTE_BISKITA_COLOR, shape: 'line', lineStyle: 'solid', label: 'Koridor BisKita (tersurvei, garis aproksimasi)' },
-                  { color: RUTE_BISKITA_OSM_COLOR, shape: 'line', lineStyle: 'dashed', label: 'Koridor BisKita Trans Patriot (aproksimasi OSM)' },
-                  { color: HALTE_BISKITA_OSM_COLOR, shape: 'dot', label: 'Halte BisKita (OSM, belum disurvei)' },
-                  { color: RUTE_KRL_COLOR, shape: 'line', lineStyle: 'dashed', label: 'Jaringan KRL (eksis, belum disurvei)' },
-                  { color: STASIUN_KRL_MARKER_COLOR, shape: 'dot', label: 'Stasiun KRL (eksis, belum disurvei)' },
-                  { color: RUTE_LRT_COLOR, shape: 'line', lineStyle: 'solid', label: 'Jalur LRT Jabodebek (geometri OSM)' },
-                  { color: STASIUN_LRT_MARKER_COLOR, shape: 'dot', label: 'Stasiun LRT Jabodebek (eksis, belum disurvei)' },
-                  { color: CANDIDATE_MARKER_COLOR, shape: 'dot', label: 'Titik survei lapangan (Traffic Counting)' },
-                  { color: USULAN_MODEL_MARKER_COLOR, shape: 'dot', label: 'Usulan halte dari model spasial (belum disurvei)' },
+                  // Grup overlai analitik — hanya saat overlai aktif. Keduanya
+                  // kontinu sekarang: bilah gradien YlGnBu (kepadatan, skala
+                  // akar kuadrat) atau Viridis (TDI, skala linear). note = cara
+                  // baca + (kepadatan) disclosure skala sqrt. Colorblind-safe
+                  // (CLAUDE.md Bab 10.3).
+                  ...(choroLegendGroup ? [choroLegendGroup] : []),
+                  {
+                    title: 'Wilayah & area studi',
+                    items: [
+                      { color: BATAS_KOTA_COLOR, shape: 'line', lineStyle: 'dashed', label: 'Batas Kota Bekasi (area studi)' },
+                    ],
+                  },
+                  {
+                    title: 'Transit tersurvei tim',
+                    items: [
+                      { color: HALTE_TERSURVEI_MARKER_COLOR, icon: legendIconSvg('bus'), label: 'Halte tersurvei' },
+                      { color: RUTE_BISKITA_COLOR, shape: 'line', lineStyle: 'solid', label: 'Koridor BisKita (tersurvei)' },
+                    ],
+                  },
+                  {
+                    title: 'Infrastruktur eksisting — belum disurvei',
+                    items: [
+                      { color: RUTE_BISKITA_OSM_COLOR, shape: 'line', lineStyle: 'dashed', label: 'Koridor BisKita Trans Patriot (OSM)' },
+                      { color: HALTE_BISKITA_OSM_COLOR, shape: 'dot', label: 'Halte BisKita (OSM)' },
+                      { color: RUTE_KRL_COLOR, shape: 'line', lineStyle: 'dashed', label: 'Jaringan KRL' },
+                      { color: STASIUN_KRL_MARKER_COLOR, icon: legendIconSvg('train'), label: 'Stasiun KRL' },
+                      { color: RUTE_LRT_COLOR, shape: 'line', lineStyle: 'solid', label: 'Jalur LRT Jabodebek (geometri OSM)' },
+                      { color: STASIUN_LRT_MARKER_COLOR, icon: legendIconSvg('tram'), label: 'Stasiun LRT Jabodebek' },
+                    ],
+                  },
+                  // Grup Transjakarta B21 — hanya muncul saat layer ditoggle ON
+                  // (default OFF, lihat layerVis init). Layer konteks visual
+                  // murni, sama kategori dengan grup "Infrastruktur eksisting" di
+                  // atas, tapi ditaruh sebagai grup terpisah + kondisional supaya
+                  // legenda tidak menyebut layer yang sedang tidak tampil di peta.
+                  ...(layerVis.transjakartaB21
+                    ? [{
+                        title: 'Transjakarta B21 (Bekasi–Cawang)',
+                        note: 'Relasi rute OSM (ref=B21) — konteks visual, bukan data resmi dipakai skor apa pun. ±72% rute dalam Kota Bekasi, sisanya menuju Cawang, DKI Jakarta.',
+                        items: [
+                          { color: TRANSJAKARTA_B21_COLOR, shape: 'line', lineStyle: 'dashed', label: 'Koridor Transjakarta B21' },
+                          { color: TRANSJAKARTA_B21_COLOR, icon: legendIconSvg('bus'), label: 'Halte Transjakarta B21 (15 titik)' },
+                        ],
+                      }]
+                    : []),
+                  {
+                    title: 'Titik analisis',
+                    items: [
+                      { color: CANDIDATE_MARKER_COLOR, shape: 'dot', label: 'Titik survei lapangan (Traffic Counting)' },
+                      // Item usulan model HANYA ikut saat layer-nya ON — legenda
+                      // tidak boleh menyebut layer yang sedang tidak tampil.
+                      // Label memuat jumlah yang benar-benar tampil (hasil
+                      // filter usulanModelRankLimit di LayerControl), bukan
+                      // total baris tabel.
+                      ...(layerVis.usulanModel
+                        ? [{
+                            color: USULAN_MODEL_MARKER_COLOR,
+                            icon: legendIconSvg('pin'),
+                            label: `Usulan halte dari model spasial, belum disurvei (${usulanModelMarkers.length} dari ${usulanModel.length} ditampilkan)`,
+                          }]
+                        : []),
+                    ],
+                  },
                 ]}
+              />
+            )}
+            {activeTab === 'peta' && (
+              <LayerControl
+                value={layerVis}
+                onChange={setLayerVis}
+                analyticOverlay={analyticOverlay}
+                onAnalyticOverlayChange={setAnalyticOverlay}
+                overlayLoading={gridChoroLoading}
+                usulanModelRankLimit={usulanModelRankLimit}
+                onUsulanModelRankLimitChange={setUsulanModelRankLimit}
+                usulanModelTotal={usulanModel.length}
               />
             )}
           </MapView>
@@ -1147,8 +1863,40 @@ export default function App() {
         {showPanel && (
           <aside className="w-96 shrink-0 bg-white border-l border-slate-200 overflow-hidden">
             {activeTab === 'dashboard' && <Dashboard />}
-            {activeTab === 'analisis' && <AnalisisSpasial />}
-            {activeTab === 'ai' && <AIPanel latestSimulasi={lastSimResult} />}
+            {activeTab === 'analisis' && (
+              <AnalisisSpasial
+                mapInstance={mapInstance}
+                analyticOverlay={analyticOverlay}
+                onAnalyticOverlayChange={setAnalyticOverlay}
+                overlayLoading={gridChoroLoading}
+                legendGroup={choroLegendGroup}
+                sorotWilayah={sorotWilayah}
+                onWilayahSelected={setSorotWilayah}
+                layerVis={layerVis}
+                onLayerVisChange={setLayerVis}
+                caiLoading={caiLoading}
+                caiResult={caiResult}
+                caiUsingDemo={caiUsingDemo}
+                onCaiClose={() => {
+                  setCaiResult(null)
+                  setClickMarker(null)
+                }}
+                tdiLoading={tdiLoading}
+                tdiResult={tdiResult}
+                tdiUsingDemo={tdiUsingDemo}
+                onTdiClose={() => {
+                  setTdiResult(null)
+                  setClickMarker(null)
+                }}
+              />
+            )}
+            {activeTab === 'ai' && (
+              <AIPanel
+                latestSimulasi={lastSimResult}
+                mapInstance={mapInstance}
+                onWilayahSelected={setSorotWilayah}
+              />
+            )}
             {activeTab === 'simulasi' && (
               <SimulationPanel
                 active={simulationActive}
@@ -1159,7 +1907,7 @@ export default function App() {
               />
             )}
             {activeTab === 'rekomendasi' && <EquityIndexView />}
-            {activeTab === 'data-laporan' && <DataLaporan />}
+            {activeTab === 'data-laporan' && <DataLaporan mapInstance={mapInstance} />}
             {activeTab === 'pengaturan' && (
               <Pengaturan session={session} onLoggedOut={() => setActiveTab('peta')} />
             )}

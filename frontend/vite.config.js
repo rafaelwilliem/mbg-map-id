@@ -4,25 +4,34 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // maplibre-gl spawns a Web Worker (maplibre-gl-worker.mjs) resolved relative
-  // to its own module URL at runtime (import.meta.url) — see
-  // node_modules/maplibre-gl/dist/maplibre-gl.js `wi()`/`Oi()`. Vite's esbuild
-  // dep pre-bundler only emits the single flattened `maplibre-gl.js` chunk
-  // into node_modules/.vite/deps/ and does NOT copy the separate worker file
-  // alongside it — confirmed reproducible on every `npm run dev` start via
-  // this exact terminal warning: "The file does not exist at
-  // .../.vite/deps/maplibre-gl-worker.mjs". That leaves the worker script
-  // 404-ing in dev mode, a real bug independent of anything else (it's the
-  // documented/recommended fix for maplibre-gl + Vite, see maplibre-gl-js
-  // issues re: esbuild optimizeDeps + Worker). NOTE: investigated 2026-08-28
-  // as a candidate cause for a separate "map renders blank/white" report —
-  // could NOT confirm this worker warning is what actually causes that
-  // symptom (screenshot comparisons before/after this fix were identical in
-  // a software-WebGL/headless test harness that also fails to paint MapLibre's
-  // OWN demo style, i.e. an environment limitation unrelated to this repo).
-  // Keeping this fix regardless since it's a legitimate, reproducible dev-only
-  // issue on its own merits — `vite build` uses Rollup (bundles the worker
-  // correctly) so production was never affected either way.
+  // maplibre-gl@6.4.1 me-resolve tile Web Worker-nya (`maplibre-gl-worker.mjs`)
+  // di runtime lewat ekspresi DINAMIS di dist/maplibre-gl.mjs `wi()`:
+  //   let e = import.meta.url
+  //   let t = e.endsWith('-dev.mjs') ? 'maplibre-gl-worker-dev.mjs' : 'maplibre-gl-worker.mjs'
+  //   return new URL(`./${t}`, e).href
+  // Karena `t` dan `e` variabel (bukan pola literal `new URL('./x.mjs',
+  // import.meta.url)`), Vite/Rollup TIDAK bisa mendeteksinya secara statis
+  // sehingga `vite build` tidak pernah meng-emit file worker itu. Di produksi
+  // `GET /assets/maplibre-gl-worker.mjs` -> 404, worker tidak boot, tile .pbf
+  // tak pernah di-fetch, basemap tak pernah tampil (marker/kontrol tetap
+  // muncul karena di main thread). KOREKSI komentar lama: klaim "`vite build`
+  // pakai Rollup jadi produksi tidak terpengaruh" ITU SALAH untuk maplibre v6.
+  // Ekstra: `maplibre-gl-worker.mjs` bukan file mandiri — baris pertamanya
+  // `import ... from "./maplibre-gl-shared.mjs"` (~470 KB), jadi sekadar
+  // meng-copy file worker 18 KB akan 404 di sibling itu. Worker harus
+  // DI-BUNDLE, bukan cuma disalin.
+  //
+  // Perbaikan (di src/components/Map/MapView.jsx): impor worker via
+  // `?worker&url` -> Vite mem-bundle worker + inline `maplibre-gl-shared.mjs`
+  // jadi satu aset ber-hash, lalu `setWorkerUrl(url)` menyerahkannya ke
+  // maplibre sebelum Map dibangun. `worker.format: 'es'` di bawah menyelaraskan
+  // output worker dengan `new Worker(url, { type: 'module' })` milik maplibre.
+  worker: {
+    format: 'es',
+  },
+  // Dev-only: menjaga maplibre sebagai file berdiri sendiri di node_modules
+  // supaya worker sibling tetap ter-resolve saat `npm run dev` (build produksi
+  // sudah ditangani lewat `?worker&url` di atas).
   optimizeDeps: {
     exclude: ['maplibre-gl'],
   },

@@ -36,20 +36,31 @@ konstanta baru yang dikarang)
    dashboard dan "kolam kandidat" script ini adalah HIMPUNAN YANG SAMA.
 
 2. SARING JARAK KE LAYANAN EKSISTING — buang sel yang centroid-nya < 400 m
-   dari halte_eksisting REAL mana pun. Halte DUMMY-HLT-* dikecualikan persis
-   seperti compute_tdi_full.load_halte_real().
+   dari halte mana pun pada sumber GABUNGAN (halte_eksisting REAL tersurvei +
+   halte BisKita OSM belum-disurvei, lihat CATATAN 2026-09-11 di bawah).
    400 m = walking catchment ITDP yang SUDAH dipakai di
    supabase/migrations/003_simulate_new_stop.sql (radius 400 m, komentar
    "standar ITDP walking catchment") dan compute_tdi_full.AMBANG_PENUH_M.
    Alasan: menambah halte di dalam catchment halte yang sudah ada = duplikasi
-   layanan, bukan penambahan aksesibilitas.
-   CATATAN JUJUR (run 2026-09-07): filter ini saat ini MEMBUANG 0 dari 1.503
-   sel — bukan karena tidak jalan, tapi karena `skor_aksesibilitas_transit`
-   (penyebut TDI) sudah memakai decay 400/800 m ke halte real yang sama,
-   sehingga sel dekat halte praktis tidak pernah menembus skor_tdi > 0,6.
-   Filter tetap dipertahankan sebagai guard eksplisit: begitu halte
-   eksisting bertambah/berubah, langkah ini yang mencegah usulan tumpang
-   tindih. Jarak terdekat pada run ini: 1.117 m.
+   layanan, bukan penambahan aksesibilitas — ini berlaku sama untuk halte
+   yang secara fisik sudah ada walau belum disurvei tim.
+   CATATAN JUJUR (run 2026-09-07, sebelum perbaikan 2026-09-11): filter ini
+   saat itu MEMBUANG 0 dari 1.503 sel — bukan karena tidak jalan, tapi karena
+   skor_aksesibilitas_transit (penyebut TDI) sudah memakai decay 400/800 m
+   ke 15 halte survei yang sama, sehingga sel dekat halte praktis tidak
+   pernah menembus skor_tdi > 0,6. Filter tetap dipertahankan sebagai guard
+   eksplisit.
+
+   CATATAN 2026-09-11 (methodology fix, diminta Sam): baik kolam kandidat
+   (grid_analisis.skor_tdi > 0,6) MAUPUN filter jarak di sini sekarang
+   memakai SUMBER HALTE GABUNGAN (compute_tdi_full.load_halte_gabungan —
+   15 halte survei + ~32 titik OSM Trans Bekasi Patriot yang secara fisik
+   nyata tapi belum disurvei lapangan). Sebelumnya keduanya hanya "melihat"
+   15 halte survei, sehingga (a) skor_tdi sel di sekitar halte-real-belum-
+   disurvei artifisial tinggi, dan (b) filter jarak di langkah ini bisa
+   mengusulkan halte baru tepat di sebelah halte fisik yang sudah ada tapi
+   belum tersurvei. Lihat CLAUDE.md bagian Transit Desert Index, catatan
+   2026-09-11, untuk angka before/after skor_tdi selengkapnya.
 
 3. DE-KLASTER (greedy, jarak minimum antar-usulan 800 m) — sel diurut
    `skor_tdi` desc; ambil sel teratas, lalu TOLAK setiap sel berikutnya yang
@@ -106,6 +117,7 @@ import argparse
 import geopandas as gpd
 import pandas as pd
 
+from compute_tdi_full import load_halte_gabungan  # sumber halte gabungan survei+OSM, 2026-09-11
 from rerun_dasymetric_grid import (
     fetch_all_paginated,
     wkb_hex_to_geom,
@@ -129,7 +141,23 @@ JARAK_MIN_DARI_HALTE_M = 400
 # 800 m simulate_new_stop. Jarak minimum antar-usulan (de-klaster).
 JARAK_MIN_ANTAR_USULAN_M = 800
 
-MAKS_USULAN_DEFAULT = 25  # daftar-pendek yang bisa dipakai pengambil keputusan, bukan ribuan pin
+# CATATAN 2026-09-12 (keputusan Sam): dinaikkan dari 25 -> 100. Alasan: 1.448
+# sel transit desert (pasca perbaikan TDI 2026-09-11) membentuk SATU wilayah
+# mega-kontinu seluas 288 km^2 (lebih besar dari luas kota) -- 25 titik yang
+# saling berjarak >=800 m hanya bisa menutup ~17,5% area itu. Dry-run
+# mengukur cakupan sel transit desert dalam radius 1 km/2 km dari usulan
+# terdekat pada beberapa nilai kuota:
+#   kuota=25  -> 27,3% dlm 1km / 46,5% dlm 2km
+#   kuota=50  -> 55,3% dlm 1km / 85,5% dlm 2km
+#   kuota=100 -> 87,3% dlm 1km / 97,7% dlm 2km
+#   kuota=150 -> 97,4% dlm 1km / 100,0% dlm 2km
+# Sam memilih 100 (bukan 150). Kolam 100 baris ini SEKARANG jadi basis UI
+# berjenjang di frontend (Level 1 = top 25, Level 2 = top 50, Level 3 = top
+# 100, plus slider kontinu 0-100) yang mengambil potongan top-N berdasarkan
+# kolom `ranking` DARI POOL YANG SAMA -- bukan menjalankan generator ini tiga
+# kali dengan --maks berbeda. Algoritma/urutan langkah di bawah TIDAK berubah,
+# hanya kuota akhirnya.
+MAKS_USULAN_DEFAULT = 100  # daftar-pendek yang bisa dipakai pengambil keputusan, bukan ribuan pin
 
 PREFIX_HALTE_DUMMY = "DUMMY-HLT-"  # sama dengan compute_tdi_full.load_halte_real()
 
@@ -165,17 +193,14 @@ def load_grid_transit_desert(client) -> gpd.GeoDataFrame:
 
 
 def load_halte_real(client) -> gpd.GeoDataFrame:
-    """Halte eksisting REAL saja — DUMMY-HLT-* dikecualikan, identik dengan
-    compute_tdi_full.load_halte_real()."""
-    rows = fetch_all_paginated(client, "halte_eksisting", "id, id_halte_survei, nama, geom")
-    rows = [r for r in rows if not str(r["id_halte_survei"]).startswith(PREFIX_HALTE_DUMMY)]
-    gdf = gpd.GeoDataFrame(
-        {"halte_id": [r["id"] for r in rows], "nama_halte": [r["nama"] for r in rows]},
-        geometry=[wkb_hex_to_geom(r["geom"]) for r in rows],
-        crs=WGS84,
-    )
-    print(f"[INFO] halte_eksisting REAL (DUMMY-HLT-* dikecualikan): {len(gdf)} titik.")
-    return gdf
+    """SUMBER HALTE untuk filter jarak (sejak 2026-09-11): GABUNGAN
+    halte_eksisting REAL tersurvei (DUMMY-HLT-* dikecualikan) + halte
+    BisKita OSM belum-disurvei — delegasi ke
+    compute_tdi_full.load_halte_gabungan() supaya satu sumber kebenaran
+    dipakai konsisten di kolam kandidat (skor_tdi) dan filter jarak ini.
+    Nama fungsi dipertahankan (bukan direname) supaya pemanggilnya di bawah
+    tidak perlu berubah."""
+    return load_halte_gabungan(client)
 
 
 def load_kelurahan(client) -> gpd.GeoDataFrame:

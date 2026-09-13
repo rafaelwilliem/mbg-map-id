@@ -1,5 +1,27 @@
 # Validasi Bobot Index — CAI, TDI, Transit Equity Index
 
+> **Update 2026-09-10 (CAI — kini permukaan grid 300 m):** CAI pindah dari
+> "18 titik survei + *nearest-neighbour lookup*" ke **permukaan grid 300 m** di
+> `grid_analisis` (unit spasial sama dengan TDI). **Bobot AHP CAI & consistency
+> ratio TIDAK berubah** (0,3290 / 0,3290 / 0,2002 / 0,1418; CR 0,0226) — yang
+> berubah hanya unit spasial, plus dua kriteria lapangan (`volume`, `survei`)
+> yang otomatis N/A di sel tanpa data lapangan sehingga bobotnya direnormalisasi
+> ke kriteria tersisa (mekanisme `compute_cai(exclude_criteria=...)` yang sudah
+> dipakai `titik_kandidat` sejak 2026-09-07). **Tidak ada estimasi volume, tidak
+> ada regresi, tidak ada R², tidak ada flag** — pendekatan estimasi volume yang
+> sempat didraft dibatalkan tim 2026-09-10 (Opsi B dipilih). Detail (4 pola
+> bobot efektif per sel, angka live) di **Bagian 0B**. Implementasi:
+> `supabase/migrations/033_skor_cai_grid.sql` (angka pasti & nama field RPC
+> dirujuk dari migration `033`, tidak diduplikasi di sini). Deviasi metodologi
+> disengaja & disetujui tim/Sam — sekelas swap `tanpa_kendaraan`→`usia_sekolah`
+> 2026-09-06. Tabel `skor_cai` berbasis titik + ranking 18 kandidat **tidak
+> dihapus** (tetap kanonik untuk 18 kandidat tervalidasi lapangan & basis
+> normalisasi `usulan_halte_model`); grid CAI murni aditif. **(Koreksi
+> 2026-09-12: angka ini sebelumnya salah tertulis "19" di seluruh dokumen —
+> `titik_kandidat` REAL sudah 18 sejak `KND-011` dihapus 2026-09-07 karena di
+> luar Kota Bekasi, sebelum tanggal update ini ditulis. Detail kronologi &
+> bukti di CLAUDE.md, bagian CAI, Catatan 2026-09-12.)**
+>
 > **Update 2026-09-06 (TDI_MOBILITAS — komponen ketiga diganti):** komponen
 > `tanpa_kendaraan` (rasio RT tanpa kendaraan pribadi) pada Indeks Kebutuhan
 > Mobilitas **diganti** menjadi `usia_sekolah` (proporsi penduduk umur 5–19).
@@ -149,6 +171,100 @@ median `skor_tdi` 0,688 → 0,666 · mean 0,507 → 0,497 · jumlah "transit des
 (75 grid bergeser > 0,10). Yang paling berubah: rentang Indeks Kebutuhan
 Mobilitas melebar dari 0,219–0,624 (komponen ke-3 mati di 0,5) jadi
 0,028–0,594 (komponen ke-3 hidup, min-max 0–0,4).
+
+---
+
+## 0B. CAI grid 300 m — volume aktif hanya di sel tercacah lapangan (2026-09-10)
+
+**Konteks & keputusan.** Sampai 2026-09-09 CAI hanya dihitung di 19 `titik_kandidat`
+REAL; klik peta menampilkan skor titik survei terdekat (ambang interim
+*nearest-point* 2000 m yang ditambahkan lebih awal 2026-09-10) seolah-olah itu
+skor lokasi yang diklik — menyesatkan. Tim + Sam menyetujui (2026-09-10) memindah
+CAI ke **permukaan grid 300 m** `grid_analisis`, unit spasial sama dengan TDI.
+Memperluas survei lapangan sebelum submission 13 Sep tidak feasible; gridding
+membuat CAI konsisten-spasial dengan TDI dan menghapus perilaku *nearest-point*.
+**Deviasi metodologi disengaja, sekelas** penggantian komponen TDI_MOBILITAS
+2026-09-06 (Bagian 0A). Implementasi: `supabase/migrations/033_skor_cai_grid.sql`
+— **nama field RPC dan angka pasti dirujuk dari migration `033`, tidak
+diduplikasi di sini** supaya tidak ada dua sumber kebenaran.
+
+> **Draft regresi dibatalkan (2026-09-10).** Versi awal bagian ini sempat
+> mendokumentasikan estimasi volume berbasis regresi kepadatan↔volume (dengan
+> clip rentang teramati & flag `cai_volume_estimasi`). **Tim memilih Opsi B:**
+> tidak ada estimasi volume sama sekali. Volume transit hanya dipakai di sel
+> yang benar-benar dicacah lapangan; di sel lain kriteria itu N/A dan bobotnya
+> direnormalisasi — persis seperti kriteria survei. Tidak ada R², tidak ada
+> regresi, tidak ada flag estimasi di kode/UI/narasi/dokumen mana pun.
+
+### 0B.1 Bobot & AHP — TIDAK berubah
+Set bobot CAI tetap `konfigurasi_bobot` `nama_index='CAI'` (Bagian 0.1):
+`kepadatan` 0,3290 · `jarak_inv` 0,3290 · `volume` 0,2002 · `survei` 0,1418,
+Σ = 1,0000, **CR = 0,0226** (< 0,1). Matriks pairwise Saaty 4×4 dari sesi
+2026-09-03 berlaku apa adanya. Yang berubah hanya (a) unit spasial (titik → sel
+grid 300 m) dan (b) kriteria `volume` + `survei` otomatis jadi N/A di sel tanpa
+data lapangan yang relevan, dengan bobot direnormalisasi ke kriteria tersisa
+(`compute_cai(exclude_criteria=...)` — mekanisme yang sudah dipakai
+`titik_kandidat` sejak 2026-09-07, Bagian 6). Tidak ada bobot baru, tidak ada
+matriks baru, CR tidak dihitung ulang.
+
+### 0B.2 Isi tiap kriteria per sel
+| Kriteria | Aktif di sel bila… | Cara isi |
+|---|---|---|
+| `kepadatan` | selalu | Nilai dasymetric per sel (sumber tak berubah). |
+| `jarak_inv` | selalu | `ST_Distance` centroid sel → POI fasilitas terdekat (OSM sekolah/faskes/kerja). |
+| `volume` | sel memuat / ≤ 300 m dari titik Traffic Counting | `total_aktivitas` terukur di titik itu. Selain itu → **N/A**, bobot direnormalisasi. **Tidak ada estimasi.** |
+| `survei` | ada halte eksisting tersurvei (Form Kondisi Halte) ≤ 400 m | Skor Form Kondisi Halte. Selain itu → **N/A**, bobot direnormalisasi. |
+
+Normalisasi min-max tiap kriteria kini **lintas seluruh sel grid berpenduduk**,
+bukan lintas 18 titik (dikoreksi 2026-09-12 dari "19" — lihat CLAUDE.md
+Catatan 2026-09-12).
+
+### 0B.3 Empat pola bobot efektif per sel (dry-run live 2026-09-10, 2.607 sel)
+| Kriteria aktif | Bobot efektif | Jumlah sel |
+|---|---|---|
+| kepadatan + jarak POI | **0,5000 / 0,5000** | 2.526 |
+| + survei halte ≤ 400 m | 0,4113 / 0,4113 / 0,1775 | 44 |
+| + volume terukur ≤ 300 m | 0,3834 / 0,3834 / 0,2331 | 37 |
+| keempat kriteria | 0,3290 / 0,3290 / 0,2002 / 0,1418 | 0 (saat ini) |
+
+**0,5/0,5 bukan angka karangan** — di AHP pairwise 2026-09-03, `kepadatan` dan
+`jarak_inv` dinilai **sama penting** (0,3290 = 0,3290 di eigenvector). Saat 2
+kriteria lain absen di sebuah sel, renormalisasi 0,3290 : 0,3290 → 0,5 : 0,5
+adalah rasio AHP itu persis, hanya di-rescale. **Tidak ada penilaian pairwise
+yang diubah**; ini turunan runtime per sel dari matriks yang sama.
+
+`cai_skor` live: min / mean / max = **0,0000 / 0,3999 / 0,9544**. Min 0 sah —
+sel dengan kepadatan 0 dan > 3.000 m dari fasilitas terdekat.
+
+### 0B.4 Pengungkapan jujur (WAJIB)
+Di panel klik peta, Export Report, dan narasi AI Spatial Consultant, saat sel
+tidak punya volume terukur: nyatakan apa adanya —
+> "Volume penumpang transit dipakai hanya di sel yang benar-benar dicacah
+> lapangan (37 sel); di luar itu CAI berdiri di kepadatan penduduk + kedekatan
+> fasilitas umum."
+
+Tidak ada klaim estimasi volume di mana pun. Prinsip inti "model/AI tidak pernah
+menciptakan angka" terpenuhi tanpa caveat statistik: kriteria yang tak terukur
+cukup dikeluarkan, bukan ditebak.
+
+### 0B.5 Grid CAI aditif — titik tetap kanonik untuk 18 kandidat
+Tabel `skor_cai` berbasis titik dan ranking 18 kandidat survei **tidak dihapus**
+(dikoreksi 2026-09-12 dari "19" — `KND-011` sudah dihapus 2026-09-07 karena di
+luar Kota Bekasi; detail di CLAUDE.md Catatan 2026-09-12).
+Keduanya tetap: (a) rujukan kanonik CAI untuk ke-18 kandidat **tervalidasi
+lapangan**, (b) basis normalisasi min-max untuk `usulan_halte_model`. Grid CAI
+hanya menambah cakupan (permukaan se-kota untuk klik peta & gap analysis), tidak
+menggantikan. Klik peta membaca sel grid via RPC `get_cai_breakdown` (migration
+`033`); klik di luar grid berpenduduk balas "di luar cakupan analisis" (sama
+seperti TDI), menggantikan ambang *nearest-point* 2000 m interim.
+
+### 0B.6 Acceptance criteria PRD Bab 8 — tetap terpenuhi
+Baris CAI/TDI Bab 8: "Klik lokasi di peta → tampilkan skor + rincian kontribusi
+tiap kriteria". Versi grid tetap memenuhi — RPC `get_cai_breakdown` mengembalikan
+skor sel + kontribusi (nilai ternormalisasi × bobot efektif) tiap kriteria
+**aktif** di sel itu, bukan angka tunggal. Catatan konflik teks PRD (beberapa
+bab masih membingkai CAI sebagai analisis atas 31 titik Survey Activities) ada di
+changelog product-analyst 2026-09-10 — perlu perhatian tim, bukan blocker.
 
 ---
 
@@ -350,6 +466,20 @@ sekadar review informal:
   kandidat tidak berubah** (verifikasi `attach_cai_features_titik_kandidat.py`),
   hanya angka absolut + rincian panel. Memberi 0 sebelumnya membuat 14,18%
   bobot jadi beban mati seragam. Grid TDI / `skor_equity` tidak tersentuh.
+- **CAI grid 300 m (2026-09-10, Bagian 0B):** kriteria `volume` transit **aktif
+  hanya di ~37 sel yang benar-benar dicacah lapangan** (memuat / ≤ 300 m dari
+  titik Traffic Counting → `total_aktivitas` terukur); di sel lain `volume` N/A
+  dan bobotnya direnormalisasi ke kriteria tersisa (mekanisme sama dengan
+  kriteria `survei` N/A, `compute_cai(exclude_criteria=...)`). **Tidak ada
+  estimasi volume, tidak ada regresi, tidak ada flag.** Pengungkapan di
+  panel/laporan/narasi: "volume dipakai hanya di sel tercacah lapangan; di luar
+  itu CAI berdiri di kepadatan + kedekatan fasilitas". 4 pola bobot efektif per
+  sel (0,5000/0,5000 di 2.526 sel; 0,4113/0,4113/0,1775 di 44 sel;
+  0,3834/0,3834/0,2331 di 37 sel) di Bagian 0B — 0,5/0,5 = rasio AHP
+  `kepadatan`=`jarak_inv` yang di-rescale, bukan angka baru. Bobot AHP CAI & CR
+  tidak berubah. Tabel `skor_cai` berbasis titik tetap kanonik untuk 18 kandidat
+  tervalidasi lapangan (dikoreksi 2026-09-12 dari "19", lihat CLAUDE.md
+  Catatan 2026-09-12); grid CAI aditif.
 - 53 dari 56 kelurahan belum punya `titik_kandidat` survei sendiri →
   `skor_cai_rata2`-nya pakai fallback rata-rata kota (ditandai di kolom
   `sumber`). Ranking Equity untuk kelurahan ini lebih lemah dasarnya.

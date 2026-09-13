@@ -13,3 +13,129 @@ html, body, #root {
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
+
+/* ------------------------------------------------------------------ *
+ * Tema kontrol + popup MapLibre — GeoTransit Insight
+ * MapLibre memuat CSS-nya sendiri (maplibre-gl.css) yang tampil polos
+ * di antara komponen ber-Tailwind lain. Blok ini menyelaraskannya
+ * dengan bahasa desain aplikasi: sudut membulat, bayangan halus, aksen
+ * brand-blue (#1B659D) saat hover/aktif. Murni tampilan, tidak
+ * mengubah perilaku kontrol.
+ * ------------------------------------------------------------------ */
+.maplibregl-ctrl-group {
+  border-radius: 0.625rem;
+  overflow: hidden;
+  background: #fff;
+  box-shadow:
+    0 4px 12px -2px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.maplibregl-ctrl-group button {
+  width: 34px;
+  height: 34px;
+}
+
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid #e2e8f0;
+}
+
+.maplibregl-ctrl-group button:hover {
+  background-color: rgba(27, 101, 157, 0.08);
+}
+
+.maplibregl-ctrl-group button:focus-visible {
+  outline: 2px solid var(--color-brand-blue);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+
+.maplibregl-ctrl-group button.maplibregl-ctrl-active {
+  background-color: rgba(27, 101, 157, 0.12);
+  color: var(--color-brand-blue);
+}
+
+/* Tombol kustom "kembali ke tampilan Kota Bekasi" (lihat MapView.jsx) */
+.gti-ctrl-reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+}
+
+.gti-ctrl-reset svg {
+  width: 18px;
+  height: 18px;
+}
+
+.maplibregl-ctrl-scale {
+  border-color: #94a3b8;
+  border-radius: 0 4px 0 0;
+  color: #475569;
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(2px);
+}
+
+.maplibregl-popup-content {
+  border-radius: 0.625rem;
+  padding: 0.7rem 0.85rem;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #334155;
+  box-shadow:
+    0 8px 24px -6px rgba(15, 23, 42, 0.28),
+    0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.maplibregl-popup-close-button {
+  width: 22px;
+  height: 22px;
+  font-size: 16px;
+  color: #94a3b8;
+  border-radius: 0 0.625rem 0 0.4rem;
+}
+
+.maplibregl-popup-close-button:hover {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* Marker "lokasi yang baru diklik": cincin denyut supaya perhatian
+   user langsung tertuju ke titik yang sedang dianalisis (CAI / What-If).
+   currentColor diisi dari m.color di createMarker(). */
+.gti-marker-pulse::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  background: currentColor;
+  opacity: 0.45;
+  animation: gti-pulse 1.8s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes gti-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.45;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(3.2);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gti-marker-pulse::after {
+    animation: none;
+    display: none;
+  }
+}

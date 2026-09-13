@@ -1,11 +1,32 @@
 import { X, MapPinOff, ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import ConfidenceBadge from './ConfidenceBadge'
+
+// Label manusiawi untuk sumber_halte_terdekat (lihat get_tdi_breakdown, 035) —
+// nilai mentahnya adalah kode internal, bukan untuk ditampilkan apa adanya.
+const SUMBER_HALTE_LABEL = {
+  survei_lapangan: 'halte tersurvei langsung oleh tim lapangan',
+  osm_belum_disurvei: 'halte dari data OpenStreetMap, belum disurvei fisik oleh tim',
+}
 
 /**
- * TdiScorePanel — overlay di atas peta "Analisis Spasial" yang muncul saat user
- * klik sel choropleth SEDANGKAN layer aktif = "Indeks Gap Aksesibilitas" (TDI).
- * Menampilkan skor Transit Desert Index sel terpilih + rincian kontribusi tiap
- * komponen formula — acceptance criteria PRD Bab 8 ("CAI & TDI — klik lokasi ->
- * rincian kontribusi tiap kriteria, bukan angka tunggal").
+ * TdiScorePanel — overlay di atas peta UTAMA (dipakai bersama tab "Peta
+ * Interaktif" & "Analisis Spasial", lihat App.jsx) yang muncul saat user klik
+ * peta SEDANGKAN overlai analitik aktif = "Transit Desert Index" (state
+ * `analyticOverlay === 'tdi'`, App.jsx). Menampilkan skor Transit Desert Index
+ * (TDI) sel terpilih + rincian kontribusi tiap komponen formula — acceptance
+ * criteria PRD Bab 8 ("CAI & TDI — klik lokasi -> rincian kontribusi tiap
+ * kriteria, bukan angka tunggal").
+ *
+ * Dipindah dari components/AnalisisSpasial/TdiScorePanel.jsx pada konsolidasi
+ * peta 2026-09-12 (Analisis Spasial tidak lagi punya <MapView> sendiri —
+ * klik-untuk-rincian TDI kini ditangani App.jsx di peta utama yang sama
+ * dipakai seluruh tab). Perilaku & kontrak `result` TIDAK berubah.
+ *
+ * Catatan istilah: skor ini disebut TDI (Transit Desert Index) di SELURUH UI
+ * — label lama "Indeks Gap Aksesibilitas" (dulu dipakai AnalisisSpasial.jsx)
+ * sudah dihapus supaya tidak terkesan metrik berbeda dari TDI yang disebut di
+ * tempat lain (permintaan Sam 2026-09-12). Secara substansi label ini tetap
+ * memenuhi istilah PRD Bab 8 "indeks gap aksesibilitas" — lihat CLAUDE.md.
  *
  * PENTING — TDI itu RASIO, bukan kombinasi linear berbobot seperti CAI:
  *   TDI_raw = Kepadatan x Indeks Kebutuhan Mobilitas / maks(Skor Aksesibilitas, 0,01)
@@ -14,15 +35,32 @@ import { X, MapPinOff, ArrowUpRight, ArrowDownRight } from 'lucide-react'
  * CaiScorePanel. Tiap komponen dirender menurut `peran`:
  *   - 'pembilang' -> menaikkan TDI (defisit layanan makin besar)
  *   - 'penyebut'  -> menurunkan TDI (akses transit sudah baik)
- * Angka diambil apa adanya dari RPC get_tdi_breakdown (migration 015) yang hanya
- * MENYAJIKAN kolom grid_analisis yang sudah dihitung offline — frontend tidak
- * menghitung ulang skor.
+ * Angka diambil apa adanya dari RPC get_tdi_breakdown (migration 015, refined
+ * 021/027) yang hanya MENYAJIKAN kolom grid_analisis yang sudah dihitung
+ * offline — frontend tidak menghitung ulang skor.
+ *
+ * Posisi: bottom-3 left-3, sama dengan CaiScorePanel (bottom-4 left-4) —
+ * TIDAK tumpang tindih pada praktiknya karena keduanya digerakkan oleh
+ * handleMapClick yang eksklusif per state `analyticOverlay` (hanya salah satu
+ * dari caiResult/tdiResult yang pernah terisi pada satu waktu, lihat App.jsx).
+ *
+ * Prop `variant` (BARU 2026-09-13, permintaan Sam, pola sama dg CaiScorePanel):
+ *   - 'floating' (default) -> overlay absolute di atas peta (tab "Peta
+ *     Interaktif", TIDAK berubah).
+ *   - 'inline' -> blok biasa di panel kanan tab "Analisis Spasial", di bawah
+ *     toggle overlai analitik — bukan menutupi peta.
  */
-export default function TdiScorePanel({ loading, result, usingDemo, onClose }) {
+const WRAPPER_CLASS = {
+  floating:
+    'absolute bottom-3 left-3 z-10 w-[19rem] max-h-[75%] overflow-y-auto bg-white rounded-lg shadow-xl border border-slate-200',
+  inline: 'w-full bg-white rounded-lg border border-slate-200',
+}
+
+export default function TdiScorePanel({ loading, result, usingDemo, onClose, variant = 'floating' }) {
   if (!loading && !result) return null
 
   return (
-    <div className="absolute bottom-3 left-3 z-10 w-[19rem] max-h-[75%] overflow-y-auto bg-white rounded-lg shadow-xl border border-slate-200">
+    <div className={WRAPPER_CLASS[variant] ?? WRAPPER_CLASS.floating}>
       <div className="flex items-center gap-2 px-3 py-2.5 border-b border-slate-200 sticky top-0 bg-white">
         <MapPinOff size={15} className="text-brand-orange shrink-0" />
         <h3 className="font-semibold text-slate-800 text-sm flex-1">Rincian Transit Desert Index</h3>
@@ -76,6 +114,18 @@ export default function TdiScorePanel({ loading, result, usingDemo, onClose }) {
               skala 0,00 – 1,00 · lebih tinggi = makin “transit desert”
             </p>
           </div>
+
+          {result.confidence && (
+            <ConfidenceBadge
+              tier={result.confidence.confidence_tier}
+              ratio={result.confidence.confidence_ratio}
+              detail={`Berdasar ${
+                SUMBER_HALTE_LABEL[result.confidence.sumber_halte_terdekat] ??
+                result.confidence.sumber_halte_terdekat ??
+                'sumber tidak diketahui'
+              }, ${fmt(result.confidence.jarak_halte_terdekat_m, 0)} m dari sel ini.`}
+            />
+          )}
 
           {/* Formula rasio — ditampilkan eksplisit supaya jelas ini BUKAN penjumlahan berbobot */}
           <div className="text-[11px] bg-slate-50 border border-slate-200 rounded-md px-2.5 py-2 text-slate-600 leading-relaxed">

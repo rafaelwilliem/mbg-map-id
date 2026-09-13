@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Sparkles, Send, Loader2, AlertTriangle, Info } from 'lucide-react'
-import { isConfigured } from '../../lib/supabaseClient'
+import { supabase, isConfigured } from '../../lib/supabaseClient'
 import { KECAMATAN_KOTA_BEKASI } from '../../lib/kecamatan'
 
 const SEMUA_KECAMATAN = '' // opsi default dropdown -> tidak mengirim area_filter sama sekali
@@ -100,12 +100,52 @@ async function streamAiInsight(body, { onDelta, onDone, onError }) {
   if (buffer.trim()) handleBlock(buffer)
 }
 
-export default function AIPanel({ latestSimulasi = null }) {
+export default function AIPanel({ latestSimulasi = null, onWilayahSelected, mapInstance = null }) {
   const [query, setQuery] = useState('')
   const [areaFilter, setAreaFilter] = useState(SEMUA_KECAMATAN)
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(false)
   const inFlight = useRef(false)
+  // Cegah respons RPC basi menimpa sorotan dari pertanyaan yang lebih baru
+  // (pola sama dengan reqRef di AnalisisSpasial.jsx / sorotReqRef di SearchBar.jsx).
+  const sorotReqRef = useRef(0)
+
+  // Sam: kalau narasi AI menjawab dgn fokus satu kelurahan (kerangka CCIA —
+  // "ranking":1 SELALU kelurahan yang dibahas narasi, lihat systemPrompt
+  // ai-insight/index.ts), peta utama otomatis menyorot & pindah ke kelurahan
+  // itu — bukan cuma teks. Reuse ALUR SAMA dengan ambilSorotWilayah
+  // (SearchBar.jsx) / handleFilterChange (AnalisisSpasial.jsx): RPC
+  // get_admin_geometry -> onWilayahSelected (state sorotWilayah App.jsx) ->
+  // fitBounds peta utama. Diam-diam no-op kalau prop tidak dikasih (mis. someday
+  // dipakai di konteks tanpa peta), atau RPC gagal (JANGAN bersihkan sorotan
+  // lama yang mungkin sedang aktif dari tab lain — beda dgn SearchBar/
+  // AnalisisSpasial yang memang state eksplisit "wilayah sedang dipilih user").
+  async function sorotKelurahanFokus(ranking) {
+    const nama = ranking?.[0]?.kelurahan
+    if (!nama || !onWilayahSelected || !isConfigured) return
+    const req = (sorotReqRef.current += 1)
+    try {
+      const { data, error } = await supabase.rpc('get_admin_geometry', {
+        p_level: 'kelurahan',
+        p_nama: nama,
+      })
+      if (req !== sorotReqRef.current) return // pertanyaan baru sudah diajukan, buang respons basi
+      const row = Array.isArray(data) ? data[0] : data
+      if (error || !row?.geojson) return
+      onWilayahSelected({ level: 'kelurahan', nama: row.nama || nama, geojson: row.geojson })
+      if (mapInstance && row.min_lng != null) {
+        mapInstance.fitBounds(
+          [
+            [row.min_lng, row.min_lat],
+            [row.max_lng, row.max_lat],
+          ],
+          { padding: 60, duration: 800, maxZoom: 15 },
+        )
+      }
+    } catch {
+      // Diam — narasi & ranking tetap tampil normal, cuma peta tidak ikut pindah.
+    }
+  }
 
   // Patch pesan AI terakhir (placeholder streaming) tanpa menyentuh pesan lain.
   function patchLastAi(patch) {
@@ -140,6 +180,7 @@ export default function AIPanel({ latestSimulasi = null }) {
       areaMismatch: area.requested != null && area.matched === false,
       areaRequested: area.requested != null ? area.requested : null,
     })
+    if (data.ranking?.length) sorotKelurahanFokus(data.ranking)
   }
 
   async function handleAsk() {

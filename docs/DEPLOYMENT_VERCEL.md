@@ -35,6 +35,7 @@ Di **Project → Settings → Environment Variables**, tambah untuk scope **Prod
 | `VITE_SUPABASE_ANON_KEY` | `sb_publishable_...` (anon key, dari `frontend/.env`) | Publik by design (RLS baca-saja aktif di semua tabel) |
 | `VITE_MAPID_MAPS_STYLE_URL` | URL style MAPID (dari `frontend/.env`) | |
 | `VITE_MAPID_MAPS_API_KEY` | key MAPID (dari `frontend/.env`) | Client-side by design (dibatasi domain/referrer di dashboard MAPID) |
+| `VITE_MAPID_MAPS_SATELLITE_STYLE_URL` | URL style satelit MAPID (dari `frontend/.env`) | Toggle Peta/Satelit di MapView; key sama dengan `VITE_MAPID_MAPS_API_KEY` |
 
 **JANGAN set:**
 - `VITE_AUTH_REQUIRED` — biarkan tidak ada / `false`. Login wall OFF untuk submission supaya juri akses langsung. (Nyalakan `true` hanya pasca-13 Sep kalau perlu, lalu redeploy.)

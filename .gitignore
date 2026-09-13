@@ -71,3 +71,6 @@ etl/data/osm/_building_tiles_raw/
 
 # ===== Logs =====
 *.log
+
+# ===== ETL jejak komputasi (artefak recovery, bukan sumber) =====
+etl/data/_*.csv

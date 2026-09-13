@@ -10,10 +10,14 @@ unblocked oleh 009_bobot_tdi_equity_mentor_review.sql.
 
 compute_tdi() di compute_scores.py butuh 3 kolom mentah per grid yang BELUM
 ada scriptnya (dicatat sebagai TODO di compute_scores.py & DATA_CHECKLIST.md):
-  - skor_aksesibilitas_transit  <- jarak grid ke halte_eksisting REAL
-    terdekat (HLT-001..015, koridor BisKita), fungsi decay linear coverage
-    isochrone 400m/800m (bukan network routing riil - eksplisit out-of-scope
-    PRD Bab 3, sama seperti pendekatan RPC simulate_new_stop()).
+  - skor_aksesibilitas_transit  <- jarak grid ke halte terdekat, fungsi decay
+    linear coverage isochrone 400m/800m (bukan network routing riil -
+    eksplisit out-of-scope PRD Bab 3, sama seperti pendekatan RPC
+    simulate_new_stop()). SUMBER HALTE (sejak 2026-09-11, lihat CATATAN
+    2026-09-11 di bawah): GABUNGAN halte_eksisting REAL tersurvei (15,
+    HLT-001..015, DUMMY-HLT-* dikecualikan) + halte BisKita Trans Patriot
+    dari OSM yang belum disurvei lapangan (frontend/src/data/
+    biskita_halte_osm.geojson, ~32 titik) — lihat load_halte_gabungan().
   - proporsi_usia_rentan        <- spatial join centroid grid ke kelurahan
     RBI asli (56, batas_administrasi sumber=SUMBER_BATAS_RESMI), lalu ambil
     proporsi_lansia + proporsi_balita kelurahan itu dari tabel `penduduk`
@@ -39,18 +43,45 @@ CATATAN 2026-09-06: komponen ketiga Indeks Kebutuhan Mobilitas diganti dari
 penduduk.proporsi_usia_sekolah). Jalur fallback 0,5 di
 compute_indeks_kebutuhan_mobilitas() sudah dihapus (migration 026).
 
+CATATAN 2026-09-11 (perbaikan metodologi, diminta Sam): skor_aksesibilitas_
+transit SEBELUMNYA hanya mengukur jarak ke 15 halte_eksisting REAL yang
+sempat disurvei tim (HLT-001..015). Padahal jaringan fisik BisKita Trans
+Patriot punya ~32-33 halte nyata (dikonfirmasi via OSM, network="Trans
+Bekasi Patriot", sudah dimaterialisasi di frontend/src/data/
+biskita_halte_osm.geojson oleh build_rute_biskita_osm.py). ~18 halte yang
+NYATA ADA tapi tidak sempat disurvei sebelumnya "tidak terlihat" oleh
+formula ini -> sel di sekitarnya salah dihitung seolah tidak ada transit
+sama sekali, menggembungkan skor_tdi secara artifisial di sekitar halte
+riil yang belum tersurvei.
+
+PERBAIKAN: load_halte_gabungan() menggabungkan (a) halte_eksisting REAL
+tersurvei (15) dan (b) titik OSM BisKita dari file geojson di atas (~32),
+lalu dipakai bersama untuk nearest-distance skor_aksesibilitas_transit.
+Duplikat/near-duplikat titik yang sama dari 2 sumber TIDAK di-dedup --
+untuk perhitungan jarak-terdekat ini tidak berbahaya (jarak minimum tidak
+berubah oleh titik duplikat di dekatnya).
+
+SCOPE KETAT: perubahan ini HANYA menyentuh skor_aksesibilitas_transit (dan
+turunannya skor_tdi). Kriteria "skor survei kondisi halte" pada skor_cai
+SENGAJA TIDAK diubah -- itu terikat pada ketersediaan Form Kondisi Halte
+(cakupan survei kondisi fisik), bukan keberadaan fisik halte, konsep yang
+berbeda (lihat CLAUDE.md bagian Composite Accessibility Index).
+
 Cara pakai:
     python compute_tdi_full.py              # hitung + print ringkasan, TIDAK upload
     python compute_tdi_full.py --upload      # hitung + upload ke grid_analisis
 """
 
 import argparse
+import json
+import os
 
 import geopandas as gpd
 import numpy as np
 import pandas as pd
+from shapely.geometry import shape
 
-from compute_scores import compute_tdi, sensitivity_check_tdi, DEFAULT_MOBILITY_WEIGHTS
+from compute_scores import compute_tdi, sensitivity_check_tdi, DEFAULT_MOBILITY_WEIGHTS, compute_tdi_confidence
 from rerun_dasymetric_grid import (
     fetch_all_paginated,
     wkb_hex_to_geom,
@@ -77,6 +108,15 @@ AMBANG_NIHIL_M = 800
 SUMBER_POI_REAL = "OpenStreetMap"
 JENIS_POI_HARIAN = ["sekolah", "faskes", "kerja"]
 PREFIX_HALTE_DUMMY = "DUMMY-HLT-"
+
+# Halte BisKita Trans Patriot dari OSM (network="Trans Bekasi Patriot"),
+# dimaterialisasi oleh build_rute_biskita_osm.py — sumber KEDUA untuk
+# skor_aksesibilitas_transit sejak 2026-09-11 (lihat CATATAN di docstring
+# atas). Ini file yang SAMA yang dipakai frontend untuk menggambar layer
+# halte BisKita, jadi otomatis konsisten dengan apa yang dilihat user di peta.
+OSM_HALTE_GEOJSON_PATH = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), "..", "frontend", "src", "data", "biskita_halte_osm.geojson")
+)
 
 
 def skor_aksesibilitas_dari_jarak(jarak_m: pd.Series) -> pd.Series:
@@ -164,23 +204,81 @@ def load_poi_harian(client) -> gpd.GeoDataFrame:
     return gdf
 
 
-def load_halte_real(client) -> gpd.GeoDataFrame:
+def load_halte_survei_real(client) -> gpd.GeoDataFrame:
+    """Halte eksisting REAL yang sudah disurvei tim (15, HLT-001..015),
+    DUMMY-HLT-* dikecualikan. NAMA DIPERTAHANKAN apa adanya (bukan direname
+    load_halte_real) supaya scope perubahan 2026-09-11 jelas: fungsi ini
+    sendiri TIDAK berubah perilakunya, hanya dipanggil bareng sumber kedua
+    di load_halte_gabungan()."""
     rows = fetch_all_paginated(client, "halte_eksisting", "id, id_halte_survei, nama, geom")
     rows = [r for r in rows if not str(r["id_halte_survei"]).startswith(PREFIX_HALTE_DUMMY)]
     geoms = [wkb_hex_to_geom(r["geom"]) for r in rows]
     gdf = gpd.GeoDataFrame(
-        {"halte_id": [r["id"] for r in rows], "nama_halte": [r["nama"] for r in rows]},
+        {
+            "halte_id": [f"SURVEI-{r['id']}" for r in rows],
+            "nama_halte": [r["nama"] for r in rows],
+            "sumber_halte": ["survei_lapangan"] * len(rows),
+        },
         geometry=geoms, crs=WGS84,
     )
-    print(f"[INFO] Halte eksisting REAL (koridor BisKita, DUMMY-HLT-* dikecualikan): {len(gdf)} titik.")
+    print(f"[INFO] Halte eksisting REAL tersurvei (HLT-001..015, DUMMY-HLT-* dikecualikan): {len(gdf)} titik.")
     return gdf
+
+
+# Alias lama dipertahankan (dipakai file lain sebagai referensi nama di komentar,
+# dan supaya import lama tidak patah kalau ada script lain yang memanggilnya).
+load_halte_real = load_halte_survei_real
+
+
+def load_halte_osm_biskita() -> gpd.GeoDataFrame:
+    """Titik halte BisKita Trans Patriot dari OSM (~32), belum disurvei
+    lapangan tim. Dibaca langsung dari file lokal yang sudah dimaterialisasi
+    oleh build_rute_biskita_osm.py — TIDAK hit Overpass API lagi di sini."""
+    if not os.path.exists(OSM_HALTE_GEOJSON_PATH):
+        raise SystemExit(
+            f"[GAGAL] File halte OSM tidak ditemukan: {OSM_HALTE_GEOJSON_PATH}\n"
+            "Jalankan etl/build_rute_biskita_osm.py dulu, atau cek path."
+        )
+    with open(OSM_HALTE_GEOJSON_PATH, "r", encoding="utf-8") as f:
+        fc = json.load(f)
+    feats = fc["features"]
+    gdf = gpd.GeoDataFrame(
+        {
+            "halte_id": [f"OSM-{i}" for i in range(len(feats))],
+            "nama_halte": [f["properties"].get("nama") for f in feats],
+            "sumber_halte": ["osm_belum_disurvei"] * len(feats),
+        },
+        geometry=[shape(f["geometry"]) for f in feats],
+        crs=WGS84,
+    )
+    print(
+        f"[INFO] Halte BisKita OSM (belum disurvei lapangan, {os.path.basename(OSM_HALTE_GEOJSON_PATH)}): "
+        f"{len(gdf)} titik."
+    )
+    return gdf
+
+
+def load_halte_gabungan(client) -> gpd.GeoDataFrame:
+    """SUMBER HALTE GABUNGAN untuk skor_aksesibilitas_transit (2026-09-11):
+    halte_eksisting REAL tersurvei (15) + halte OSM BisKita belum-disurvei
+    (~32) = ~47 titik. Tidak ada dedup near-duplicate antar 2 sumber — untuk
+    nearest-distance ini tidak masalah (lihat CATATAN 2026-09-11 di atas)."""
+    survei = load_halte_survei_real(client)
+    osm = load_halte_osm_biskita()
+    gabungan = pd.concat([survei, osm], ignore_index=True)
+    gabungan = gpd.GeoDataFrame(gabungan, geometry="geometry", crs=WGS84)
+    print(
+        f"[INFO] Halte GABUNGAN (survei + OSM) untuk skor_aksesibilitas_transit: "
+        f"{len(survei)} + {len(osm)} = {len(gabungan)} titik."
+    )
+    return gabungan
 
 
 def build_grid_features(client) -> gpd.GeoDataFrame:
     grid = load_grid(client)
     kelurahan = load_kelurahan_mobilitas(client)
     poi = load_poi_harian(client)
-    halte = load_halte_real(client)
+    halte = load_halte_gabungan(client)
 
     grid_m = grid.to_crs(METRIC_CRS)
     kelurahan_m = kelurahan.to_crs(METRIC_CRS)
@@ -223,11 +321,16 @@ def build_grid_features(client) -> gpd.GeoDataFrame:
     poi_count = poi_join.groupby("grid_analisis_id").size()
     grid_m["kepadatan_poi_harian"] = grid_m["grid_analisis_id"].map(poi_count).fillna(0).astype(int)
 
-    # --- skor_aksesibilitas_transit: nearest real halte, decay 400/800m ---
-    nearest = gpd.sjoin_nearest(centroids, halte_m[["halte_id", "nama_halte", "geometry"]],
-                                 how="left", distance_col="jarak_halte_m")
+    # --- skor_aksesibilitas_transit: nearest halte (GABUNGAN survei+OSM sejak
+    #     2026-09-11), decay 400/800m ---
+    nearest = gpd.sjoin_nearest(
+        centroids, halte_m[["halte_id", "nama_halte", "sumber_halte", "geometry"]],
+        how="left", distance_col="jarak_halte_m",
+    )
     nearest = nearest.loc[~nearest.index.duplicated(keep="first")]
     grid_m["jarak_halte_terdekat_m"] = nearest["jarak_halte_m"].values
+    grid_m["nama_halte_terdekat"] = nearest["nama_halte"].values
+    grid_m["sumber_halte_terdekat"] = nearest["sumber_halte"].values
     grid_m["skor_aksesibilitas_transit"] = skor_aksesibilitas_dari_jarak(grid_m["jarak_halte_terdekat_m"])
 
     grid_m["grid_id"] = grid_m["grid_analisis_id"].astype(str)  # id_col utk sensitivity_check_tdi
@@ -250,33 +353,86 @@ if __name__ == "__main__":
     print("\n=== 3. Hitung compute_tdi() untuk seluruh grid ===")
     scored = compute_tdi(df, weights)
 
+    # Confidence Ratio TDI (035/docs/CONFIDENCE_RATIO.md) — BUKAN skor_tdi,
+    # murni sinyal keandalan tambahan berdasar sumber_halte_terdekat yang
+    # SUDAH dihitung di build_grid_features() (in-memory sebelumnya, sejak
+    # 035 dipersist ke grid_analisis). Dipanggil terpisah SETELAH compute_tdi()
+    # persis seperti didokumentasikan di compute_tdi_confidence() sendiri —
+    # tidak menyentuh skor_tdi/skor_aksesibilitas_transit sama sekali.
+    _confidence = compute_tdi_confidence(scored["sumber_halte_terdekat"])
+    scored["tdi_confidence_ratio"] = _confidence["tdi_confidence_ratio"].values
+    scored["tdi_confidence_tier"] = _confidence["tdi_confidence_tier"].values
+
     print("\n--- Ringkasan distribusi skor_tdi ---")
     print(scored["skor_tdi"].describe().round(4).to_string())
     print("\n--- Ringkasan distribusi kepadatan_penduduk (input, dasymetric-real) ---")
     print(scored["kepadatan_penduduk"].describe().round(2).to_string())
     print("\n--- Ringkasan distribusi skor_aksesibilitas_transit ---")
     print(scored["skor_aksesibilitas_transit"].describe().round(4).to_string())
+    print("\n--- Ringkasan Confidence Ratio TDI (BUKAN AHP consistency_ratio) ---")
+    print(scored["tdi_confidence_tier"].value_counts().to_string())
 
     print(f"\nTop 10 cell paling 'transit desert' (skor_tdi tertinggi):")
     print(scored[["grid_analisis_id", "kepadatan_penduduk", "proporsi_usia_rentan",
                    "proporsi_usia_sekolah", "kepadatan_poi_harian", "jarak_halte_terdekat_m",
                    "skor_aksesibilitas_transit", "skor_tdi"]].head(10).round(4).to_string(index=False))
 
-    # --- Perbandingan skor_tdi LAMA (tersimpan di grid_analisis) vs BARU ---
-    print("\n--- skor_tdi LAMA (grid_analisis) vs BARU (usia_sekolah) ---")
+    # --- Perbandingan skor_tdi LAMA (tersimpan di grid_analisis, 15 halte survei
+    #     saja) vs BARU (halte GABUNGAN survei+OSM, 2026-09-11) ---
+    print("\n--- skor_tdi LAMA (15 halte survei) vs BARU (halte gabungan survei+OSM) ---")
     lama_rows = fetch_all_paginated(client, "grid_analisis", "id, skor_tdi")
     lama_map = {r["id"]: (float(r["skor_tdi"]) if r["skor_tdi"] is not None else None) for r in lama_rows}
     cmp_df = scored[["grid_analisis_id", "skor_tdi"]].copy()
     cmp_df["skor_tdi_lama"] = cmp_df["grid_analisis_id"].map(lama_map)
     both = cmp_df.dropna(subset=["skor_tdi_lama"])
     for label, s in [("LAMA", both["skor_tdi_lama"]), ("BARU", both["skor_tdi"])]:
-        print(f"  {label}: min={s.min():.4f} median={s.median():.4f} max={s.max():.4f} mean={s.mean():.4f}")
+        print(
+            f"  {label}: min={s.min():.4f} q1={s.quantile(0.25):.4f} median={s.median():.4f} "
+            f"q3={s.quantile(0.75):.4f} max={s.max():.4f} mean={s.mean():.4f}"
+        )
     td_lama = int((both["skor_tdi_lama"] > 0.6).sum())
     td_baru = int((both["skor_tdi"] > 0.6).sum())
     delta = (both["skor_tdi"] - both["skor_tdi_lama"]).abs()
     print(f"  Transit desert (skor_tdi > 0,6): LAMA {td_lama} -> BARU {td_baru} cell (dari {len(both)} cell dibandingkan)")
     print(f"  |delta skor_tdi|: median={delta.median():.4f} max={delta.max():.4f} ; "
           f"{int((delta > 0.05).sum())} cell berubah > 0,05 ; {int((delta > 0.10).sum())} cell berubah > 0,10")
+    # Spearman = Pearson correlation atas rank (scipy tidak ter-install di
+    # env ETL ini; hindari dependency baru untuk perhitungan sederhana ini).
+    rho = both["skor_tdi"].rank().corr(both["skor_tdi_lama"].rank())
+    n_null_new = int(scored["skor_tdi"].isna().sum())
+    n_oob_new = int(((scored["skor_tdi"] < 0) | (scored["skor_tdi"] > 1)).sum())
+    print(f"  Korelasi Spearman ranking LAMA vs BARU: rho={rho:.4f} (dari {len(both)} cell) "
+          f"— mendekati 1 = perbaikan halus (refinement), bukan pengacakan ranking.")
+    print(f"  skor_tdi NULL setelah recompute: {n_null_new} (harus 0)")
+    print(f"  skor_tdi di luar rentang [0,1] setelah recompute: {n_oob_new} (harus 0)")
+
+    # --- Face-validity: sel yang halte terdekatnya HANYA ada di sumber OSM
+    #     (sebelumnya invisible ke formula LAMA) harus membaik ---
+    print("\n--- Face-validity: sel dg halte terdekat dari sumber OSM (dulu invisible) ---")
+    osm_terdekat = scored[scored["sumber_halte_terdekat"] == "osm_belum_disurvei"].copy()
+    print(f"  Jumlah sel yang halte GABUNGAN terdekatnya adalah titik OSM: {len(osm_terdekat)}")
+    if len(osm_terdekat):
+        osm_terdekat = osm_terdekat.merge(
+            cmp_df[["grid_analisis_id", "skor_tdi_lama"]], on="grid_analisis_id", how="left"
+        )
+        contoh = osm_terdekat.sort_values("jarak_halte_terdekat_m").head(5)
+        print(
+            contoh[["grid_analisis_id", "nama_halte_terdekat", "jarak_halte_terdekat_m",
+                    "skor_aksesibilitas_transit", "skor_tdi_lama", "skor_tdi"]]
+            .rename(columns={"skor_tdi_lama": "skor_tdi_LAMA", "skor_tdi": "skor_tdi_BARU"})
+            .round(4).to_string(index=False)
+        )
+        # Toleransi kecil (1e-4) karena skor_tdi_lama tersimpan dibulatkan 4
+        # desimal di grid_analisis, sedangkan skor_tdi baru dihitung presisi
+        # penuh -- selisih di bawah itu murni noise pembulatan, bukan regresi.
+        delta_osm = osm_terdekat["skor_tdi"] - osm_terdekat["skor_tdi_lama"]
+        membaik = (delta_osm < -1e-4).mean()
+        memburuk = (delta_osm > 1e-4).mean()
+        print(f"  {membaik:.1%} dari sel-sel ini skor_tdi TURUN (membaik) setelah halte OSM diperhitungkan; "
+              f"{memburuk:.1%} naik (di luar toleransi pembulatan 1e-4 — harus ~0%, sinyal regresi kalau tinggi); "
+              f"sisanya praktis tidak berubah (halte terdekat gabungan == halte terdekat lama).")
+        print(f"  delta skor_tdi (BARU-LAMA) di sel ini: mean={delta_osm.mean():.4f} "
+              f"min={delta_osm.min():.4f} max={delta_osm.max():.4f}")
 
     print("\n=== 4. Sensitivity analysis (geser bobot mobilitas ±10%) ===")
     sens = sensitivity_check_tdi(scored, weights)

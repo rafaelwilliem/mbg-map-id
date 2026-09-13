@@ -227,7 +227,17 @@ function buildTemplateNarasi(
     }
   }
 
-  return [condition, cause, impact, actionDasar + actionSimulasi].join(" ");
+  // Point per point (BUKAN prosa mengalir) — SELARAS dengan format yang
+  // diwajibkan ke Claude di systemPrompt "=== FORMAT OUTPUT ===" (permintaan
+  // Sam 2026-09-13), supaya narasi TEMPLATE fallback & narasi AI terlihat
+  // sama strukturnya di AIPanel.jsx (whitespace-pre-wrap merender "\n" apa
+  // adanya, tidak perlu markdown renderer).
+  return [
+    `1. Kondisi: ${condition}`,
+    `2. Penyebab: ${cause}`,
+    `3. Dampak: ${impact}`,
+    `4. Aksi: ${actionDasar + actionSimulasi}`,
+  ].join("\n\n");
 }
 
 Deno.serve(async (req) => {
@@ -439,23 +449,33 @@ Tugasmu MENJELASKAN skor yang sudah dihitung model spasial deterministik — buk
 menebak, atau menambah angka. Kamu tidak pernah menghasilkan skor sendiri.
 
 === PANJANG ===
-Ringkas tapi LENGKAP — cukupkan tiap tahap CCIA menyampaikan isinya, jangan bertele-tele,
-jangan mengulang. Perkiraan 150-220 kata untuk KESELURUHAN narasi (4 tahap digabung); ini
+Ringkas tapi LENGKAP — cukupkan tiap POIN CCIA menyampaikan isinya, jangan bertele-tele,
+jangan mengulang. Perkiraan 150-220 kata untuk KESELURUHAN narasi (4 poin digabung); ini
 perkiraan, bukan batas keras — JANGAN mengorbankan kelengkapan isi demi menekan jumlah kata.
-Yang wajib: keempat tahap (Condition, Cause, Impact, Action) utuh tersampaikan dan narasi
-TIDAK terpotong di tengah kalimat — khususnya tahap Action beserta angka "+N jiwa"-nya harus
-selesai penuh. Setelah kalimat terakhir tahap Action, BERHENTI: tidak ada penutup, ringkasan,
+Yang wajib: keempat poin (Condition, Cause, Impact, Action) utuh tersampaikan dan narasi
+TIDAK terpotong di tengah kalimat — khususnya poin Action beserta angka "+N jiwa"-nya harus
+selesai penuh. Setelah kalimat terakhir poin Action, BERHENTI: tidak ada penutup, ringkasan,
 atau kalimat tambahan apa pun.
 
-=== FORMAT OUTPUT (WAJIB) ===
-DILARANG KERAS: heading, judul bertanda "**", bullet, list bernomor, garis pemisah "---".
-Output = paragraf mengalir Bahasa Indonesia, mulai LANGSUNG dari kalimat Condition.
-Tidak ada label "Condition:", "Cause:", dst — keempat tahap menyatu jadi prosa biasa.
+=== FORMAT OUTPUT (WAJIB — point per point, BUKAN prosa mengalir) ===
+Output HARUS 4 poin bernomor "1." sampai "4.", SATU POIN PER PARAGRAF (pisahkan tiap poin
+dengan SATU baris kosong — yaitu DUA karakter baris baru berturutan di antara poin; jangan
+gabung dua poin jadi satu baris/paragraf). Tiap poin diawali label tahapnya persis begini
+(angka + titik + spasi + label + titik dua + spasi, lalu isi):
+  1. Kondisi: <isi>
+  2. Penyebab: <isi>
+  3. Dampak: <isi>
+  4. Aksi: <isi>
+DILARANG KERAS: heading markdown ("#"), teks tebal "**", bullet "-"/"*", sub-list bernomor
+di dalam satu poin, garis pemisah "---", atau kalimat pembuka/penutup di luar keempat poin
+itu (langsung mulai dari "1. Kondisi:", langsung berhenti setelah kalimat terakhir "4. Aksi:").
+Tiap poin sendiri tetap satu paragraf mengalir (boleh lebih dari satu kalimat) — yang
+dilarang adalah menggabung ISI ANTAR poin jadi satu paragraf besar tanpa nomor/label.
 
 === KERANGKA WAJIB: CCIA (Condition -> Cause -> Impact -> Action) ===
-Bangun keempat tahap HANYA di sekitar SATU kelurahan fokus: yang "ranking":1
+Bangun keempat poin HANYA di sekitar SATU kelurahan fokus: yang "ranking":1
 (skor_ketimpangan tertinggi). JANGAN mengulang kerangka CCIA untuk tiap kelurahan;
-kelurahan lain cukup disinggung ringkas (nama + skor_ketimpangan) di bagian Condition.
+kelurahan lain cukup disinggung ringkas (nama + skor_ketimpangan) di poin Kondisi.
 1. CONDITION (Kondisi): sebut kelurahan fokus (ranking 1) beserta skor ketimpangannya dan
    kondisi terukur akses transitnya untuk cakupan yang diminta; sisipkan singkat kelurahan
    lain (nama + skor) sebagai konteks.
@@ -463,6 +483,11 @@ kelurahan lain cukup disinggung ringkas (nama + skor_ketimpangan) di bagian Cond
    dipadukan dengan dimensi kerentanan sosial (usia rentan, akses pendidikan/kesehatan/kerja),
    dengan bobot hasil AHP pairwise (CR < 0,1). Jangan menghitung ulang / mengarang sub-skor
    CAI/TDI per kriteria — data tidak memuatnya.
+   ISTILAH WAJIB DIBEDAKAN (jangan pernah tertukar): sebutan di atas adalah "consistency ratio"
+   atau disingkat "CR" — validitas matriks pairwise AHP, BUKAN "confidence ratio". "Confidence
+   ratio"/"confidence" adalah metrik LAIN (keandalan skor per lokasi terhadap kondisi lapangan)
+   yang HANYA boleh disebut kalau field "confidence"/"confidence_ratio" benar-benar ada di data
+   yang dilampirkan — kalau tidak ada di data, jangan sebut "confidence ratio" sama sekali.
 3. IMPACT (Dampak): konsekuensi konkret bila tanpa intervensi BAGI "kelompok_terdampak" dari
    data (mis. lansia, pelajar, warga tanpa kendaraan): mobilitas makin terbatas, kesenjangan
    makin lebar. Bila "kelompok_terdampak" null, nyatakan profilnya belum tersedia dan perlu
@@ -689,6 +714,17 @@ TINGGI = kelurahan makin TERTINGGAL/DIRUGIKAN. "ranking": 1 = skor_ketimpangan p
     //    (narasi_source:"template"). Jadi frontend hanya perlu menangani delta+done,
     //    plus error sebagai kasus "ganti teks".
     //
+    //    Kasus lain yang JUGA jatuh ke jalur template di atas (1 delta besar +
+    //    `done` narasi_source:"template", BUKAN `event: error`) meski beberapa
+    //    delta AI sempat terkirim lebih dulu: stream Claude selesai NORMAL
+    //    (bukan putus) tapi `stop_reason === "max_tokens"` — narasi asli
+    //    terpotong sebelum kalimat selesai, jadi seluruh teks yang terkumpul
+    //    dibuang dan diganti template LENGKAP. Frontend tidak perlu kode baru:
+    //    `done.narasi` selalu MENIMPA penuh teks yang sempat ter-stream (lihat
+    //    `applyTerminal` di AIPanel.jsx yang meng-assign `text: data.narasi`,
+    //    bukan menyambungnya ke delta sebelumnya), jadi delta parsial sebelum
+    //    `done` ini otomatis tidak pernah terlihat final oleh user.
+    //
     //  Contoh mentah (curl -N):
     //    event: delta
     //    data: {"text":"Kelurahan Padurenan menempati peringkat 1 "}
@@ -869,6 +905,28 @@ TINGGI = kelurahan makin TERTINGGAL/DIRUGIKAN. "ranking": 1 = skor_ketimpangan p
           emitTemplate(
             "Layanan AI tidak mengembalikan teks — fallback ke template deterministik. " +
               "Angka & ranking tetap akurat."
+          );
+          return;
+        }
+
+        // Claude berhenti karena mencapai batas `max_tokens` SEBELUM narasi
+        // selesai -> `full` yang sudah terkumpul adalah kalimat terpotong,
+        // paling berbahaya kalau kejadian di tahap Action (angka "+N jiwa"
+        // ikut hilang/terpotong — lihat komentar max_tokens di atas). Jangan
+        // pernah kirim narasi sebagian ke user: buang `full`, fallback ke
+        // template LENGKAP lewat jalur done/narasi_source:"template" yang
+        // sama seperti cabang deltaTerkirim === 0 di atas (bukan `event:
+        // error` — lihat KONTRAK SSE: error dipakai utk stream yang PUTUS,
+        // bukan yang selesai normal tapi kepotong batas token).
+        if (stopReason === "max_tokens") {
+          console.warn(
+            `[ai-insight] narasi terpotong oleh batas max_tokens (${deltaTerkirim} delta, ` +
+              `${full.length} char terkumpul) -> fallback template`
+          );
+          emitTemplate(
+            "Narasi AI terpotong karena mencapai batas token (max_tokens) sebelum kalimat " +
+              "selesai — diganti template deterministik berbasis skor model spasial supaya " +
+              "tidak menampilkan narasi yang berhenti di tengah kalimat. Angka & ranking tetap akurat."
           );
           return;
         }

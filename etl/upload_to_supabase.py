@@ -473,16 +473,34 @@ def upload_tdi_scores(client, scored_df):
         )
         return None
 
+    # Kolom provenance halte + Confidence Ratio TDI (035/docs/CONFIDENCE_RATIO.md)
+    # BARU 2026-09-13 — opsional: hanya disertakan kalau scored_df punya kolomnya,
+    # supaya blok demo __main__ di bawah (load_demo_grid_data(), tanpa kolom ini)
+    # tidak pecah. Tidak menyentuh skor_tdi/skor_aksesibilitas_transit sama sekali.
+    kolom_confidence = [
+        "jarak_halte_terdekat_m", "sumber_halte_terdekat",
+        "tdi_confidence_ratio", "tdi_confidence_tier",
+    ]
+    ada_confidence = all(k in scored_df.columns for k in kolom_confidence)
+
     updated = 0
     for _, row in scored_df.iterrows():
+        payload = {
+            "kepadatan_penduduk": round(row["kepadatan_penduduk"], 2),
+            "indeks_kebutuhan_mobilitas": round(row["indeks_kebutuhan_mobilitas"], 4),
+            "skor_aksesibilitas_transit": round(row["skor_aksesibilitas_transit"], 4),
+            "skor_tdi": round(row["skor_tdi"], 4),
+        }
+        if ada_confidence:
+            payload.update({
+                "jarak_halte_terdekat_m": round(row["jarak_halte_terdekat_m"], 2),
+                "sumber_halte_terdekat": row["sumber_halte_terdekat"],
+                "tdi_confidence_ratio": round(row["tdi_confidence_ratio"], 4),
+                "tdi_confidence_tier": row["tdi_confidence_tier"],
+            })
         result = (
             client.table("grid_analisis")
-            .update({
-                "kepadatan_penduduk": round(row["kepadatan_penduduk"], 2),
-                "indeks_kebutuhan_mobilitas": round(row["indeks_kebutuhan_mobilitas"], 4),
-                "skor_aksesibilitas_transit": round(row["skor_aksesibilitas_transit"], 4),
-                "skor_tdi": round(row["skor_tdi"], 4),
-            })
+            .update(payload)
             .eq("id", row["grid_analisis_id"])
             .execute()
         )

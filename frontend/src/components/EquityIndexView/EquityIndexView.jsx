@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Scale, ChevronDown, ChevronUp, MapPinned } from 'lucide-react'
 import { supabase, isConfigured } from '../../lib/supabaseClient'
+import ConfidenceBadge from '../Map/ConfidenceBadge'
 
 // Field kelompok_terdampak & rekomendasi_intervensi mengikuti nama kolom
 // yang sedang ditambahkan data-ai-analyst ke tabel skor_equity (jangan ubah
@@ -109,6 +110,9 @@ export default function EquityIndexView() {
         // di tabel skor_equity (lihat catatan di atas EQUITY_CRITERIA), akan
         // membuat seluruh query error kalau disertakan.
         'n_kepadatan, n_usia_rentan, n_akses_pendidikan, n_akses_kerja, n_akses_kesehatan, ' +
+        // Confidence Ratio (BARU 2026-09-13, migration 035, lihat
+        // docs/CONFIDENCE_RATIO.md) -- BUKAN AHP consistency_ratio.
+        'confidence_ratio, confidence_tier, confidence_n_sel, ' +
         'batas_administrasi(nama_kelurahan)'
       )
       // WAJIB: exclude 5 baris dummy lama ('DATA SINTETIS...') supaya ranking
@@ -133,6 +137,9 @@ export default function EquityIndexView() {
             n_akses_pendidikan: d.n_akses_pendidikan,
             n_akses_kesehatan: d.n_akses_kesehatan,
             n_akses_kerja: d.n_akses_kerja,
+            confidence_ratio: d.confidence_ratio,
+            confidence_tier: d.confidence_tier,
+            confidence_n_sel: d.confidence_n_sel,
           }))
         )
         setUsingDemo(false)
@@ -205,14 +212,27 @@ export default function EquityIndexView() {
               </div>
 
               {isOpen && (
-                <div className="px-3 pb-3 pl-11 pt-1 border-t border-slate-100">
-                  <p className="text-[11px] font-medium text-slate-500 mb-2">
-                    Rincian kontribusi tiap kriteria (skor ketimpangan)
-                  </p>
-                  <div className="space-y-2">
-                    {EQUITY_CRITERIA.map((c) => (
-                      <CriteriaRow key={c.key} label={c.label} nilai={r[c.key]} />
-                    ))}
+                <div className="px-3 pb-3 pl-11 pt-1 border-t border-slate-100 space-y-3">
+                  {r.confidence_tier && (
+                    <ConfidenceBadge
+                      tier={r.confidence_tier}
+                      ratio={r.confidence_ratio}
+                      detail={
+                        `Nilai minimum (paling konservatif) dari ${r.confidence_n_sel ?? '?'} sel ` +
+                        'grid CAI yang termasuk kelurahan ini — satu sel dengan bukti data tipis ' +
+                        'cukup menurunkan keyakinan seluruh kelurahan.'
+                      }
+                    />
+                  )}
+                  <div>
+                    <p className="text-[11px] font-medium text-slate-500 mb-2">
+                      Rincian kontribusi tiap kriteria (skor ketimpangan)
+                    </p>
+                    <div className="space-y-2">
+                      {EQUITY_CRITERIA.map((c) => (
+                        <CriteriaRow key={c.key} label={c.label} nilai={r[c.key]} />
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
